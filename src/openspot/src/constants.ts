@@ -1,0 +1,14 @@
+const PROD_URL = process.env.REACT_APP_PROD_URL ;
+
+const DEV_URL = process.env.REACT_APP_DEV_URL 
+  ? process.env.REACT_APP_DEV_URL 
+  : "http://localhost:5000";
+
+const MODE = process.env.REACT_APP_MODE;
+
+if (!PROD_URL && MODE == 'production') {
+  throw new Error("Unable to get base api url");
+}
+
+export const BASE_URL = MODE === 'production' ? PROD_URL : DEV_URL;
+
