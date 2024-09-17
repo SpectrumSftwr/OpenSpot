@@ -1,23 +1,15 @@
-import { useAuth } from "@clerk/clerk-react";
-import React from "react";
-import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { SessionContext } from "App";
+import React, { useContext } from "react";
+import { Navigate, Outlet } from "react-router-dom";
 
 
 export default function InternalLayout(){
-  const {userId, isLoaded} = useAuth()
-  const navigate = useNavigate()
+  const {session, setSession} = useContext(SessionContext);
 
-  useEffect(() => {
-    if (isLoaded && !userId) {
-      navigate('/')
-    }
-  }, [isLoaded]);
- 
-  if (!isLoaded) {
-    return 'Loading....'
+  if (session) {
+    return <Outlet />
   }
 
-  return <Outlet />
+  return <Navigate to="/sign-in"/>
 }
 

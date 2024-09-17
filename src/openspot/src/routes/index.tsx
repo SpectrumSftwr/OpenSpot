@@ -1,22 +1,56 @@
-import React from "react"
+import { useSession } from "@clerk/clerk-react";
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom";
 import httpService from "services/http.service";
 
 const IndexPage = () => { 
 
-  const checkUserAvailable = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const navigate = useNavigate();
+  const [availableUsername, setAvailableUsername] = useState(true);
+  const [username, setUsername] = useState("");
 
+  /**
+   * Checks if the user is availableUsername
+   */
+  const checkUserAvailable = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const userInput = event.target.value;
     if (!userInput || userInput.length < 6) {
+
+        setAvailableUsername(true);
         return;
     }
-    console.log(event.target.value);
+
+    setUsername(userInput);
     const url = `/user/${userInput}`
+
     try {
       let res = await httpService.get(url)
-      console.log(res)
+      if (res && res.data ) {
+        setAvailableUsername(res.data.available)
+        return;
+      }
+
+      setAvailableUsername(false);
+      return;
+
     } catch (error) {
-      console.log(error);
+      // Ignore err. 
     }
+
+  }
+
+  const navigateToSignUp = () => {
+ 
+    console.log("we are here")
+    // Validate Username meets requirements.
+    if (!username || username.length < 6 || !availableUsername)  {
+      navigate("/sign-up");
+      return;
+    }
+    
+    // navigate user to signup page with username set.
+    navigate(`/sign-up?username=${username}`)
+    
   }
 
   return (
@@ -24,21 +58,33 @@ const IndexPage = () => {
       <div className="">
         <div className="text-center">
           <div className="text-3xl font-extrabold">
-            Your Entertainment Business Optimized!
+            Your Business Optimized!
           </div>
           <div className="text-xl font-normal">
-            Unlock the future of Entertainment with smart Automation.
+            Unlock freedom when harnessing the power smart Automation.
           </div>
           <div className="flex flex-col text-start mt-8 h-10">
             <span className="mr-4">
               Claim your OpenSpot Link Now!
             </span>
-            <div className="flex">
-              <input className="input-primary" type="text" placeholder="openspot.com/..."  onChange={(val) => checkUserAvailable(val)}/>
-              <button type="submit"className="ml-4 w-fit bg-brand-800 text-white font-bold p-2 rounded-full self-center text-center whitespace-nowrap"> 
-                Join Now! 
+            { !availableUsername ?
+              <span className="self-end">Username already taken.</span>
+              : null}
+            <form onSubmit={()=> navigateToSignUp()} className="flex">
+              <input 
+                className={!availableUsername ? "input-primary border-red-500": "input-primary"}
+                type="text" 
+                id="username"
+                placeholder="openspot.com/..."  
+                onChange={(val) => checkUserAvailable(val)}
+              />
+              <button type="submit"
+                className={`ml-4 w-fit bg-brand-800 text-white font-bold p-2 rounded-full self-center text-center whitespace-nowrap
+                          ${!availableUsername && "bg-red-500"}`}
+              >
+                Join Now!
               </button>
-            </div>
+            </form>
           </div>
         </div>
       </div>
