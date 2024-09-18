@@ -12,7 +12,8 @@ export default function SignUpPage() {
   const [error, setError] = useState(false);
 
   // Form item state
-  const [username, setUsername] = useState(params.get('')?.toString());
+  const usernameParam = params.get('username') != undefined ? params.get('username') : "";
+  const [username, setUsername] = useState(usernameParam);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -52,8 +53,6 @@ export default function SignUpPage() {
       payed: false 
     }
 
-    console.log(newUser)
-
     // Store the jwt in session 
     await httpService.post('/auth/signup', newUser)
       .then((response) => {
@@ -61,8 +60,7 @@ export default function SignUpPage() {
         if (response.status == 201) {
           localStorage.setItem("authorizationToken", response.data.jwtToken);
           setSession(() => true)
-          // Navigate to /app/user
-          navigate('/app/welcome')
+          navigate('/app/studio')
         }
       }).catch((e) => setError(true));
   }
@@ -95,17 +93,17 @@ export default function SignUpPage() {
             <div className='flex flex-col mb-10'>
               <label className='text-gray-600 self-start mb-2'>Email</label>
               <input onChange={(e) => setEmail(e.target.value)} value={email}
-                className='rounded-xl h-10 border-solid border-gray-300 border-2 drop-shadow-md pl-4' type="text"/>
+                className='rounded-xl h-10 border-solid border-gray-300 border-2 drop-shadow-md pl-4' type="text" autoComplete='email'/>
             </div>
             <div className='flex flex-col mb-10'>
               <label className='text-gray-600 self-start mb-2'>Password</label>
               <input  onChange={(e) => setPassword(e.target.value)} value={password}
-                className='rounded-xl h-10 border-solid border-gray-300 border-2 drop-shadow-md pl-4' type="password"/>
+                className='rounded-xl h-10 border-solid border-gray-300 border-2 drop-shadow-md pl-4' type="password" autoComplete='new-password'/>
             </div>
             <div className='flex flex-col mb-10'>
               <label className='text-gray-600 self-start mb-1'>Confirm Password</label>
               <input  onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword}
-                className='rounded-xl h-10 border-solid border-gray-300 border-2 drop-shadow-md pl-4' type="password"/>
+                className='rounded-xl h-10 border-solid border-gray-300 border-2 drop-shadow-md pl-4' type="password" autoComplete='new-password'/>
             </div>
             <div className='flex flex-col mb-10'>
               <label className='text-gray-600 self-start mb-2'>First Name</label>

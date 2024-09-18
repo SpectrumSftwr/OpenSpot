@@ -31,8 +31,7 @@ export function App(){
             element: <InternalLayout/>,
             children: [
               {path: '/app/welcome', element: <Welcome />},
-              {path: '/app/dashboard', element: <Welcome />},
-              {path: '/app/', element: <Welcome />},
+              {path: '/app/studio', element: <Welcome />},
             ],
           },
         ],

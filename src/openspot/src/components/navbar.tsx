@@ -1,20 +1,20 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { SessionContext } from 'App';
+import { closeAuthorizationSession } from 'services/session.service';
 
 
 export default function Navbar() {
 
   const {session, setSession} = useContext(SessionContext);
-  const navigate = useNavigate();
+  const naviagate = useNavigate();
 
-  useEffect(() => {
+  const handleLogout = () => {
+    closeAuthorizationSession();
+    setSession(() => false);
+    naviagate('/')
+  }
 
-    if (!session) {
-      navigate('/')
-    }
-
-  },[session])
   return (
     <div className='divide-y-2'>
       <div className='flex flex-row justify-between font-bold text-xl p-2'>
@@ -28,7 +28,7 @@ export default function Navbar() {
           session ?
             <div>
               {/* What to show when signed out*/}
-              <button>Logout</button>
+              <button onClick={() => handleLogout()}>Logout</button>
             </div>
           :
             <div>

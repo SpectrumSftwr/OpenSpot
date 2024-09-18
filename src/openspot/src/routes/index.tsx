@@ -1,4 +1,3 @@
-import { useSession } from "@clerk/clerk-react";
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import httpService from "services/http.service";
@@ -41,7 +40,6 @@ const IndexPage = () => {
 
   const navigateToSignUp = () => {
  
-    console.log("we are here")
     // Validate Username meets requirements.
     if (!username || username.length < 6 || !availableUsername)  {
       navigate("/sign-up");
