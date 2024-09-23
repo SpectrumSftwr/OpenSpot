@@ -6,26 +6,29 @@ const IndexPage = () => {
 
   const navigate = useNavigate();
   const [availableUsername, setAvailableUsername] = useState(true);
+  const [validUsername, setValidUsername] = useState(false);
   const [username, setUsername] = useState("");
 
   /**
    * Checks if the user is availableUsername
    */
   const checkUserAvailable = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const userInput = event.target.value;
+    const userInput = event.target.value.toLowerCase();
     if (!userInput || userInput.length < 6) {
 
         setAvailableUsername(true);
+        setValidUsername(false);
         return;
     }
 
+    setValidUsername(true);
     setUsername(userInput);
-    const url = `/user/${userInput}`
+    const url = `/user/exists/${userInput}`
 
     try {
       let res = await httpService.get(url)
       if (res && res.data ) {
-        setAvailableUsername(res.data.available)
+        setAvailableUsername(!res.data.exists)
         return;
       }
 
@@ -39,10 +42,8 @@ const IndexPage = () => {
   }
 
   const navigateToSignUp = () => {
- 
     // Validate Username meets requirements.
     if (!username || username.length < 6 || !availableUsername)  {
-      navigate("/sign-up");
       return;
     }
     
@@ -78,7 +79,7 @@ const IndexPage = () => {
               />
               <button type="submit"
                 className={`ml-4 w-fit bg-brand-800 text-white font-bold p-2 rounded-full self-center text-center whitespace-nowrap
-                          ${!availableUsername && "bg-red-500"}`}
+                          ${!availableUsername && "bg-red-500"} ${!validUsername && 'bg-gray-400'}`}
               >
                 Join Now!
               </button>

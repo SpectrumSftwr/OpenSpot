@@ -9,6 +9,20 @@ export default function Navbar() {
   const {session, setSession} = useContext(SessionContext);
   const naviagate = useNavigate();
 
+  const handleSaveState = () => {
+    console.log("TODO: Saving...")
+  }
+
+  const handleNavigateToHome = () => {
+    if (session) {
+      naviagate('/app/studio')
+      return;
+    }
+
+    naviagate('/')
+    return;
+  }
+
   const handleLogout = () => {
     closeAuthorizationSession();
     setSession(() => false);
@@ -16,19 +30,24 @@ export default function Navbar() {
   }
 
   return (
-    <div className='divide-y-2'>
-      <div className='flex flex-row justify-between font-bold text-xl p-2'>
-        <div className='text-3xl'>
-          <span>
-            OpenSpot 
-          </span>
+    <div className='h-1/6'> 
+      <div className='flex flex-row justify-between font-bold text-xl p-6 bg-[#FAFAFA] border-[#C3C3C3] border-2 h-full items-center'>
+        <div>
+          <img src='/OpenSpot.png' alt='Open Spot Logo' className='h-12 ml-10' onClick={() => handleNavigateToHome()}/>
         </div>
         {/* What to show when signed in*/}
         {
           session ?
             <div>
-              {/* What to show when signed out*/}
-              <button onClick={() => handleLogout()}>Logout</button>
+              {/* What to show when signed in */}
+              <div className='flex flex-row'>
+                <div className='rounded-xl mr-12 bg-[#047460] text-white pl-2 pr-2'>
+                  <button onClick={() => handleSaveState()}>Save</button>
+                </div>
+                <div className='rounded-full ml-12'>
+                  <button onClick={() => handleLogout()}>Logout</button>
+                </div>
+              </div>
             </div>
           :
             <div>

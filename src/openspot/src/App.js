@@ -9,8 +9,15 @@ import SignUpPage from './routes/sign-up';
 // Import layouts
 import RootLayout from './layouts/rootlayout';
 import InternalLayout from './layouts/internallayout';
-import Welcome from 'routes/internalroutes/welcome';
 import User from 'routes/internalroutes/User';
+import {CreativeStudio} from "routes/internalroutes/CreativeStudio";
+import Offerings from "routes/internalroutes/Offerings";
+import Automations from "routes/internalroutes/Automations";
+import Analytics from "routes/internalroutes/Analytics";
+
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 
 export const SessionContext = createContext({});
 
@@ -20,6 +27,7 @@ export function App(){
   // Create the browser router.
   const router = createBrowserRouter(
     [
+      // External Paths
       {
         path: "/",
         element: <RootLayout />,
@@ -27,26 +35,34 @@ export function App(){
           { path: '/', element: <IndexPage /> },
           { path: '/sign-in/*', element: <SignInPage /> },
           { path: '/sign-up/*', element: <SignUpPage /> },
-          { path: '/app', 
-            element: <InternalLayout/>,
-            children: [
-              {path: '/app/welcome', element: <Welcome />},
-              {path: '/app/studio', element: <Welcome />},
-            ],
-          },
         ],
       },
+      // Logged In Paths
+      {
+        path: '/app/',
+        element: <InternalLayout />,
+        children: [
+          { path: '/app/studio', element: <CreativeStudio />},
+          { path: '/app/offerings', element: <Offerings />},
+          { path: '/app/automations', element: <Automations />},
+          { path: '/app/Analytics', element: <Analytics />},
+        ]
+      },
+      // External Client Use In Paths
       { path: '/myspot/:user', 
         element: <User /> 
       },
+      // Internal Client Use In Paths
     ]
   );
 
 
   return (
-    <SessionContext.Provider value={{session, setSession}}>
-      <RouterProvider router={router} />
-    </SessionContext.Provider> 
+    <LocalizationProvider dateAdapter={AdapterDayjs} >
+      <SessionContext.Provider value={{session, setSession}}>
+        <RouterProvider router={router} />
+      </SessionContext.Provider> 
+    </LocalizationProvider>
   )
 
 }

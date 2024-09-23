@@ -67,8 +67,8 @@ export default function SignUpPage() {
 
 
   return (
-    <div className='flex flex-col justify-center items-center h-screen w-full pb-16 text-center text-2xl'>
-      <div className='w-1/2 bg-white border-solid border-gray-300 border-2 drop-shadow-lg rounded-2xl p-4'>
+    <div className='flex flex-col justify-center items-center h-screen w-full pb-16 text-center text-2x bg-[#F5F5F5]l'>
+      <div className='w-1/2 border-solid border-gray-300 border-2 drop-shadow-lg rounded-2xl p-4'>
         <div className='mt-4'>
           <div className='flex justify-center'>
             <img src='/OpenSpot.png' alt='Open Spot Logo' className='h-32'/>
