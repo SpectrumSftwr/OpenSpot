@@ -1,49 +1,82 @@
-import { BellIcon, ChartBarIcon, CommandLineIcon, PhotoIcon, UserCircleIcon } from "@heroicons/react/24/outline";
-import React , { useEffect, useRef, useState } from "react";
+import React , { useEffect, useRef, useState, useContext } from "react";
 import { Link  } from "react-router-dom";
-import httpService from "services/http.service";
-import {DateCalendar} from '@mui/x-date-pickers/DateCalendar'
+import httpService from '../services/http.service'
 import dayjs, {Dayjs} from 'dayjs'
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
-import { DayCalendarSkeleton, LocalizationProvider } from "@mui/x-date-pickers";
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import Badge from '@mui/material/Badge';
 import 'dayjs/locale/en'
+import { BellIcon, ChartBarIcon, ChevronLeftIcon, ChevronRightIcon, CommandLineIcon, PhotoIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import { SideNavContext } from "../layouts/internallayout";
+
 
 export const SideNav = () => {
+  const {isOpen, setIsOpen} = useContext(SideNavContext);
+  const [username, setUsername] = useState("");
   const [showConnectStripe,setShowConnectStripe] = useState(false);
+  const [sidenavOpen, setSidenavOpen] = useState(true);
   let showConnectStripeUrl = "true";
 
   useEffect(() => {
     httpService.get('/auth/status')
       .then((res) =>  {
         let isStripeUrlPresent = res.data.stripeId;
+        let name = `${res.data.firstName} ${res.data.lastName}`;
         setShowConnectStripe(!isStripeUrlPresent);
+        setUsername(() => name)
       })
-      .catch((err) => console.log(err))
+      .catch(() => {
+      })
   },[]) 
+
+  if (!username) {
+    setUsername("User")
+  }
   
   return (
-    <div className="h-[calc(100vh-100px)] bg-[#FAFAFA] border-[#C3C3C3] border-r-2 text-sm">
-      <div className="flex flex-col p-2 h-full justify-between items-center w-80">
-        <SideBarNavigation />
-        <UserModals showConnectStripe={showConnectStripe} 
-          showConnectStripeUrl={showConnectStripeUrl} />
-        <div>
-          <UserCalendar upcomingEvents={8} eventDates={[1,5,9,11,14,15,19]}/>
+      <div className="h-[calc(100vh-100px)] bg-[#FAFAFA] border-[#C3C3C3] border-r-2 text-sm w-1/6">
+        <div className="flex flex-col p-2 h-full justify-between items-center w-fit">
+          <div className="w-full divide-y-4 divide-gray-600 ">
+            {/* Profile Section */}
+            <div className="flex flex-row justify-around w-full items-center mb-8 mt-8 h-fit">
+              <div className="bg-brand-700 rounded-full h-10 w-10 content-center text-center text-gray-100 drop-shadow-lg hover:cursor-pointer">
+                <span>
+                  JM
+                </span>
+              </div>
+              <div className="font-bold text-lg text-gray-700">
+                {username}
+              </div>
+              {sidenavOpen ?
+                <ChevronRightIcon className="h-7 w-7 text-gray-600 border-gray-400 p-1 border-2 rounded-full" 
+                  onClick={() => setSidenavOpen((prev) => !prev)}/>
+                :
+                <ChevronLeftIcon className="h-7 w-7 text-gray-600 border-gray-400 p-1 border-2 rounded-full" 
+                  onClick={() => setSidenavOpen((prev) => !prev)}/>
+              }
+            </div>
+
+            <SideBarNavigation />
+          </div>
+          {/* Dividor */}
+          <UserModals showConnectStripe={showConnectStripe} 
+            showConnectStripeUrl={showConnectStripeUrl} />
+          {/* Dividor */}
+          <div>
+            <UserCalendar upcomingEvents={8} eventDates={[1,5,9,11,14,15,19]}/>
+          </div>
         </div>
       </div>
-    </div>
   )
 }
 
 
-export function SideBarNavigation (){
+export function SideBarNavigation () {
 
+  const {isOpen, setIsOpen} = useContext(SideNavContext);
   const [activePage, setActivePage] = useState('Creative Studio')
 
   return (
-    <div className="w-full">
+    <>
       <SideBarItem icon={<PhotoIcon className="h-7 w-7"/>} text={"Creative Studio"} uri={'/app/studio'}  
         active={{activePage, setActivePage}} />
       <SideBarItem icon={<UserCircleIcon className="h-7 w-7"/>} text={"Your Offerings"} uri={'/app/offerings'} 
@@ -52,7 +85,7 @@ export function SideBarNavigation (){
         active={{activePage, setActivePage}}  />
       <SideBarItem icon={<ChartBarIcon className="h-7 w-7" />} text={"Analytics"} uri={'/app/analytics'} 
         active={{activePage,setActivePage}}/>
-    </div>
+    </>
   )
 }
 
@@ -67,10 +100,10 @@ export function SideBarItem({icon, text, uri, active}
 
   return (
     <Link to={uri} className="mt-4 mb-8" onClick={() => handleNewActive()}>
-      <div className={`flex flex-row font-medium text-xl pt-4 pb-4 pr-4  pl-10
+      <div className={`flex flex-row font-sm text-xl pt-4 pb-4 pr-4  pl-10
                         ${activePage == text  ?  
-                        'text-black bg-[#ECECEC] rounded-xl w-full outline outline-[#D7D7D7] outline-1 drop-shadow-md'
-                        : 'text-[#747376] hover:text-[#D9D9D9]' }`}>
+                        'text-gray-900 bg-[#ECECEC] rounded-xl w-full outline outline-[#D7D7D7] outline-1 drop-shadow-md'
+                        : 'text-gray-400 hover:text-[#D9D9D9]' }`}>
         <div className="mr-2">
           {icon}
         </div>
@@ -82,6 +115,9 @@ export function SideBarItem({icon, text, uri, active}
 
 export function UserModals({showConnectStripe, showConnectStripeUrl} 
   : {showConnectStripe: boolean, showConnectStripeUrl: string | null}) { 
+
+  const {isOpen, setIsOpen} = useContext(SideNavContext);
+
   return (
     <div>
       {showConnectStripe &&
@@ -103,100 +139,16 @@ export function UserModals({showConnectStripe, showConnectStripeUrl}
 
 }
 
-export function UserCalendar({upcomingEvents, eventDates}
+export function UserCalendar({upcomingEvents}
   :{upcomingEvents: string | number, eventDates: string[] | number[]}) {
-  const requestAbortController = useRef<AbortController | null>(null);
 
-  const initialValue = dayjs('2024-09-22');
-  const [isLoading, setIsLoading] = useState(false);
-  const [highlightedDays, setHighlightedDays] = useState<number[]>([]);
-
-
-  // TODO :  FETCH EVENT DATES FROM BACKENDK.
-  function fakeFetch(date: Dayjs, { signal }: { signal: AbortSignal }) {
-
-    const getRandomNumber = (min: number, max: number) => {
-      return Math.round(Math.random() * (max - min) + min);
-    }
-
-    return new Promise<{ daysToHighlight: number[] }>((resolve, reject) => {
-        const timeout = setTimeout(() => {
-          const daysInMonth = date.daysInMonth();
-          const daysToHighlight = [1,2,3].map(()=> getRandomNumber(1, daysInMonth))
-          resolve({daysToHighlight})
-        }, 500)
-
-        signal.onabort = () => {
-          clearTimeout(timeout);
-          reject(new DOMException('aborted', "AbortError"));
-        }
-      });
-  }
-
-  const handleMonthChange = (date: Dayjs) =>  {
-    setIsLoading(true);
-    setHighlightedDays([]);
-    fetchEventDates(date);
-  }
-
-  const fetchEventDates = (date: Dayjs) =>  {
-    const controller = new AbortController();
-
-    fakeFetch(date, {
-      signal: controller.signal,
-    })
-      .then(({ daysToHighlight }) => {
-        setHighlightedDays(daysToHighlight);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        // ignore the error if it's caused by `controller.abort`
-        if (error.name !== 'AbortError') {
-          throw error;
-        }
-      });
-
-    requestAbortController.current = controller;
-  }
-
-  function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: number[] }) {
-  const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
-
-  const isSelected =
-    !props.outsideCurrentMonth && highlightedDays.indexOf(props.day.date()) >= 0;
-
-  return (
-    <Badge
-      key={props.day.toString()}
-      overlap="circular"
-      badgeContent={isSelected ? <BellIcon /> : undefined}
-    >
-      <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
-    </Badge>
-  );
-}
-
-  useEffect(() => {
-    fetchEventDates(initialValue);
-  }, [])
+  const {isOpen, setIsOpen} = useContext(SideNavContext);
 
   return (
     <div>
       <div>
         You have {upcomingEvents} Upcoming Events this month.
       </div>
-        <DateCalendar 
-          defaultValue={initialValue}
-          loading={isLoading}
-          onMonthChange={handleMonthChange}
-          renderLoading={() => <DayCalendarSkeleton />}
-          slots={{day: ServerDay}}
-          slotProps={{
-            day: {
-              highlightedDays,
-            } as any, 
-          }}
-        /> 
     </div>
   )
 }

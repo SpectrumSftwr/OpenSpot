@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom";
-import httpService from "services/http.service";
+import httpService from "../services/http.service";
 
 const IndexPage = () => { 
 

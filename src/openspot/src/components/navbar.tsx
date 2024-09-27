@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { SessionContext } from 'App';
-import { closeAuthorizationSession } from 'services/session.service';
-
+import { SessionContext } from '../App';
+import { closeAuthorizationSession } from '../services/session.service';
 
 export default function Navbar() {
 
@@ -31,7 +30,7 @@ export default function Navbar() {
 
   return (
     <div className='h-1/6'> 
-      <div className='flex flex-row justify-between font-bold text-xl p-6 bg-[#FAFAFA] border-[#C3C3C3] border-2 h-full items-center'>
+      <div className='flex flex-row justify-between font-bold text-xl p-6 bg-[#FAFAFA] border-[#C3C3C3] border-b-2 items-center h-16'>
         <div>
           <img src='/OpenSpot.png' alt='Open Spot Logo' className='h-12 ml-10' onClick={() => handleNavigateToHome()}/>
         </div>
@@ -41,9 +40,6 @@ export default function Navbar() {
             <div>
               {/* What to show when signed in */}
               <div className='flex flex-row'>
-                <div className='rounded-xl mr-12 bg-[#047460] text-white pl-2 pr-2'>
-                  <button onClick={() => handleSaveState()}>Save</button>
-                </div>
                 <div className='rounded-full ml-12'>
                   <button onClick={() => handleLogout()}>Logout</button>
                 </div>
@@ -52,11 +48,11 @@ export default function Navbar() {
           :
             <div>
               {/* What to show when signed out*/}
-              <div className='p-2 divide-x-2 border-2 rounded-lg border-brand-400 divide-brand-800'>
-                <Link to={"/sign-up"} className='p-2 pl-2 pr-2 rounded-lg text-lg mr-1'> 
+              <div className='p-2 divide-x-4 border-1 rounded-lg border-brand-400 divide-gray-300 text-gray-500'>
+                <Link to={"/sign-up"} className='p-2 pl-2 pr-2 rounded-lg text-lg mr-1 hover:text-black'> 
                   Sign Up
                 </Link>
-                <Link to={"/sign-in"} className='p-2 pl-2 pr-2 text-lg'> 
+                <Link to={"/sign-in"} className='p-2 pl-2 pr-2 text-lg hover:text-black'> 
                   Login
                 </Link>
               </div>

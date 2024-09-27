@@ -1,7 +1,7 @@
-import { SessionContext } from 'App';
+import { SessionContext } from '../App';
 import React , {useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import httpService from 'services/http.service';
+import httpService from '../services/http.service';
 
 export default function SignIn() {
 
@@ -41,7 +41,7 @@ export default function SignIn() {
 
   return (
     <div className='flex flex-col justify-center items-center h-screen w-full pb-16 text-center text-2xl bg-[#F5F5F5] '>
-      <div className='w-1/2 border-solid border-gray-300 border-2 drop-shadow-lg rounded-2xl p-4'>
+      <div className='w-1/2 border-solid border-gray-300 border-2 drop-shadow-lg rounded-2xl p-4 bg-white'>
         <div className='mt-4'>
           <div className='flex justify-center'>
             <img src='/OpenSpot.png' alt='Open Spot Logo' className='h-32'/>
