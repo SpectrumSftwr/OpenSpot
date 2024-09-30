@@ -86,19 +86,19 @@ export default function SignUpPage() {
 
 
   return (
-    <div className='flex flex-col justify-center items-center h-[calc(100vh-10px)] w-full text-center text-xl bg-[#F5F5F5]'>
+    <div className='flex flex-col justify-center items-center h-[calc(100vh-10px)] w-full text-center bg-[#F5F5F5]'>
       <div className='w-[40%] border-solid border-gray-300 border-2 drop-shadow-lg rounded-2xl p-2 h-fit bg-white'>
         <div>
-          <div className='flex justify-center mt-4'>
-            <img src='/OpenSpot.png' alt='Open Spot Logo' className='h-20'/>
+          <div className='flex justify-center mt-2 h-16'>
+            <img src='/OpenSpot.png' alt='Open Spot Logo' className='h-14'/>
           </div>
-          <div className='text-gray-500 mt-2'>
+          <div className='text-gray-500 mt-1'>
             Create your OpenSpot Account Today!
           </div>
           <div className='text-gray-500 text-sm mb-2'>
             Or <Link to={'/schedulecalltoday'} className='text-blue-600 underline'>schedule</Link> a quick 15 minute call for help.
           </div>
-          <div className='mt-4'>
+          <div className='mt-2'>
             {
               error && 
                 <div className='text-red-600 font-extrabold'>
@@ -126,51 +126,52 @@ export default function SignUpPage() {
           </div>
         </div>
         <div className='flex justify-center items-center'>
-          <form className='flex flex-col w-3/4 p-4' onSubmit={(event) => event?.preventDefault()}>
-            <div className='flex flex-col mb-10 mt-8 h-1/8'>
-              <label className='text-gray-500 self-start mb-2 font-semibold'>
+          <form className='flex flex-col w-3/4 p-1 text-sm h-full' onSubmit={(event) => event?.preventDefault()}>
+            <div className='flex flex-col mb-5 mt-4 h-1/6'>
+              <label className='text-gray-500 self-start mb-1 font-semibold'>
                 Username
               </label>
               <input onChange={(e) => setUsername(e.target.value)} value={username}
-                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4' type="text"/>
+                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' type="text"/>
             </div>
-            <div className='flex flex-col mb-8 h-1/8'>
+            <div className='flex flex-col mb-4'>
               <label className='text-gray-500 self-start mb-2 font-semibold'>
                 Email
               </label>
               <input onChange={(e) => setEmail(e.target.value)} value={email}
-                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4' type="text"/>
+                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' type="text"/>
             </div>
-            <div className='flex flex-col mb-8 h-1/8'>
-              <label className='text-gray-500 self-start mb-2 font-semibold'>
+            <div className='flex flex-col mb-4'>
+              <label className='text-gray-500 self-start mb-1 font-semibold'>
                 Password
               </label>
               <input  onChange={(e) => setPassword(e.target.value)} value={password}
-                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4' type="password" autoComplete='new-password'/>
+                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' type="password" autoComplete='new-password'/>
             </div>
-            <div className='flex flex-col mb-8 h-1/8'>
-              <label className='text-gray-500 self-start mb-2 font-semibold'>
+            <div className='flex flex-col mb-4'>
+              <label className='text-gray-500 self-start mb-1 font-semibold'>
                 Confirm Password
               </label>
               <input  onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword}
-                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4' type="password" autoComplete='new-password'/>
+                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' type="password" autoComplete='new-password'/>
             </div>
-            <div className='flex flex-col mb-8 h-1/8'>
-              <label className='text-gray-500 self-start mb-2 font-semibold'>
+            <div className='flex flex-col mb-4'>
+              <label className='text-gray-500 self-start mb-1 font-semibold'>
                 First Name
               </label>
               <input  onChange={(e) => setFirstName(e.target.value)} value={firstName}
-                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4' type="text"/>
+                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' type="text"/>
             </div>
-            <div className='flex flex-col mb-8 h-1/8'>
-              <label className='text-gray-500 self-start mb-2 font-semibold'>
+            <div className='flex flex-col mb-2 h-1/8'>
+              <label className='text-gray-500 self-start mb-1 font-semibold'>
                 Last Name
               </label>
               <input  onChange={(e) => setLastName(e.target.value)} value={lastName}
-                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4' type="text"/>
+                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' 
+                type="text"/>
             </div>
 
-            <button className='font-bold bg-brand-green mt-4 pt-4 pb-4 pl-2 pr-2 text-lg text-white self-center rounded-2xl drop-shadow-lg mb-4'
+            <button className='font-bold bg-brand-green mt-6 pt-3 pb-3 pl-2 pr-2 text-white self-center rounded-2xl drop-shadow-lg mb-4'
               onClick={() => SignUp()}>
               <span className='pl-4 pr-4'>Create your OpenSpot</span>
             </button>

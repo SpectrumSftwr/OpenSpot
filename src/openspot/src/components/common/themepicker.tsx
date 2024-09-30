@@ -41,8 +41,12 @@ const presetMonarch: TPreset = {
   secondary: "todo"
 }
 
-const presets=[presetDefault, presetDark, presetGreen, presetMonarch];
-
+const presets=[
+  presetDefault, 
+  presetDark, 
+  presetGreen, 
+  presetMonarch
+];
 
 export const ThemePicker = () => {
   const navigate = useNavigate();
@@ -69,11 +73,9 @@ export const ThemePicker = () => {
 
   return (
     <SelectedContext.Provider value={{selected, setSelected}}>
-      <form onSubmit={(event) => handleNavigateToNext(event)}>
-        <div className="flex flex-col items-center h-screen w-screen justify-around">
-          <div className="text-center text-lg md:text-xl italic mt-10">
-            Welcome To <span className="text-brand-600 font-extrabold">OpenSpot</span>, Lets get you setup and running.
-          </div>
+        <form onSubmit={(event) => handleNavigateToNext(event)} 
+        className="flex flex-col items-center h-[calc(100vh-150px)] w-screen justify-between">
+        <div></div>
           <div className="flex flex-col justify-center items-center">
             <div className="text-2xl font-semibold text-gray-500 mb-10 mt-5 text-center">
               Choose a Theme for your new OpenSpot Page.
@@ -88,8 +90,7 @@ export const ThemePicker = () => {
             </button>
             <ArrowRightIcon className="ml-2 w-4 h-7"/>
           </div>
-        </div>
-      </form>
+        </form>
     </SelectedContext.Provider>
   )
 }

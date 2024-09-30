@@ -14,8 +14,6 @@ import {CreativeStudio} from "./routes/internalroutes/CreativeStudio";
 import Offerings from "./routes/internalroutes/Offerings";
 import Automations from "./routes/internalroutes/Automations";
 import Analytics from "./routes/internalroutes/Analytics";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import SignUpFlowLayout from "./layouts/signupflowlayout";
 import { Theme } from "./routes/signup-pages/theme";
 import { Links } from "./routes/signup-pages/links";

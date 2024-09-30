@@ -29,8 +29,8 @@ export default function Navbar() {
   }
 
   return (
-    <div className='h-1/6'> 
-      <div className='flex flex-row justify-between font-bold text-xl p-6 bg-[#FAFAFA] border-[#C3C3C3] border-b-2 items-center h-16'>
+      <div className='flex flex-row justify-between font-bold text-xl p-6 
+        border-[#C3C3C3] border-b-2 items-center h-16 bg-white'>
         <div>
           <img src='/OpenSpot.png' alt='Open Spot Logo' className='h-12 ml-10' onClick={() => handleNavigateToHome()}/>
         </div>
@@ -59,6 +59,5 @@ export default function Navbar() {
             </div>
         }
       </div>
-    </div>
   )
 }
