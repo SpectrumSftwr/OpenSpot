@@ -9,7 +9,6 @@ import SignUpPage from './routes/sign-up';
 // Import layouts
 import RootLayout from './layouts/rootlayout';
 import InternalLayout from './layouts/internallayout';
-import User from './routes/internalroutes/User';
 import {CreativeStudio} from "./routes/internalroutes/CreativeStudio";
 import Offerings from "./routes/internalroutes/Offerings";
 import Automations from "./routes/internalroutes/Automations";
@@ -18,7 +17,9 @@ import SignUpFlowLayout from "./layouts/signupflowlayout";
 import { Theme } from "./routes/signup-pages/theme";
 import { Links } from "./routes/signup-pages/links";
 import { StripeSetup } from "./routes/signup-pages/stripe";
-import { ServicesSetup } from "./routes/signup-pages/services";
+import { PackagesSetup } from "./routes/signup-pages/packages";
+import { Profile } from "./routes/signup-pages/profilesetup";
+import { UserPage } from "./routes/userpages/User";
 
 
 export const SessionContext = createContext();
@@ -58,18 +59,20 @@ export const App = () => {
         element: <SignUpFlowLayout />,
         children: [
           // Theme Color Chooser
+          {path: '/signup/profile', element: <Profile />},
+          // Theme Color Chooser
           {path: '/signup/theme', element: <Theme />},
           // Links Setup
           {path: '/signup/links', element: <Links />}, // Setup Stripe
           {path: '/signup/stripe', element: <StripeSetup />},
           // Setup Services
-          {path: '/signup/services', element: <ServicesSetup />},
+          {path: '/signup/services', element: <PackagesSetup />},
         ]
 
       },
       // External Client Use In Paths
       { path: '/myspot/:user', 
-        element: <User /> 
+        element: <UserPage /> 
       },
       // Internal Client Use In Paths
     ]

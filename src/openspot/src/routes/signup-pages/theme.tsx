@@ -6,7 +6,7 @@ export const Theme = () => {
   const {activeStep, setActiveStep} = useContext(StepContext)
 
   useEffect(() => {
-    setActiveStep(0)
+    setActiveStep(1)
   },[])
 
   return (

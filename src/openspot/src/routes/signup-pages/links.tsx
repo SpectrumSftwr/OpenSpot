@@ -7,7 +7,7 @@ export const Links = () => {
 
   const {activeStep, setActiveStep} = useContext(StepContext)
   useEffect(() => {
-    setActiveStep(1)
+    setActiveStep(2)
   },[])
 
   const navigate = useNavigate();
@@ -163,8 +163,8 @@ export const Links = () => {
       {/* Continue Button or Skip button if no links set*/}
       <div className="justify-self-end">
         <div onClick={() => navigateToNext()} 
-          className="bg-[#047460] text-white p-2 rounded-xl w-32 flex flex-row items-center justify-center drop-shadow-lg 
-          hover:text-[#047460] hover:bg-[#FAFAFA] mb-10">
+            className="bg-[#047460] text-white p-2 rounded-xl w-24 flex flex-row items-center justify-center drop-shadow-lg 
+            hover:text-[#047460] hover:bg-[#FAFAFA] mb-10 text-sm">
           <button type="submit">
             Next
           </button>

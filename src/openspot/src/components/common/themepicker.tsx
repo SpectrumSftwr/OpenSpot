@@ -83,8 +83,8 @@ export const ThemePicker = () => {
             <ThemePresets />
           </div>
           <div onClick={(event) => handleNavigateToNext(event)} 
-            className="bg-[#047460] text-white p-2 rounded-xl w-32 flex flex-row items-center justify-center drop-shadow-lg 
-            hover:text-[#047460] hover:bg-[#FAFAFA] mb-10">
+            className="bg-[#047460] text-white p-2 rounded-xl w-24 flex flex-row items-center justify-center drop-shadow-lg 
+            hover:text-[#047460] hover:bg-[#FAFAFA] mb-10 text-sm">
             <button type="submit">
               Next
             </button>

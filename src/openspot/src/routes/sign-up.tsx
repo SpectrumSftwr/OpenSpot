@@ -79,7 +79,7 @@ export default function SignUpPage() {
         if (response.status == 201) {
           localStorage.setItem("authorizationToken", response.data.jwtToken);
           setSession(() => true)
-          navigate('/signup/theme')
+          navigate('/signup/profile')
         }
       }).catch(() => setError(true));
   }

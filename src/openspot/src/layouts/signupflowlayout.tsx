@@ -8,9 +8,10 @@ import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 
 const steps = [
+  "Setup your Profile",
   "Choose Your Theme",
   "Setup Your Links",
-  "Add Your Services and Pricing",
+  "Setup Your Packages",
   "Get Paid Today"
 ]
 
@@ -29,9 +30,9 @@ export default function SignUpFlowLayout(){
 
   const isOptional = (step: number) => {
     switch (step) {
-      case 1:
-      case 2: 
-      case 3:
+      case 2:
+      case 3: 
+      case 4:
         return true;
       default: 
         return false
@@ -78,7 +79,7 @@ export default function SignUpFlowLayout(){
         <div className="w-screen h-screen bg-[#FAFAFA]" >
           <Navbar />
           <div className="flex flex-row justify-center mt-8">
-            <div className="w-3/5">
+            <div className="w-4/5">
               <Stepper activeStep={activeStep}>
                 {steps.map((label, index) => {
                   const stepProps: { completed?: boolean } = {};
