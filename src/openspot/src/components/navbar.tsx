@@ -29,7 +29,7 @@ export default function Navbar() {
   }
 
   return (
-      <div className='flex flex-row justify-between font-bold p-2 border-[#C3C3C3] border-b-2 items-center h-16 bg-white'>
+      <div className='flex flex-row justify-between font-bold p-2 items-center h-[calc(4vh)] bg-white'>
         <div>
           <img src='/OpenSpot.png' alt='Open Spot Logo' className='h-8 ml-10' onClick={() => handleNavigateToHome()}/>
         </div>
@@ -44,17 +44,20 @@ export default function Navbar() {
               </div>
             </div>
           :
-            <div>
-              {/* What to show when signed out*/}
-              <div className='p-2 divide-x-2 border-1 rounded-lg border-brand-400 divide-gray-300 text-gray-500'>
-                <Link to={"/sign-up"} className='p-2 pl-2 pr-2 mr-1 hover:text-black'> 
-                  Sign Up
-                </Link>
-                <Link to={"/sign-in"} className='p-2 pl-2 pr-2 hover:text-black'> 
-                  Login
-                </Link>
-              </div>
+            <div className='p-2 text-gray-500'>
+              Coming Soon!
             </div>
+            //<div>
+            //  {/* What to show when signed out*/}
+            //  <div className='p-2 divide-x-2 border-1 rounded-lg border-brand-400 divide-gray-300 text-gray-500'>
+            //    <Link to={"/sign-up"} className='p-2 pl-2 pr-2 mr-1 hover:text-black'> 
+            //      Sign Up
+            //    </Link>
+            //    <Link to={"/sign-in"} className='p-2 pl-2 pr-2 hover:text-black'> 
+            //      Login
+            //    </Link>
+            //  </div>
+            //</div>
         }
       </div>
   )
