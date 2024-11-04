@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import httpService from "../../services/http.service";
 import Skeleton from '@mui/material/Skeleton';
+import { colorsDto } from "./colorsDto.dto";
 
 export const UserPage = () => {
-
 
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false); 
 
-  /** 
+  const [siteColors, setSiteColors] = useState<colorsDto | null>(null);
+
+  const [profileUrl, setProfileUrl] = useState<string>("");
+  const [profileDescription, setProfileDescription]  = useState<string>("");
+
+  // TODO: Set better type
+  const [offeringsMap, setOfferingsMap] = useState<any>();
+
+  // TODO: Set better type
+  const [linksMap, setLinksMap] = useState<any>();
+
+
+
+  /**  
    * TODO: Maybe a better way exists but for now this will do.
    */
   const getUrlUser = () : string => {
@@ -17,33 +30,68 @@ export const UserPage = () => {
   }
 
   /**
+   * Sets the colors for the user that was requested on the page.
+   */
+  const setColors = (data: any) => {
+    if (data == null) {
+      return;
+    }
+
+    setSiteColors(data.colors);
+  }
+
+  /**
+   * Sets the personal details for the user that was requested on the page.
+   */
+  const setPersonalDetails = (data: any) => {
+    if (data == null) {
+      return;
+    }
+  }
+
+  /**
+   * Sets the offerings for the user that was requested on the page.
+   */
+  const setOfferings = (data: any) => {
+    if (data == null) {
+      return;
+    }
+  }
+
+  /**
+   * Sets the links for the user that was requested on the page.
+   */
+  const setLinks = (data: any) => {
+    if (data == null) {
+      return;
+    }
+  }
+
+  /**
    * Fetch the user page data.
    */
   const fetchUserData = async (username: string) => {
-    const url = `/sitesettings/buildsite/${username}`
-
+    let data = null;
+    const url = `/site/${username}`
     try {
-      await httpService.get(url)
-      .then((res) => {
-        console.log(res)
-      }).catch((err) => {
-        console.log(err)
-      })
-
+      let response = await httpService.get(url)
+      data = response.data;
     } catch (err) {
-      console.log(err)
+      navigate('/')
     }
 
+    setColors(data);
+    setPersonalDetails(data);
+    setLinks(data);
+    setOfferings(data);
     // If User Does not Navigate client to an Oops We dont have this OpenSpot Setup at this time.
 
     // If it does fetch a single endpoint that will Generate the entire website
-
   }
 
   // Get the Users Availability For the Current Month
   const fetchUserAvailability = (username: string, currentMonth: number) => {
-    console.log(username)
-    console.log(currentMonth)
+    console.log(`fetching ${username} Availability for ${currentMonth}`)
   }
 
   useEffect(() => {
@@ -55,6 +103,7 @@ export const UserPage = () => {
     fetchUserAvailability(username, new Date().getMonth())
     // Remove Skeleton and show What was fetched.
     setIsLoading(() => false);
+    return;
   },[])
 
   return (
@@ -62,16 +111,28 @@ export const UserPage = () => {
       { 
         isLoading
           ? <SkeletonPage />
-          : <LoadedPage />
+          : <LoadedPage colors={siteColors}/>
       }
     </div>
   )
 }
 
-const LoadedPage = () => {
+const LoadedPage = ({colors}:{colors: colorsDto}) => {
+  if (colors == null) {
+    return (
+      <div>
+        Something went wrong
+      </div>
+    )
+  }
+
   return (
-    <div className="w-full flex flex-col justify-between items-center h-[calc(175vh)]">
+    <div className={`w-full flex flex-col justify-between items-center h-[calc(175vh)] ${colors.background}`}>
       {/* Header */}
+      {colors.background}
+      {colors.foreground}
+      {colors.accent}
+      {colors.secondary}
       <div className="flex flex-row items-center justify-around text-gray-800 font-semibold m-2 w-2/3 h-fit">
         <div className="h-24 w-24 self-center text-center bg-fuchsia-300 rounded-full">
         </div>
