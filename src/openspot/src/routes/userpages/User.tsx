@@ -3,6 +3,8 @@ import { Navigate, useNavigate } from "react-router-dom";
 import httpService from "../../services/http.service";
 import Skeleton from '@mui/material/Skeleton';
 import { colorsDto } from "./colorsDto.dto";
+import { StarIcon } from "@heroicons/react/24/solid";
+import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 
 export const UserPage = () => {
 
@@ -121,94 +123,71 @@ const LoadedPage = ({colors}:{colors: colorsDto}) => {
   if (colors == null) {
     return (
       <div>
-        Something went wrong
+        TODO Error
       </div>
     )
   }
 
   return (
-    <div className={`w-full flex flex-col justify-between items-center h-[calc(175vh)] ${colors.background}`}>
-      {/* Header */}
-      {colors.background}
-      {colors.foreground}
-      {colors.accent}
-      {colors.secondary}
-      <div className="flex flex-row items-center justify-around text-gray-800 font-semibold m-2 w-2/3 h-fit">
-        <div className="h-24 w-24 self-center text-center bg-fuchsia-300 rounded-full">
-        </div>
-        <div className=" flex flex-col text-sm ml-8">
-          <span>
-            Dj Based out of Miami Florida with over 1000 happy couples in the books.
-          </span>
-          <span>
-            Ill be your musical ambassador for any of your event needs 
-          </span>
-          <span>
-          </span>
-        </div>
-      </div> 
-      {/* What We Do */}
-      <div className="flex flex-col items-center justify-around text-gray-800 font-semibold m-2 w-full">
-        <div className="flex flex-row items-center justify-around text-gray-800 font-semibold m-2 w-2/3 h-fit">
-          <div className="mr-2">
-            <div>
-              EMOJI
+    <div className="h-screen flex flex-col min-h-screen bg-slate-50">
+      <div className="h-1/6 text-center relative">
+        <div className="relative p-2 bg-sky-300 text-white h-2/3">
+          <button>
+            <div className="absolute p-1 fill-white bg-sky-800 rounded-full top-4 right-4">
+              <ArrowUpOnSquareIcon className="stroke-white w-4 h-4"/>
             </div>
-            <div>
-              TITLE
+          </button>
+        </div>
+        <div className="text-left font-light text-gray-500">
+          <div className="w-24 h-24 bg-gray-400 rounded-full absolute top-[40%] left-[4%] md:left-[8%] lg:left-[16%]"></div>
+          <div className="absolute left-[32%] text-xs">
+            <h1 className="font-bold text-sm text-gray-600 mt-1">Spectrum Entertainment</h1>
+            <p>DJ & MC Service</p>
+            <div className="flex flex-row text-center items-center">
+              {/* TODO: Create Mapping for Reviews to amount */}
+              <div className="flex flex-row mr-2">
+                <StarIcon className="fill-[#FFD700] w-2 h-2"/>
+                <StarIcon className="fill-[#FFD700] w-2 h-2"/>
+                <StarIcon className="fill-[#FFD700] w-2 h-2"/>
+                <StarIcon className="fill-[#FFD700] w-2 h-2"/>
+                <StarIcon className="fill-gray-200 w-2 h-2"/>
+              </div>
+              <div>
+                <span className="text-xs">
+                  324 verified reviews
+                </span>
+              </div>
             </div>
-          </div>
-          <div>
-            DESCRIPTION
           </div>
         </div>
-        <div className="flex flex-row items-center justify-around text-gray-800 font-semibold m-2 w-2/3 h-fit">
-          <div className="mr-2">
-            <div>
-              EMOJI
-            </div>
-            <div>
-              TITLE
-            </div>
-          </div>
-          <div>
-            DESCRIPTION
-          </div>
+      </div>
+      <div className="flex flex-col items-center h-3/4">
+        <div className="text-gray-700 font-medium ml-4 mr-4 mt-8">
+          <p className="text-[12px] text-left">
+            Bringing energy, style, and professionalism to every event, 
+            we create unforgettable memories tailored to your unique needs.
+          </p>
         </div>
-        <div className="flex flex-row items-center justify-around text-gray-800 font-semibold m-2 w-2/3 h-fit">
-          <div className="mr-2">
-            <div>
-              EMOJI
-            </div>
-            <div>
-              TITLE
-            </div>
-          </div>
-          <div>
-            DESCRIPTION
-          </div>
+        <div className="grid grid-cols-3 mt-4 text-center align-middle justify-center">
+          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
         </div>
-      </div> 
-      {/* Calendar */}
-      <div className="flex flex-row items-center justify-around text-gray-800 font-semibold m-2">
-        Book Me Here
-      </div> 
-      {/* Reviews */}
-      <div className="flex flex-row items-center justify-around text-gray-800 font-semibold m-2">
-        Reviews
-      </div> 
-      {/* FAQS */}
-      <div className="flex flex-row items-center justify-around text-gray-800 font-semibold m-2">
-        FAQs
-      </div> 
-      {/* Links */}
-      <div className="flex flex-row items-center justify-around text-gray-800 font-semibold m-2">
-        Links
-      </div> 
-      {/* Contact Us */}
-      <div className="flex flex-row items-center justify-around text-gray-800 font-semibold m-2">
-        Contact Us
-      </div> 
+        <div className="mt-4 h-1/4 border-t border-gray-200 border-1 w-full">
+        </div>
+        <div className="mt-4 h-1/4">
+          Reviews
+        </div>
+      </div>
+      <div className="p-5 text-center bottom-0">
+        <button className="pl-4 pr-4 sticky pt-2 pb-2 rounded-xl font-bold text-white bg-gray-700">Book Now!</button>
+      </div>
     </div>
   )
 }
@@ -216,29 +195,7 @@ const LoadedPage = ({colors}:{colors: colorsDto}) => {
 const SkeletonPage = () => {
   return (
     <div>
-      <div className="h-screen flex flex-col justify-center items-center w-screen">
-        {/*Top of Page with User Profile and Description.*/}
-        <div className="flex flex-row justify-center w-full p-2 items-center">
-          <Skeleton variant="circular" width={128} height={128} className="h-24 w-24" />
-          <div className=" ml-12">
-            <span className="m-8">  
-              <Skeleton variant="text" width={500} height={24} />
-            </span>
-            <span className="m-8">  
-              <Skeleton variant="text" width={500} height={24} />
-            </span>
-            <span className="m-8">  
-              <Skeleton variant="text" width={500} height={24} />
-            </span>
-            <span className="m-8">  
-              <Skeleton variant="text" width={500} height={24} />
-            </span>
-          </div>
-        </div>
-        <div className="mt-24">
-          <Skeleton variant="rounded" width={800} height={500} className="" />
-        </div>
-      </div>
+      TODO Skelton
     </div>
   )
 }
