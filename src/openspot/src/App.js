@@ -20,6 +20,8 @@ import { StripeSetup } from "./routes/signup-pages/stripe";
 import { PackagesSetup } from "./routes/signup-pages/packages";
 import { Profile } from "./routes/signup-pages/profilesetup";
 import { UserPage } from "./routes/userpages/User";
+import { UserBookings } from "./routes/userpages/UserBookings";
+import { BookingsLayout } from "./routes/userpages/layouts/bookingslayout";
 
 
 export const SessionContext = createContext();
@@ -72,7 +74,22 @@ export const App = () => {
       },
       // External Client Use In Paths
       { path: '/myspot/:user', 
-        element: <UserPage /> 
+        children: [
+          {
+            path: '/myspot/:user',
+            element: <UserPage />,
+          },
+          {
+            path: '/myspot/:user/bookings/',
+            element : <BookingsLayout />,
+            children : [
+              {
+                path: '/myspot/:user/bookings/',
+                element : <UserBookings />,
+              }
+            ]
+          },
+        ],
       },
       // Internal Client Use In Paths
     ]

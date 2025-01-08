@@ -1,27 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import httpService from "../../services/http.service";
-import Skeleton from '@mui/material/Skeleton';
-import { colorsDto } from "./colorsDto.dto";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
+import { FAQS } from "./components/faq";
+import { Reviews } from "./components/reviews";
+import { UserTopNavSection } from "./components/TopNavSection";
 
 export const UserPage = () => {
 
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false); 
-
-  const [siteColors, setSiteColors] = useState<colorsDto | null>(null);
-
-  const [profileUrl, setProfileUrl] = useState<string>("");
-  const [profileDescription, setProfileDescription]  = useState<string>("");
-
-  // TODO: Set better type
-  const [offeringsMap, setOfferingsMap] = useState<any>();
-
-  // TODO: Set better type
-  const [linksMap, setLinksMap] = useState<any>();
-
 
 
   /**  
@@ -31,43 +20,12 @@ export const UserPage = () => {
     return window.location.pathname.split('/')[2]
   }
 
-  /**
-   * Sets the colors for the user that was requested on the page.
-   */
-  const setColors = (data: any) => {
-    if (data == null) {
-      return;
-    }
+  const Navigate = useNavigate();
 
-    setSiteColors(data.colors);
+  const navigateToUserBookings = () : void => {
+    Navigate(`/myspot/${getUrlUser()}/bookings`);
   }
 
-  /**
-   * Sets the personal details for the user that was requested on the page.
-   */
-  const setPersonalDetails = (data: any) => {
-    if (data == null) {
-      return;
-    }
-  }
-
-  /**
-   * Sets the offerings for the user that was requested on the page.
-   */
-  const setOfferings = (data: any) => {
-    if (data == null) {
-      return;
-    }
-  }
-
-  /**
-   * Sets the links for the user that was requested on the page.
-   */
-  const setLinks = (data: any) => {
-    if (data == null) {
-      return;
-    }
-  }
 
   /**
    * Fetch the user page data.
@@ -81,53 +39,66 @@ export const UserPage = () => {
     } catch (err) {
       navigate('/')
     }
-
-    setColors(data);
-    setPersonalDetails(data);
-    setLinks(data);
-    setOfferings(data);
-    // If User Does not Navigate client to an Oops We dont have this OpenSpot Setup at this time.
-
-    // If it does fetch a single endpoint that will Generate the entire website
   }
 
-  // Get the Users Availability For the Current Month
-  const fetchUserAvailability = (username: string, currentMonth: number) => {
-    console.log(`fetching ${username} Availability for ${currentMonth}`)
-  }
-
-  useEffect(() => {
-    // Show Skeleton
-    setIsLoading(() => true);
+  useEffect( () => {
     // Check If User Exists
     let username = getUrlUser()
     fetchUserData(username)
-    fetchUserAvailability(username, new Date().getMonth())
-    // Remove Skeleton and show What was fetched.
-    setIsLoading(() => false);
     return;
   },[])
+
 
   return (
     <div className="w-full h-full">
       { 
         isLoading
-          ? <SkeletonPage />
-          : <LoadedPage colors={siteColors}/>
+          ? <SkeletonPage /> :
+          <div className="flex flex-col min-h-screen bg-slate-50 h-full">
+            <UserTopNavSection 
+              isHome={true} 
+              providerName={"Spectrum Entertainment"} 
+              providerType={"DJ & MC Services"}
+              providerOverallRating={4.5}
+              providerTotalRatings={250} 
+            />
+            <div className="flex flex-col items-center">
+              <div className="max-w-92 text-gray-600 font-medium ml-4 mr-4">
+                <p className="text-[12px] text-left pl-4 pr-4 md:text-[14px] lg:text-[14px]">
+                  Bringing energy, style, and professionalism to every event, 
+                  we create unforgettable memories tailored to your unique needs.
+                </p>
+              </div>
+              <div className="p-5 text-center w-screen mt-2">
+                <button 
+                  className="w-2/3 md:1/3 lg:1/4 max-w-72 pl-4 pr-4 pt-2 pb-2 rounded-xl font-bold text-white h-16 drop-shadow-md
+                  bg-gray-700 hover:bg-gray-400 hover:text-gray-700"
+                  onClick={() => navigateToUserBookings()}
+                >
+                  Request Your Event Today!
+                </button>
+              </div>
+              <div className="grid grid-cols-3 mt-4 text-center align-middle justify-center">
+                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
+              </div>
+              <FAQS username={"Apples"}/>
+              <Reviews username={"Apples"} />
+            </div>
+          </div>
       }
     </div>
   )
 }
 
-const LoadedPage = ({colors}:{colors: colorsDto}) => {
-  if (colors == null) {
-    return (
-      <div>
-        TODO Error
-      </div>
-    )
-  }
-
+const SkeletonPage = () => {
   return (
     <div className="h-screen flex flex-col min-h-screen bg-slate-50">
       <div className="h-1/6 text-center relative">
@@ -138,7 +109,7 @@ const LoadedPage = ({colors}:{colors: colorsDto}) => {
             </div>
           </button>
         </div>
-        <div className="text-left font-light text-gray-500">
+        <div className="text-left font-light text-gray-700">
           <div className="w-24 h-24 bg-gray-400 rounded-full absolute top-[40%] left-[4%] md:left-[8%] lg:left-[16%]"></div>
           <div className="absolute left-[32%] text-xs">
             <h1 className="font-bold text-sm text-gray-600 mt-1">Spectrum Entertainment</h1>
@@ -154,6 +125,9 @@ const LoadedPage = ({colors}:{colors: colorsDto}) => {
               </div>
               <div>
                 <span className="text-xs">
+                  4.0/5.0
+                </span>
+                <span className="text-xs">
                   324 verified reviews
                 </span>
               </div>
@@ -162,13 +136,13 @@ const LoadedPage = ({colors}:{colors: colorsDto}) => {
         </div>
       </div>
       <div className="flex flex-col items-center h-3/4">
-        <div className="text-gray-700 font-medium ml-4 mr-4 mt-8">
-          <p className="text-[12px] text-left">
+        <div className="xs:w-2/3 sm:w-2/3 md:w-1/3 lg:w-1/3 text-gray-900 font-medium ml-4 mr-4 mt-6">
+          <p className="text-[10px] text-left pl-4 pr-4">
             Bringing energy, style, and professionalism to every event, 
             we create unforgettable memories tailored to your unique needs.
           </p>
         </div>
-        <div className="grid grid-cols-3 mt-4 text-center align-middle justify-center">
+        <div className="grid grid-cols-3 mt-8 text-center align-middle justify-center">
           <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
           <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
           <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
@@ -178,24 +152,11 @@ const LoadedPage = ({colors}:{colors: colorsDto}) => {
           <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
           <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
           <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-        </div>
-        <div className="mt-4 h-1/4 border-t border-gray-200 border-1 w-full">
-        </div>
-        <div className="mt-4 h-1/4">
-          Reviews
         </div>
       </div>
-      <div className="p-5 text-center bottom-0">
+      <div className="p-5 text-center bottom-0 relative">
         <button className="pl-4 pr-4 sticky pt-2 pb-2 rounded-xl font-bold text-white bg-gray-700">Book Now!</button>
       </div>
-    </div>
-  )
-}
-
-const SkeletonPage = () => {
-  return (
-    <div>
-      TODO Skelton
     </div>
   )
 }
