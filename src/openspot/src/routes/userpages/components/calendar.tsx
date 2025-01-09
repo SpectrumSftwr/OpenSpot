@@ -1,7 +1,8 @@
 import React from "react";
 import { useState } from "react";
 
-export const CalendarComponent = ({username}: {username: string}) => {
+export const CalendarComponent = ({username, dateCallback}: 
+  {username: string, dateCallback: (date: Date) => void}) => {
   console.log(username);
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today);
@@ -26,6 +27,7 @@ export const CalendarComponent = ({username}: {username: string}) => {
 
   const handleDateSelect = (day) => {
     setSelectedDate(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day));
+    dateCallback(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day));
   };
 
   const renderDays = () => {

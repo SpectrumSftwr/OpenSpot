@@ -22,6 +22,7 @@ import { Profile } from "./routes/signup-pages/profilesetup";
 import { UserPage } from "./routes/userpages/User";
 import { UserBookings } from "./routes/userpages/UserBookings";
 import { BookingsLayout } from "./routes/userpages/layouts/bookingslayout";
+import { Packages } from "./routes/userpages/packages";
 
 
 export const SessionContext = createContext();
@@ -86,6 +87,10 @@ export const App = () => {
               {
                 path: '/myspot/:user/bookings/',
                 element : <UserBookings />,
+              },
+              {
+                path: '/myspot/:user/bookings/packages',
+                element : <Packages />,
               }
             ]
           },

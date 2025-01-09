@@ -85,18 +85,11 @@ const UserTopNavBookingPages = ({providerName, providerType }:{
 }) => {
 
   return(
-    <div className="text-center relative h-52">
-      <div className="relative p-2 bg-sky-300 text-white h-2/3">
-        {/**
-          <button>
-            <div className="absolute p-1 fill-white bg-sky-800 rounded-full top-4 right-4 hover:bg-gray-200">
-              <ArrowUpOnSquareIcon className="stroke-white w-4 h-4 hover:stroke-black"/>
-            </div>
-          </button>
-          */}
+    <div className="text-center relative left-0 top-0 h-24">
+      <div className="relative p-2 bg-sky-300 text-white h-full">
       </div>
       <div className="text-left font-light text-gray-100">
-        <div className="w-24 h-24 bg-white rounded-full absolute top-[8%] left-[8%] md:left-[16%] lg:left-[32%] drop-shadow-md"></div>
+        <div className="w-20 h-20 bg-white rounded-full absolute top-[8%] left-[8%] md:left-[16%] lg:left-[32%] drop-shadow-md"></div>
         <div className="absolute left-[36%] lg:left-[44%] top-[20%] text-sm text-white">
           <h1 className="font-bold text-lg mt-1 drop-shadow-sm text-white">{providerName}</h1>
           <p className="italic font-medium text-xs">{providerType}</p>
