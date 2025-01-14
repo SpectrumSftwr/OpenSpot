@@ -6,19 +6,13 @@ import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 import { FAQS } from "./components/faq";
 import { Reviews } from "./components/reviews";
 import { UserTopNavSection } from "./components/TopNavSection";
+import { getUrlUser } from "./utility/common";
 
 export const UserPage = () => {
 
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false); 
 
-
-  /**  
-   * TODO: Maybe a better way exists but for now this will do.
-   */
-  const getUrlUser = () : string => {
-    return window.location.pathname.split('/')[2]
-  }
 
   const Navigate = useNavigate();
 

@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 
-export const CalendarComponent = ({username, dateCallback}: 
-  {username: string, dateCallback: (date: Date) => void}) => {
-  console.log(username);
+export const CalendarComponent = ({username, dateCallback, isMissingInput, contextSelectedDate}: 
+{
+  username: string, 
+  dateCallback: (date: Date) => void, 
+  isMissingInput: Date | null
+  contextSelectedDate: Date | null
+}) => {
+
+  console.log(`TODO: fetch user date with user: ${username}`);
+
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(contextSelectedDate);
 
   const startOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
   const endOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
@@ -86,7 +93,9 @@ isSelected
   };
 
   return (
-    <div className="w-fit mx-auto bg-white shadow-lg rounded-lg p-4">
+    <div 
+      className={`w-fit mx-auto bg-white shadow-lg rounded-lg p-4 
+                  ${isMissingInput ? "border-red-600 border-2" : ""}`}>
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={handlePrevMonth}

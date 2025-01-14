@@ -1,6 +1,7 @@
 import React, { createContext, useState }  from "react";
 import { Outlet } from "react-router-dom";
 import { UserTopNavSection } from "../components/TopNavSection";
+import { PersonalDetailsContextDto } from "../dtos/personalDetailsContext.dto";
 
 export const BookingContext = createContext<any>({})
 
@@ -12,6 +13,15 @@ export const BookingsLayout = () => {
   const [endTime, setEndTime] = useState("");
   const [eventType, setEventType] = useState("");
   const [guestCount, setGuestCount] = useState("");
+  const [packageChoiceId, setPackageChoiceId] = useState<number>(-1);
+  const [personalDetails, setPersonalDetails] = useState<PersonalDetailsContextDto>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    preferredContact: "email",
+    comments: "",
+  })
 
   const createInitialBookingContext = () => {
     return {
@@ -21,6 +31,8 @@ export const BookingsLayout = () => {
       endTime: [endTime, setEndTime],
       eventType: [eventType, setEventType],
       guestCount: [guestCount, setGuestCount],
+      packageChoiceId: [packageChoiceId, setPackageChoiceId],
+      personalDetails: [personalDetails, setPersonalDetails]
     }
   }
 
