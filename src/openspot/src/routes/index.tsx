@@ -67,8 +67,9 @@ const IndexPage = () => {
           <div className="font-bold text-6xl whitespace-normal mr-8">
             Unlock More Bookings and Faster Payouts with OpenSpot
           </div>
-          <div className="font-thin text-xl whitespace-normal w-2/3 mt-8">
-            With OpenSpot, easily manage your business needs while keeping your schedule empty
+          <div className="font-thin whitespace-normal w-2/3 mt-8 flex flex-col text-gray-700">
+            With OpenSpot, easily manage your business needs while keeping your schedule empty.
+            <br/>
             Focus on what you do best and let OpenSpot handle the rest.
           </div>
           <form onSubmit={()=> navigateToSignUp()} className="flex flex-row justify-center mt-8 items-center w-2/3">
@@ -92,7 +93,7 @@ const IndexPage = () => {
         </div>
       </div>
       {/* Feature Area*/}
-      <div className="flex flex-row w-2/3 justify-between p-4">
+      <div className="flex flex-row w-2/3 justify-between p-1">
         <div className="w-1/4 pr-2 pl-2">
           <div className="flex flex-row text-center items-center">
             <span>

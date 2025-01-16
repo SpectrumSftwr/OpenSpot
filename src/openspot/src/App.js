@@ -20,6 +20,12 @@ import { StripeSetup } from "./routes/signup-pages/stripe";
 import { PackagesSetup } from "./routes/signup-pages/packages";
 import { Profile } from "./routes/signup-pages/profilesetup";
 import { UserPage } from "./routes/userpages/User";
+import { UserBookings } from "./routes/userpages/UserBookings";
+import { BookingsLayout } from "./routes/userpages/layouts/bookingslayout";
+import { Packages } from "./routes/userpages/packages";
+import { ReviewBooking } from "./routes/userpages/ReviewBooking";
+import { PersonalInformation } from "./routes/userpages/PersonalInfomation";
+import { ConfirmationPage } from "./routes/confirmationpages/ConfirmationPage";
 
 
 export const SessionContext = createContext();
@@ -72,8 +78,39 @@ export const App = () => {
       },
       // External Client Use In Paths
       { path: '/myspot/:user', 
-        element: <UserPage /> 
+        children: [
+          {
+            path: '/myspot/:user',
+            element: <UserPage />,
+          },
+          {
+            path: '/myspot/:user/bookings/',
+            element : <BookingsLayout />,
+            children : [
+              {
+                path: '/myspot/:user/bookings/',
+                element : <UserBookings />,
+              },
+              {
+                path: '/myspot/:user/bookings/packages',
+                element : <Packages />,
+              },
+              {
+                path: '/myspot/:user/bookings/personalinfo',
+                element : <PersonalInformation />,
+              },
+              {
+                path: '/myspot/:user/bookings/review',
+                element : <ReviewBooking />,
+              }
+            ]
+          },
+        ],
       },
+      {
+        path: '/confirmation/:confNum',
+        element: <ConfirmationPage />
+      }
       // Internal Client Use In Paths
     ]
   );
