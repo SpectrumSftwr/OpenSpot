@@ -1,11 +1,7 @@
 import React , { useEffect, useRef, useState, useContext } from "react";
 import { Link  } from "react-router-dom";
 import httpService from '../services/http.service'
-import dayjs, {Dayjs} from 'dayjs'
-import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
-import Badge from '@mui/material/Badge';
-import 'dayjs/locale/en'
-import { BellIcon, ChartBarIcon, ChevronLeftIcon, ChevronRightIcon, CommandLineIcon, PhotoIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import {  ChartBarIcon, ChevronLeftIcon, ChevronRightIcon, CommandLineIcon, PhotoIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import { SideNavContext } from "../layouts/internallayout";
 
 
