@@ -137,7 +137,7 @@ export const Packages = () => {
     e.preventDefault();
     setPackageChoiceId(expandedId)
 
-    if (expandedId == -1) {
+    if (expandedId === -1) {
       setError(true)
       return;
     }
@@ -219,7 +219,7 @@ const PackageComponent = ({packageInfo, currentSelectedPackageId, onClick}:
     <div className="w-96 px-8 pt-4 items-center">
       <div
         className={`rounded-lg p-4 max-w-sm cursor-pointer transition-shadow ${
-                  currentSelectedPackageId == packageInfo.id
+                  currentSelectedPackageId === packageInfo.id
                   ? "shadow-md border-blue-600 border-2"
                   : "shadow-md border-gray-100 border-2"
                   }`}
@@ -244,7 +244,7 @@ const PackageComponent = ({packageInfo, currentSelectedPackageId, onClick}:
             {/* Chevron icon (unicode character) */}
             <span
               className={`text-xl transform transition-transform select-none ${
-              currentSelectedPackageId == packageInfo.id ? "rotate-180" : "rotate-0"
+              currentSelectedPackageId === packageInfo.id ? "rotate-180" : "rotate-0"
               } md:hidden lg:hidden`}
             >
               <ChevronDownIcon className="w-2 h-2"/>
@@ -253,7 +253,7 @@ const PackageComponent = ({packageInfo, currentSelectedPackageId, onClick}:
         </div>
 
         {/* Expandable details */}
-        {(currentSelectedPackageId == packageInfo.id || showOpenForScreenSize)  && (
+        {(currentSelectedPackageId === packageInfo.id || showOpenForScreenSize)  && (
           <div className="mt-4 text-sm text-gray-700">
             <span className="font-normal">
               {packageInfo.description}

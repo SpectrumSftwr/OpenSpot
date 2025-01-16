@@ -61,7 +61,7 @@ export const isValidPassword = (plainTextPassword: string, confirmPassword: stri
 
     const response =  {
       valid: isValidPassword,
-      matchConfirm: plainTextPassword == confirmPassword,
+      matchConfirm: plainTextPassword === confirmPassword,
       length: isValidLength,
       uppercase: isValidUpperCase,
       lowercase: isValidLowerCase,
@@ -73,7 +73,7 @@ export const isValidPassword = (plainTextPassword: string, confirmPassword: stri
 
   return {
     valid: false,
-    matchConfirm: plainTextPassword == confirmPassword,
+    matchConfirm: plainTextPassword  === confirmPassword,
     length: false,
     uppercase: false,
     lowercase: false,

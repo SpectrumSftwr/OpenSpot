@@ -29,9 +29,9 @@ export default function Navbar() {
   }
 
   return (
-      <div className='flex flex-row justify-between font-bold p-2 items-center h-[calc(4vh)] bg-white'>
+      <div className='flex flex-row font-bold p-4 items-center justify-between w-full'>
         <div>
-          <img src='/OpenSpot.png' alt='Open Spot Logo' className='h-8 ml-10' onClick={() => handleNavigateToHome()}/>
+          <img src='/OpenSpot.png' alt='Open Spot Logo' className='h-12 mr-10 self-center' onClick={() => handleNavigateToHome()}/>
         </div>
         {/* What to show when signed in*/}
         { session ?
@@ -44,8 +44,8 @@ export default function Navbar() {
               </div>
             </div>
           :
-            <div className='p-2 text-gray-500'>
-              Coming Soon!
+            <div className='p-2 text-gray-600 text-sm justify-self-end drop-shadow-sm'>
+              Coming Soon
             </div>
             //<div>
             //  {/* What to show when signed out*/}
