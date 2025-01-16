@@ -44,18 +44,8 @@ const IndexPage = () => {
 
   const navigateToSignUp = () => {
     // Until OpenSpot is Ready just route people to the Survery.
-    let url = `https://docs.google.com/forms/d/e/1FAIpQLSfZh6_af3aFrWK7SWhNrE8ZG82TW48QspPcwbAC1z1cZfnCJQ/viewform?usp=pp_url&entry.2065356908=${email}&entry.590981021=${email}`
+    let url = `https://forms.gle/JeffzqFBMc5ghTCw9`
     window.location.href = url;
-
-
-    // Validate Username meets requirements.
-    //if (!username || username.length < 6 || !availableUsername)  {
-    //  return;
-    //}
-    //
-    //// navigate user to signup page with username set.
-    ////navigate(`/sign-up?username=${username}`)
-
   }
 
   return (
@@ -84,7 +74,7 @@ const IndexPage = () => {
               className={`ml-4 w-fit bg-brand-800 text-white font-bold p-2 rounded-lg self-center text-center whitespace-nowrap
                         ${!availableUsername && "bg-red-500"} ${!validUsername && 'bg-gray-400'}`}
             >
-              Sign Up!
+              Be The First To Know
             </button>
           </form>
         </div>
