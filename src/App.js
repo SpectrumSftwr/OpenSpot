@@ -44,6 +44,7 @@ export const App = () => {
           { path: '/', element: <IndexPage /> },
           { path: '/sign-in/*', element: <SignInPage /> },
           { path: '/sign-up/*', element: <SignUpPage /> },
+          {path: '/confirmation/:confNum', element: <ConfirmationPage />}
         ],
       },
       // Logged In Paths
