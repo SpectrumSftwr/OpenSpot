@@ -44,9 +44,14 @@ export default function Navbar() {
               </div>
             </div>
           :
-            <div className='p-2 text-gray-600 text-sm justify-self-end drop-shadow-sm'>
-              Coming Soon
-            </div>
+        <a type="submit"
+          href="https://forms.gle/2X3mhibiJb2QfFez6" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className={`ml-4 w-fit bg-brand-700 text-white font-bold p-2 rounded-xl self-center text-center whitespace-nowrap`}
+        >
+          Join Waiting List
+        </a>
             //<div>
             //  {/* What to show when signed out*/}
             //  <div className='p-2 divide-x-2 border-1 rounded-lg border-brand-400 divide-gray-300 text-gray-500'>

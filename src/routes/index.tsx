@@ -37,7 +37,7 @@ const IndexPage = () => {
   return (
     <div className="flex flex-col justify-center items-center m-4 text-start">
       <div className="mr-2 ml-2 flex flex-col md:flex-row lg:flex-row justify-around w-full items-center">
-        <div className="flex flex-col max-w-lg mt-2">
+        <div className="flex flex-col max-w-lg mt-4">
           <div className="text-3xl text-gray-800 font-extrabold border-b-2 border-gray-300 pb-2">
             Unlock More Bookings and Faster Payouts with OpenSpot
           </div>
@@ -46,26 +46,22 @@ const IndexPage = () => {
             Focus on what you do best and let OpenSpot handle the rest.
           </div>
         </div>
-        <div className="flex flex-col justify-center items-center mt-4 mb-4 max-w-lg">
+        <div className="flex flex-col justify-center items-center mt-12 md:mb-4  lg:mb-4 max-w-lg">
           <img src="/AI_gen_img.webp" className="rounded-lg" alt="AI Generated Displays OpenSpots Solutions"/>
           <span className="text-xs font-light mt-1 text-gray-500">This is an AI Generated Image and not a representation of our Application</span>
         </div>
       </div>
-      <form onSubmit={()=> navigateToSignUp()} className="flex flex-row mt-8 self-center w-full max-w-xl">
+      {/**
+      <form className="flex flex-row mt-8 self-center w-full max-w-xl">
         <input 
-          className={`${!availableUsername ? "input-primary border-red-500": "input-primary"}`}
+          className={`${!availableUsername ? "input-primary border-red-500": "input-primary"} bg-white`}
           type="text" 
           id="username"
           placeholder="Leave your Email.."  
           onChange={(e) => setEmail(e.target.value)}
         />
-        <button type="submit"
-          className={`ml-4 w-fit bg-brand-800 text-white font-bold p-2 rounded-xl self-center text-center whitespace-nowrap
-                    ${!availableUsername && "bg-red-500"} ${!validUsername && 'bg-gray-400'}`}
-        >
-          Learn More
-        </button>
       </form>
+        */}
       {/* Feature Area*/}
       <div className="flex flex-col items-center p-1 w-full md:flex-row lg:flex-row md:justify-center lg:justify-center">
         <div className="pr-4 pl-4 mt-16 flex flex-col pt-2 pb-2 drop-shadow-lg rounded-lg max-w-sm">
