@@ -35,7 +35,7 @@ const IndexPage = () => {
     window.location.href = url;
   }
   return (
-    <div className="flex flex-col justify-center items-center m-4 text-start">
+    <div className="flex flex-col justify-center items-center m-4 text-start min-h-[calc(100vh-25px)]">
       <div className="mr-2 ml-2 flex flex-col md:flex-row lg:flex-row justify-around w-full items-center">
         <div className="flex flex-col max-w-lg mt-4">
           <div className="text-3xl text-gray-800 font-extrabold border-b-2 border-gray-300 pb-2">
