@@ -1,13 +1,11 @@
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BookingContext } from "./layouts/bookingslayout";
-import { getUrlUser } from "./utility/common";
-
 
 export const Packages = () => {
   const navigate = useNavigate();
-
+  const {user} = useParams();
   const [userPackages,setUserPackages] = useState<packageDto[]>([]);
   const bookingContext = useContext(BookingContext);
   const [packageChoiceId, setPackageChoiceId] = bookingContext.packageChoiceId;
@@ -142,7 +140,7 @@ export const Packages = () => {
       return;
     }
 
-    navigate(`/myspot/${getUrlUser()}/bookings/personalinfo`)
+    navigate(`/myspot/${user}/bookings/personalinfo`)
   }
 
   useEffect(() => {

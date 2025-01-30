@@ -1,12 +1,11 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PersonalDetailsContextDto } from "./dtos/personalDetailsContext.dto";
 import { BookingContext } from "./layouts/bookingslayout";
-import { getUrlUser } from "./utility/common";
 
 export const PersonalInformation = () => {
   const navigate = useNavigate();
-
+  const {user} = useParams()
   const bookingContext = useContext(BookingContext);
   const [personalInformation, setPersonalInformation] = bookingContext.personalDetails;
 
@@ -52,7 +51,7 @@ export const PersonalInformation = () => {
     }
 
     setPersonalInformation(formData);
-    navigate(`/myspot/${getUrlUser()}/bookings/review`)
+    navigate(`/myspot/${user}/bookings/review`)
   }
 
   return (

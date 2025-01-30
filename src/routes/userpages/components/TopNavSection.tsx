@@ -1,13 +1,26 @@
 import React from "react";
 import { StarIcon } from "@heroicons/react/24/solid";
+import { UserIcon } from "@heroicons/react/24/solid";
 
 export const UserTopNavSection = (
-  {isHome, providerName, providerType, providerOverallRating, providerTotalRatings }
-  :{isHome: boolean, 
+  {
+    isHome, 
+    providerName, 
+    providerType, 
+    providerOverallRating, 
+    providerTotalRatings, 
+    profilePicUrl,
+    bannerUrl,
+  }
+  :{
+    isHome: boolean, 
     providerName: string, 
     providerType: string, 
     providerOverallRating: number | null, 
-    providerTotalRatings : number | null }) => {
+    providerTotalRatings : number | null,
+    profilePicUrl: string | null,
+    bannerUrl: string | null,
+  }) => {
 
   return (
     <>
@@ -17,25 +30,38 @@ export const UserTopNavSection = (
           providerType={providerType} 
           providerTotalRatings={providerTotalRatings}
           providerOverallRating={providerOverallRating}
+          profilePicUrl={profilePicUrl}
+          bannerUrl={bannerUrl}
         />
         : <UserTopNavBookingPages 
             providerName={providerName} 
             providerType={providerType} 
+            profilePicUrl={profilePicUrl}
+            bannerUrl={bannerUrl}
         />
       }
     </>
   )
 }
 
-const UserTopNavHomePage = ({providerName, providerType, providerOverallRating, providerTotalRatings }:{ 
+const UserTopNavHomePage = ({providerName, providerType, providerOverallRating, providerTotalRatings, profilePicUrl, bannerUrl }:{ 
     providerName: string, 
     providerType: string, 
     providerOverallRating: number | null, 
-    providerTotalRatings : number | null }) => {
+    providerTotalRatings : number | null 
+    profilePicUrl: string | null,
+    bannerUrl: string | null,
+}) => {
+
+  console.log(`banner url ${bannerUrl}`);
 
   return(
-    <div className="text-center relative h-52">
-      <div className="relative p-2 bg-sky-300 text-white h-2/3">
+    <div className="text-center relative h-1/6">
+      <div className="bg-slate-800 text-white h-2/3 flex justify-center items-center overflow-hidden">
+        {bannerUrl 
+          && 
+          <img src={bannerUrl} className="object-cover h-full w-full"/>
+        }
         {/**
           <button>
             <div className="absolute p-1 fill-white bg-sky-800 rounded-full top-4 right-4 hover:bg-gray-200">
@@ -45,7 +71,16 @@ const UserTopNavHomePage = ({providerName, providerType, providerOverallRating, 
           */}
       </div>
       <div className="text-left font-light text-gray-500">
-        <div className="w-24 h-24 bg-gray-400 rounded-full absolute top-[40%] left-[4%] md:left-[8%] lg:left-[16%] drop-shadow-md"></div>
+        <div className="w-24 h-24 bg-slate-200 rounded-full flex justify-center
+          absolute top-[40%] left-[4%] md:left-[8%] lg:left-[16%] drop-shadow-md items-center">
+          <span className="relative">
+            {
+              profilePicUrl ? 
+                <img src={profilePicUrl} className="rounded-full"/>
+                : <UserIcon className="w-16 h-16 stroke-slate-500 mt-2 stroke-1"/>
+            }
+          </span>
+        </div>
         <div className="absolute left-[32%] text-xs">
           <h1 className="font-bold text-sm text-gray-600 mt-1">{providerName}</h1>
           <p>{providerType}</p>
@@ -68,7 +103,7 @@ const UserTopNavHomePage = ({providerName, providerType, providerOverallRating, 
               <span className="text-xs">
                 {providerOverallRating.toPrecision(2)}/5.0
               </span>
-              <span className="text-xs">
+              <span className="text-xs ml-2">
                 {providerTotalRatings} verified reviews
               </span>
             </div>
@@ -79,20 +114,34 @@ const UserTopNavHomePage = ({providerName, providerType, providerOverallRating, 
   )
 }
 
-const UserTopNavBookingPages = ({providerName, providerType }:{
+const UserTopNavBookingPages = ({providerName, providerType, profilePicUrl, bannerUrl}:{
   providerName: string, 
   providerType: string, 
+  profilePicUrl: string | null,
+  bannerUrl: string | null,
 }) => {
 
+  console.log(profilePicUrl);
+
   return(
-    <div className="text-center relative left-0 top-0 h-24">
-      <div className="relative p-2 bg-sky-300 text-white h-full">
+    <div className="text-center relative left-0 top-0 h-1/6">
+      <div className="relative bg-slate-800 text-white h-full overflow-hidden flex items-center justify-center">
+        {bannerUrl && <img src={bannerUrl} className="object-cover w-full h-full opacity-20" />}
       </div>
       <div className="text-left font-light text-gray-100">
-        <div className="w-20 h-20 bg-white rounded-full absolute top-[8%] left-[8%] md:left-[16%] lg:left-[32%] drop-shadow-md"></div>
-        <div className="absolute left-[36%] lg:left-[44%] top-[20%] text-sm text-white">
-          <h1 className="font-bold text-lg mt-1 drop-shadow-sm text-white">{providerName}</h1>
-          <p className="italic font-medium text-xs">{providerType}</p>
+        <div className="w-20 h-20 bg-slate-200 rounded-full absolute top-[8%] left-[8%] md:left-[16%] lg:left-[32%] drop-shadow-md
+          flex justify-center items-center">
+          <span className="relative">
+            {
+              profilePicUrl ? 
+                <img src={profilePicUrl} className="rounded-full"/>
+                : <UserIcon className="w-16 h-16 fill-slate-300 stroke-1 rounded-full"/>
+            }
+          </span>
+        </div>
+        <div className="absolute left-[36%] lg:left-[44%] top-[20%] text-sm text-white z-50 pb-2 pt-2 pr-4 pl-2 rounded-lg">
+          <h1 className="opacity-100 font-bold text-lg mt-1 drop-shadow-sm text-white ml-2">{providerName}</h1>
+          <p className="opacity-100 italic font-medium text-xs ml-2">{providerType}</p>
         </div>
       </div>
     </div>

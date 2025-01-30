@@ -1,72 +1,103 @@
-import React, { useEffect, useState } from "react";
-import {  useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import {  useNavigate, useParams } from "react-router-dom";
 import httpService from "../../services/http.service";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 import { FAQS } from "./components/faq";
 import { Reviews } from "./components/reviews";
 import { UserTopNavSection } from "./components/TopNavSection";
-import { getUrlUser } from "./utility/common";
+import { BookingContext } from "./layouts/bookingslayout";
+import { UserContext } from "./layouts/UserContext";
 
 export const UserPage = () => {
 
+  const userContext = useContext(UserContext);
+
+  const {user} = useParams();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState<boolean>(false); 
-
-
+  const [isLoading, setIsLoading] = useState<boolean>(true); 
   const Navigate = useNavigate();
 
+  const [businessName, setBusinessName] = useState("");
+  const [businessType, setBusinessType] = useState("");
+  const [description, setDescription] = useState("");
+  const [overallRatings, setOverallRatings] = useState(0);
+  const [totalReviews, setTotalReviews] = useState(0);
+  const [reviewsBreakdown, setReviewsBreakdown] = useState({});
+
+
   const navigateToUserBookings = () : void => {
-    Navigate(`/myspot/${getUrlUser()}/bookings`);
+    Navigate(`/myspot/${user}/bookings`);
   }
 
-
-  /**
-   * Fetch the user page data.
-   */
-  const fetchUserData = async (username: string) => {
-    let data = null;
-    const url = `/site/${username}`
-    try {
-      let response = await httpService.get(url)
-      data = response.data;
-    } catch (err) {
-      navigate('/')
+  const parseData = (response: any) : void => {
+    if (response.hasError == true) {
+      navigate('/usernotfound')
     }
+    setBusinessName(response.business_name)
+    setBusinessType(response.business_type)
+    setDescription(response.description);
+    setOverallRatings(response.overallRating);
+    setReviewsBreakdown(response.reviewsBreakdown);
+    setTotalReviews(response.totalReviews);
   }
 
-  useEffect( () => {
-    // Check If User Exists
-    let username = getUrlUser()
-    fetchUserData(username)
-    return;
-  },[])
+  const setProfileContext = (response : any) => {
+    const  setProfileUrl = userContext.profilePictureUrl[1];
+    const setBannerUrl = userContext.bannerPicUrl[1];
+    const setBusinessName = userContext.businessName[1];
+    const setBusinessType = userContext.businessType[1];
 
+    setProfileUrl(response.profilePicUrl)
+    setBannerUrl(response.bannerPicUrl)
+    setBusinessName(response.business_name)
+    setBusinessType(response.business_type)
+  }
+
+
+  useEffect(() => {
+
+    const fetchUserData = async () => {
+      try {
+        setIsLoading(true);
+        const url = `/userpage/${user}`
+        let {data} = await httpService.get(url);
+        parseData(data);
+        setProfileContext(data);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchUserData()
+    console.log(userContext.profilePicUrl)
+  },[])
 
   return (
     <div className="w-full h-full">
       { 
         isLoading
           ? <SkeletonPage /> :
-          <div className="flex flex-col min-h-screen bg-slate-50 h-full">
+          <div className="flex flex-col min-h-screen bg-slate-50 h-screen">
             <UserTopNavSection 
               isHome={true} 
-              providerName={"Spectrum Entertainment"} 
-              providerType={"DJ & MC Services"}
-              providerOverallRating={4.5}
-              providerTotalRatings={250} 
+              providerName={businessName} 
+              providerType={businessType}
+              providerOverallRating={overallRatings}
+              providerTotalRatings={totalReviews} 
+              profilePicUrl={userContext.profilePictureUrl[0]}
+              bannerUrl={userContext.bannerPicUrl[0]} 
             />
-            <div className="flex flex-col items-center">
-              <div className="max-w-92 text-gray-600 font-medium ml-4 mr-4">
+            <div className="flex flex-col items-center mt-8">
+              <div className="max-w-92 text-gray-600 font-medium ml-4 mr-4 mt-2">
                 <p className="text-[12px] text-left pl-4 pr-4 md:text-[14px] lg:text-[14px]">
-                  Bringing energy, style, and professionalism to every event, 
-                  we create unforgettable memories tailored to your unique needs.
+                  {description}
                 </p>
               </div>
               <div className="p-5 text-center w-screen mt-2">
                 <button 
                   className="w-2/3 md:1/3 lg:1/4 max-w-72 pl-4 pr-4 pt-2 pb-2 rounded-xl font-bold text-white h-16 drop-shadow-md
-                  bg-gray-700 hover:bg-gray-400 hover:text-gray-700"
+                  bg-slate-800 hover:bg-gray-400 hover:text-gray-700"
                   onClick={() => navigateToUserBookings()}
                 >
                   Request Your Event Today!
@@ -83,7 +114,7 @@ export const UserPage = () => {
                 <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
                 <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
               </div>
-              <FAQS username={"Apples"}/>
+              <FAQS username={user}/>
               <Reviews username={"Apples"} />
             </div>
           </div>

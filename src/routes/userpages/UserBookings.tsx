@@ -1,14 +1,13 @@
 import React, {useContext, useEffect, useState} from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CalendarComponent } from "./components/calendar";
 import { BookingContext } from "./layouts/bookingslayout";
-import { getUrlUser } from "./utility/common";
 
 export const UserBookings = () =>  {
 
   const [validCompleteForm, setValidCompleteForm] = useState<boolean>(true);
 
-  const username = "test";
+  const {user} = useParams();
 
   const navigate = useNavigate();
 
@@ -126,7 +125,7 @@ export const UserBookings = () =>  {
     setEventType(formData.eventType)
     setGuestCount(formData.guestCount)
 
-    navigate(`/myspot/${getUrlUser()}/bookings/packages`)
+    navigate(`/myspot/${user}/bookings/packages`)
   };
 
   const setDateFromSelectedOption = (date: Date) => {
@@ -145,7 +144,7 @@ export const UserBookings = () =>  {
         <div className="text-sm font-bold text-gray-700 mt-2 mb-8">
           What Date Is Your Desired Event?
         </div>
-        <CalendarComponent username={username} 
+        <CalendarComponent username={user} 
           dateCallback={(date) => setDateFromSelectedOption(date)} 
           isMissingInput={errors.eventDate}
           contextSelectedDate={bookingContext.eventDate[0]} 
