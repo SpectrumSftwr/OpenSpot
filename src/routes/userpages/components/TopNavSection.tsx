@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { UserIcon } from "@heroicons/react/24/solid";
+import { useParams } from "react-router-dom";
+import httpService from "../../../services/http.service";
+import { UserContext } from "../layouts/UserContext";
 
 export const UserTopNavSection = (
   {
@@ -21,7 +24,7 @@ export const UserTopNavSection = (
     profilePicUrl: string | null,
     bannerUrl: string | null,
   }) => {
-
+  
   return (
     <>
       {isHome ?
@@ -53,10 +56,9 @@ const UserTopNavHomePage = ({providerName, providerType, providerOverallRating, 
     bannerUrl: string | null,
 }) => {
 
-  console.log(`banner url ${bannerUrl}`);
 
   return(
-    <div className="text-center relative h-1/6">
+    <div className="text-center relative h-52">
       <div className="bg-slate-800 text-white h-2/3 flex justify-center items-center overflow-hidden">
         {bannerUrl 
           && 
@@ -84,30 +86,32 @@ const UserTopNavHomePage = ({providerName, providerType, providerOverallRating, 
         <div className="absolute left-[32%] text-xs">
           <h1 className="font-bold text-sm text-gray-600 mt-1">{providerName}</h1>
           <p>{providerType}</p>
-          <div className="flex flex-row text-center items-center">
+          { (providerOverallRating && providerTotalRatings) && 
+            <div className="flex flex-row text-center items-center">
 
-            {/* TODO: Create Mapping for Reviews Score. */}
-            <div className="flex flex-row mr-2">
-              {Array.from({length: Math.round(providerOverallRating)}).map((_, index) => {
-                return (
-                  <StarIcon key={index} className="fill-[#FFD700] w-2 h-2"/>
-                )
-              })}
-              {Array.from({length: 5 - Math.round(providerOverallRating)}).map((_, index) => {
-                return (
-                  <StarIcon key={index} className="fill-gray-200 w-2 h-2"/>
-                )
-              })}
+              {/* TODO: Create Mapping for Reviews Score. */}
+              <div className="flex flex-row mr-2">
+                {Array.from({length: Math.round(providerOverallRating)}).map((_, index) => {
+                  return (
+                    <StarIcon key={index} className="fill-[#FFD700] w-2 h-2"/>
+                  )
+                })}
+                {Array.from({length: 5 - Math.round(providerOverallRating)}).map((_, index) => {
+                  return (
+                    <StarIcon key={index} className="fill-gray-200 w-2 h-2"/>
+                  )
+                })}
+              </div>
+              <div>
+                <span className="text-xs">
+                  {providerOverallRating.toPrecision(2)}/5.0
+                </span>
+                <span className="text-xs ml-2">
+                  {providerTotalRatings} verified reviews
+                </span>
+              </div>
             </div>
-            <div>
-              <span className="text-xs">
-                {providerOverallRating.toPrecision(2)}/5.0
-              </span>
-              <span className="text-xs ml-2">
-                {providerTotalRatings} verified reviews
-              </span>
-            </div>
-          </div>
+          }
         </div>
       </div>
     </div>
@@ -125,7 +129,7 @@ const UserTopNavBookingPages = ({providerName, providerType, profilePicUrl, bann
 
   return(
     <div className="text-center relative left-0 top-0 h-1/6">
-      <div className="relative bg-slate-800 text-white h-full overflow-hidden flex items-center justify-center">
+      <div className="relative bg-brand-800 text-white h-full overflow-hidden flex items-center justify-center">
         {bannerUrl && <img src={bannerUrl} className="object-cover w-full h-full opacity-20" />}
       </div>
       <div className="text-left font-light text-gray-100">

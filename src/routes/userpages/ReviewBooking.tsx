@@ -111,7 +111,7 @@ export const ReviewBooking = () => {
           </div>
         </div>
         {/* Action Buttons */}
-        <div className="relative flex justify-around mt-4 space-x-2 w-full">
+        <div className="relative flex justify-around mt-12 space-x-2 w-full ">
           <button
             type="button"
             className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 hover:text-white"
@@ -121,7 +121,7 @@ export const ReviewBooking = () => {
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-400 text-white rounded-md hover:bg-blue-600 font-bold"
+            className="px-4 py-2 bg-brand-600 text-white rounded-md hover:bg-blue-600 font-bold"
             onClick={handleConfirm}
           >
             CONFIRM

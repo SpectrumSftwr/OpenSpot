@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import {  useNavigate, useParams } from "react-router-dom";
 import httpService from "../../services/http.service";
 import { StarIcon } from "@heroicons/react/24/solid";
-import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
+import { ArrowUpOnSquareIcon, EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { FAQS } from "./components/faq";
 import { Reviews } from "./components/reviews";
 import { UserTopNavSection } from "./components/TopNavSection";
@@ -70,15 +70,14 @@ export const UserPage = () => {
     }
 
     fetchUserData()
-    console.log(userContext.profilePicUrl)
   },[])
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full ">
       { 
         isLoading
           ? <SkeletonPage /> :
-          <div className="flex flex-col min-h-screen bg-slate-50 h-screen">
+          <div className="flex flex-col min-h-screen h-screen w-full">
             <UserTopNavSection 
               isHome={true} 
               providerName={businessName} 
@@ -88,36 +87,104 @@ export const UserPage = () => {
               profilePicUrl={userContext.profilePictureUrl[0]}
               bannerUrl={userContext.bannerPicUrl[0]} 
             />
-            <div className="flex flex-col items-center mt-8">
-              <div className="max-w-92 text-gray-600 font-medium ml-4 mr-4 mt-2">
-                <p className="text-[12px] text-left pl-4 pr-4 md:text-[14px] lg:text-[14px]">
-                  {description}
-                </p>
+            <div className="flex flex-col items-center w-full">
+              <div className="">
+                <div className="max-w-92 text-gray-600 font-medium ml-4 mr-4 pt-2">
+                  <p className="text-[12px] text-left pl-4 pr-4 md:text-[14px] lg:text-[14px]">
+                    {description}
+                  </p>
+                </div>
+                <div className="p-5 text-center w-screen mt-2">
+                  <button 
+                    className="w-2/3 md:1/3 lg:1/4 max-w-72 pl-4 pr-4 pt-2 pb-2 rounded-xl font-bold text-white h-16 drop-shadow-md
+                    bg-brand-800 hover:bg-gray-400 hover:text-gray-700"
+                    onClick={() => navigateToUserBookings()}
+                  >
+                    Request Your Event Today!
+                  </button>
+                </div>
               </div>
-              <div className="p-5 text-center w-screen mt-2">
-                <button 
-                  className="w-2/3 md:1/3 lg:1/4 max-w-72 pl-4 pr-4 pt-2 pb-2 rounded-xl font-bold text-white h-16 drop-shadow-md
-                  bg-slate-800 hover:bg-gray-400 hover:text-gray-700"
-                  onClick={() => navigateToUserBookings()}
-                >
-                  Request Your Event Today!
-                </button>
-              </div>
-              <div className="grid grid-cols-3 mt-4 text-center align-middle justify-center">
-                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-                <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-              </div>
+              <Gallery username={user} />
               <FAQS username={user}/>
-              <Reviews username={"Apples"} />
+              <Reviews/>
             </div>
           </div>
+      }
+    </div>
+  )
+}
+
+const Gallery = ({username} : {username: string}) => {
+
+  const navigate = useNavigate();
+  const [imageUrls, setImageUrls] = useState<any[]>([]);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [imageLoadedCount, setImageLoadedCount] = useState(0);
+  const [totalImages,setTotalImages] = useState(0);
+
+
+  useEffect(() => {
+    const fetchUserGallery = async () => {
+      try {
+        const url = `/userpage/gallery-preview/${username}`
+        let {data} = await httpService.get(url);
+        const urls = data.map(image => image.imageUrl)
+        setImageUrls(urls)
+        setTotalImages(data.length);
+      } finally {
+      }
+    }
+
+    fetchUserGallery();
+  },[])
+
+  useEffect(() => {
+    if (imageLoadedCount == totalImages) {
+      setImagesLoaded(true);
+    }
+
+  }, [totalImages,imageLoadedCount])
+
+  const handleImageLoad = () => {
+    setImageLoadedCount(prev => prev + 1);
+  }
+
+  /**
+   * Take user to a larger Gallery view.
+   */
+  const handleGallery = () => {
+    navigate(`/myspot/${username}/gallery`);
+  }
+
+  return (
+    <div className="w-full flex justify-center items-center">
+      {!imagesLoaded ?
+      <div className="grid grid-cols-3 mt-4 text-center align-middle justify-center m-2">
+        {Array.from({length: 8}).map((_, index) => {
+          return (
+            <div key={index} className="w-24 h-24 bg-gray-200 rounded-md m-1">
+            </div>
+          )
+        })}
+        <div className="w-24 h-24 bg-gray-200 rounded-md m-1 flex justify-center items-center hover:bg-brand-800h
+          hover:stroke-white hover:fill-white">
+          <EllipsisHorizontalIcon className="w-12 h-12 fill-white stroke-gray-400 hover:stroke-white hover:fill-white"/>
+        </div>
+      </div>
+      :
+      <div className="grid grid-cols-3 mt-4 text-center align-middle justify-center m-2 p-8">
+        {imageUrls.map((url, index) => {
+          return (
+            <div key={index} className="w-24 h-24 bg-gray-200 rounded-md m-1"  onClick={handleGallery}>
+              <img src={url} onLoad={handleImageLoad} className="rounded-md"/>
+            </div>
+          )
+        })}
+        <div className="w-24 h-24 bg-slate-300 rounded-md flex justify-center items-center hover:bg-brand-800 m-1" 
+          onClick={handleGallery}>
+          <EllipsisHorizontalIcon className="w-12 h-12 fill-white stroke-gray-400 hover:stroke-white hover:fill-white"/>
+        </div>
+      </div>
       }
     </div>
   )

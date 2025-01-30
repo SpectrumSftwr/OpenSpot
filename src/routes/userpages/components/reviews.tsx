@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { OverallReviewOverviewDto } from "../dtos/reviewOverview.dto";
+import { useNavigate, useParams } from "react-router-dom";
 
-export const Reviews = ({username} : {username: string}) => {
-  console.log(`TODO: Fetch Users Reviews Overview for ${username}`);
+export const Reviews = () => {
+
+  const navigate = useNavigate();
+  const {user} = useParams();
+
+  useEffect(() => {
+    const fetchReviewBreakdown = async () => {
+      console.log("Fetching Review Breakdown for" + user)
+    }
+
+    fetchReviewBreakdown()
+  },[])
 
   const overrallReviewScores : OverallReviewOverviewDto = {
     overallRating: 3.8 ,
@@ -15,9 +26,13 @@ export const Reviews = ({username} : {username: string}) => {
     oneStarPercentage: 3,
   }
 
+  const handleNavigateToReviews = () => {
+    navigate(`/myspot/${user}/reviews`);
+  }
+
   return (
     <div className="flex flex-col items-center w-screen mt-12 text-sm text-gray-700 lg:text-[16px] mb-10">
-      <span className="font-semibold text-md lg:text-lg">
+      <span className="font-semibold text-lg lg:text-lg">
         Customer Reviews and Ratings
       </span> 
 
@@ -42,16 +57,25 @@ export const Reviews = ({username} : {username: string}) => {
         </div>
       </div>
       {/* Total Ratings */}
-      <div className="text-xs text-gray-500">
+      <div className="text-xs text-gray-500 mt-1">
         {overrallReviewScores.totalReviews} Verified Reviews
       </div>
       {/* 5 Star Reviews */}
-      <div className="mr-2 ml-2 w-2/3 max-w-72">
+      <div className="mr-2 ml-2 w-2/3 max-w-72 mt-4">
         <RatingRow category={5} percentage={overrallReviewScores.fiveStarPercentage} />
         <RatingRow category={4} percentage={overrallReviewScores.fourStarPercentage} />
         <RatingRow category={3} percentage={overrallReviewScores.threeStarPercentage} />
         <RatingRow category={2} percentage={overrallReviewScores.twoStarPercentage} />
         <RatingRow category={1} percentage={overrallReviewScores.oneStarPercentage} />
+      </div>
+      <div className="mt-4">
+        <button 
+          className="w-fit  max-w-72 pl-4 pr-4 rounded-xl font-bold text-white pt-4 pb-4 mt-2 drop-shadow-md
+          bg-brand-800 hover:bg-gray-400 hover:text-gray-700"
+          onClick={handleNavigateToReviews}
+        >
+          See All Reviews
+        </button>
       </div>
     </div>
   )

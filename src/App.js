@@ -30,6 +30,8 @@ import { TermsAndConditions } from "./routes/admin/TermsAndConditions";
 import { PrivacyPolicy } from "./routes/admin/PrivacyPolicy";
 import { UserNotFound } from "./routes/userpages/UserNotFound";
 import { UserContextPage } from "./routes/userpages/layouts/UserContext";
+import { UserGallery } from "./routes/userpages/UserGallery";
+import { UserReviews } from "./routes/userpages/UserReviews";
 
 
 export const SessionContext = createContext();
@@ -91,6 +93,14 @@ export const App = () => {
           {
             path: '/myspot/:user',
             element: <UserPage />,
+          },
+          {
+            path: '/myspot/:user/gallery',
+            element: <UserGallery />,
+          },
+          {
+            path: '/myspot/:user/reviews',
+            element: <UserReviews />,
           },
           {
             path: '/myspot/:user/bookings/',

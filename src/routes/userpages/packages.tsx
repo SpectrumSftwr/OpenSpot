@@ -175,7 +175,7 @@ export const Packages = () => {
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            className="px-4 py-2 bg-brand-700 text-white rounded-md hover:bg-blue-600"
           >
             Next
           </button>
