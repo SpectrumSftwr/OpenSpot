@@ -1,11 +1,18 @@
-import React, { createContext, useState }  from "react";
+import React, { createContext, useContext, useState }  from "react";
 import { Outlet } from "react-router-dom";
 import { UserTopNavSection } from "../components/TopNavSection";
 import { PersonalDetailsContextDto } from "../dtos/personalDetailsContext.dto";
+import { UserContext } from "./UserContext";
 
 export const BookingContext = createContext<any>({})
 
 export const BookingsLayout = () => {
+
+  const userContext = useContext(UserContext);
+  const profilePicUrl = userContext.profilePictureUrl[0];
+  const bannerPicUrl = userContext.bannerPicUrl[0];
+  const businessName = userContext.businessName[0];
+  const businessType = userContext.businessType[0];
 
   const [eventDate, setEventDate] = useState("");
   const [location, setLocation] = useState("");
@@ -32,7 +39,7 @@ export const BookingsLayout = () => {
       eventType: [eventType, setEventType],
       guestCount: [guestCount, setGuestCount],
       packageChoiceId: [packageChoiceId, setPackageChoiceId],
-      personalDetails: [personalDetails, setPersonalDetails]
+      personalDetails: [personalDetails, setPersonalDetails],
     }
   }
 
@@ -41,10 +48,12 @@ export const BookingsLayout = () => {
       <div className="w-screen h-[calc(75vh)]">
         <UserTopNavSection 
           isHome={false} 
-          providerName={"Spectrum Entertainment"} 
-          providerType={"DJ & MC Services"}
+          providerName={businessName} 
+          providerType={businessType}
           providerOverallRating={null}
           providerTotalRatings={null}
+          profilePicUrl={profilePicUrl}
+          bannerUrl={bannerPicUrl}
         />
         <Outlet />
       </div>

@@ -1,9 +1,12 @@
-import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import httpService from "../../services/http.service";
+import { PackageDetailsDto } from "./dtos/PackageDetails.dto";
 import { BookingContext } from "./layouts/bookingslayout";
 
 export const ReviewBooking = () => {
   const navigate = useNavigate();
+  const {user} = useParams();
   const bookingContext = useContext(BookingContext);
 
   const eventDate = bookingContext.eventDate[0];
@@ -15,21 +18,33 @@ export const ReviewBooking = () => {
   const packageId = bookingContext.packageChoiceId[0];
   const personalDetails = bookingContext.personalDetails[0];
 
+  const [error,setError] = useState(false);
+
   const handleConfirm = () => {
+    const submitUserEvent = async (requestObj: any) => {
+      try {
+        const url = '/events/create';
+        const {data} = await httpService.post(url, requestObj);
+        navigate(`/confirmation/${data.confirmation}`)
+      } catch {
+        setError(true);
+      }
+    }
+
 
     const requestObj = {
+      business_uid: user,
       eventDate: eventDate,
       location: location,
       startTime: startTime,
       endTime: endTime,
       eventType: eventType,
-      guestCount: guestCount,
+      guestCount: parseInt(guestCount),
       packageId: packageId,
       personalDetails: personalDetails
     }
 
-    console.log(`Confirming with ${JSON.stringify(requestObj)}`)
-
+    submitUserEvent(requestObj);
   }
 
   return (
@@ -111,7 +126,7 @@ export const ReviewBooking = () => {
           </div>
         </div>
         {/* Action Buttons */}
-        <div className="relative flex justify-around mt-4 space-x-2 w-full">
+        <div className="relative flex justify-around mt-12 space-x-2 w-full ">
           <button
             type="button"
             className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 hover:text-white"
@@ -121,7 +136,7 @@ export const ReviewBooking = () => {
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-400 text-white rounded-md hover:bg-blue-600 font-bold"
+            className="px-4 py-2 bg-brand-600 text-white rounded-md hover:bg-blue-600 font-bold"
             onClick={handleConfirm}
           >
             CONFIRM
@@ -133,9 +148,34 @@ export const ReviewBooking = () => {
 }
 
 const PackageDetails = ({packageId} : {packageId: number}) => {
-  return (
-    <div>
-      {packageId}
-    </div>
-  )
+
+  const [packageDetails, setPackageDetails] = useState<PackageDetailsDto | null>(null)
+  const [isLoading, setIsLoading]   = useState(true);
+
+  useEffect(() => {
+    const fetchPackageDetails = async (packageId: number) => {
+      console.log("fetching package" + packageId)
+      try {
+        const url = `/userpage/package_details/${packageId}`
+        const {data} = await httpService.get(url);
+        setPackageDetails(data);
+      } catch {
+        setPackageDetails(null)
+      }
+
+      setIsLoading(false);
+    }
+
+    fetchPackageDetails(packageId);
+  },[])
+
+  return isLoading
+    ? 
+      <div>
+        Loading...
+      </div>
+    : 
+      <div className="font-bold">
+        {packageDetails.title}
+      </div>
 }

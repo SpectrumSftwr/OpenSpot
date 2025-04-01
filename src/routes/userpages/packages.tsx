@@ -1,11 +1,11 @@
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import httpService from "../../services/http.service";
 import { BookingContext } from "./layouts/bookingslayout";
-import { getUrlUser } from "./utility/common";
-
 
 export const Packages = () => {
+  const {user} = useParams();
   const navigate = useNavigate();
 
   const [userPackages,setUserPackages] = useState<packageDto[]>([]);
@@ -14,123 +14,13 @@ export const Packages = () => {
   const [expandedId, setExpandedId] = useState(packageChoiceId);
   const [error, setError] = useState(false);
 
-  const fetchUserPackage = () => {
-    setUserPackages([
-      {
-        id: 0,
-        icon: '🤩',
-        title: 'Basic',
-        duration: 4,
-        price: 750.00, 
-        description: "Short description for each package that will have a max of 100 chars",
-        includes: [
-          "Consultation",
-          "Sound/PA System",
-          "Microphones",
-          "MC",
-          "Up-Lighting",
-          "Dance Floor Lighting",
-        ],
-      },
-      {
-        id: 1,
-        icon: '🤪',
-        title: 'PRO',
-        duration: 5,
-        price: 1400.00, 
-        description: "Short description for each package that will have a max of 100 chars",
-        includes: [
-          "Consultation",
-          "Sound/PA System",
-          "Microphones",
-          "Dance Floor Lighting",
-          "MC",
-          "Up-Lighting",
-          "Dance Floor Lighting",
-          "Sound/PA System",
-          "MC",
-        ],
-      },
-      {
-        id: 2,
-        icon: '🤪',
-        title: 'PRO',
-        duration: 5,
-        price: 1400.00, 
-        description: "Short description for each package that will have a max of 100 chars",
-        includes: [
-          "Consultation",
-          "Sound/PA System",
-          "Microphones",
-          "Dance Floor Lighting",
-          "MC",
-          "Up-Lighting",
-          "Dance Floor Lighting",
-          "Sound/PA System",
-          "MC",
-        ],
-      },
-      {
-        id: 3,
-        icon: '💸',
-        title: 'ELITE',
-        duration: 6,
-        price: 2400.00, 
-        description: "Short description for each package that will have a max of 100 chars",
-        includes: [
-          "Consultation",
-          "Consultation",
-          "Sound/PA System",
-          "Microphones",
-          "MC",
-          "Sound/PA System",
-          "Microphones",
-          "MC",
-          "Up-Lighting",
-          "Dance Floor Lighting",
-        ],
-      },
-      {
-        id: 4,
-        icon: '💸',
-        title: 'ELITE',
-        duration: 6,
-        price: 2400.00, 
-        description: "Short description for each package that will have a max of 100 chars",
-        includes: [
-          "Consultation",
-          "Consultation",
-          "Sound/PA System",
-          "Microphones",
-          "MC",
-          "Sound/PA System",
-          "Microphones",
-          "MC",
-          "Up-Lighting",
-          "Dance Floor Lighting",
-        ],
-      },
-      {
-        id: 5,
-        icon: '💸',
-        title: 'ELITE',
-        duration: 6,
-        price: 2400.00, 
-        description: "Short description for each package that will have a max of 100 chars",
-        includes: [
-          "Consultation",
-          "Consultation",
-          "Sound/PA System",
-          "Microphones",
-          "MC",
-          "Sound/PA System",
-          "Microphones",
-          "MC",
-          "Up-Lighting",
-          "Dance Floor Lighting",
-        ],
-      },
-    ])
+  const fetchUserPackage = async () => {
+    try {
+      const { data } = await httpService.get(`/userpage/packages/${user}`)
+      setUserPackages(data)
+    } catch {
+
+    }
   }
 
   const handleSubmit = (e) => {
@@ -142,7 +32,7 @@ export const Packages = () => {
       return;
     }
 
-    navigate(`/myspot/${getUrlUser()}/bookings/personalinfo`)
+    navigate(`/myspot/${user}/bookings/personalinfo`)
   }
 
   useEffect(() => {
@@ -177,7 +67,7 @@ export const Packages = () => {
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            className="px-4 py-2 bg-brand-700 text-white rounded-md hover:bg-blue-600"
           >
             Next
           </button>
@@ -232,9 +122,6 @@ const PackageComponent = ({packageInfo, currentSelectedPackageId, onClick}:
 
             <div className="flex flex-row text-center items-center">
               <div className="text-lg font-bold">{packageInfo.title}</div>
-              <div className="text-xs text-gray-500 ml-1">
-                ({packageInfo.duration} hours)
-              </div>
             </div>
           </div>
 
@@ -258,13 +145,16 @@ const PackageComponent = ({packageInfo, currentSelectedPackageId, onClick}:
             <span className="font-normal">
               {packageInfo.description}
             </span>
-            <div className="flex font-thin text-gray-800 drop-shadow-sm border-t justify-center mt-2">
+            <div className="flex font-normal text-gray-900 drop-shadow-sm border-t justify-center mt-2">
               <ul className="flex flex-wrap mt-2">
                 {packageInfo.includes.map((includedItem, index) => {
                   return (
-                    <li key={index} className="text-xs w-1/2">
-                      - {includedItem}
-                    </li>
+                      <li key={index} className="text-xs w-1/2 p-2 flex flex-row ">
+                        <span className="mr-1">-</span>
+                        <span>
+                          {includedItem}
+                        </span>
+                      </li>
                   )
                 })}
               </ul>

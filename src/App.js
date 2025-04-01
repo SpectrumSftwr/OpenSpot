@@ -26,6 +26,12 @@ import { Packages } from "./routes/userpages/packages";
 import { ReviewBooking } from "./routes/userpages/ReviewBooking";
 import { PersonalInformation } from "./routes/userpages/PersonalInfomation";
 import { ConfirmationPage } from "./routes/confirmationpages/ConfirmationPage";
+import { TermsAndConditions } from "./routes/admin/TermsAndConditions";
+import { PrivacyPolicy } from "./routes/admin/PrivacyPolicy";
+import { UserNotFound } from "./routes/userpages/UserNotFound";
+import { UserContextPage } from "./routes/userpages/layouts/UserContext";
+import { UserGallery } from "./routes/userpages/UserGallery";
+import { UserReviews } from "./routes/userpages/UserReviews";
 
 
 export const SessionContext = createContext();
@@ -42,8 +48,12 @@ export const App = () => {
         element: <RootLayout />,
         children: [
           { path: '/', element: <IndexPage /> },
+          { path: '/usernotfound', element: <UserNotFound /> },
           { path: '/sign-in/*', element: <SignInPage /> },
           { path: '/sign-up/*', element: <SignUpPage /> },
+          {path: '/confirmation/:confNum', element: <ConfirmationPage />},
+          {path: '/terms-and-conditions', element: <TermsAndConditions />},
+          {path: '/privacy-policy', element: <PrivacyPolicy />},
         ],
       },
       // Logged In Paths
@@ -78,10 +88,19 @@ export const App = () => {
       },
       // External Client Use In Paths
       { path: '/myspot/:user', 
+        element: <UserContextPage />,
         children: [
           {
             path: '/myspot/:user',
             element: <UserPage />,
+          },
+          {
+            path: '/myspot/:user/gallery',
+            element: <UserGallery />,
+          },
+          {
+            path: '/myspot/:user/reviews',
+            element: <UserReviews />,
           },
           {
             path: '/myspot/:user/bookings/',
