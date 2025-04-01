@@ -83,12 +83,11 @@ const UserTopNavHomePage = ({providerName, providerType, providerOverallRating, 
             }
           </span>
         </div>
-        <div className="absolute left-[32%] text-xs">
-          <h1 className="font-bold text-sm text-gray-600 mt-1">{providerName}</h1>
-          <p>{providerType}</p>
+        <div className="absolute left-[32%]">
+          <h1 className="font-bold text-gray-600 mt-1">{providerName}</h1>
+          <p className="text-sm">{providerType}</p>
           { (providerOverallRating && providerTotalRatings) && 
-            <div className="flex flex-row text-center items-center">
-
+            <div className="flex flex-row text-center items-center text-sm">
               {/* TODO: Create Mapping for Reviews Score. */}
               <div className="flex flex-row mr-2">
                 {Array.from({length: Math.round(providerOverallRating)}).map((_, index) => {
@@ -124,8 +123,6 @@ const UserTopNavBookingPages = ({providerName, providerType, profilePicUrl, bann
   profilePicUrl: string | null,
   bannerUrl: string | null,
 }) => {
-
-  console.log(profilePicUrl);
 
   return(
     <div className="text-center relative left-0 top-0 h-1/6">

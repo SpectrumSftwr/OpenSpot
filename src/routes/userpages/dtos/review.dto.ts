@@ -1,7 +1,7 @@
 export class ReviewDto {
   id : number;
   from: string;
-  eventDate: Date; 
+  event_date: Date; 
   rating: number;
   comment: string;
 }

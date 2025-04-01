@@ -1,15 +1,12 @@
 import React from "react";
 import { useState } from "react";
 
-export const CalendarComponent = ({username, dateCallback, isMissingInput, contextSelectedDate}: 
+export const CalendarComponent = ({dateCallback, isMissingInput, contextSelectedDate}: 
 {
-  username: string, 
   dateCallback: (date: Date) => void, 
   isMissingInput: Date | null
   contextSelectedDate: Date | null
 }) => {
-
-  console.log(`TODO: fetch user date with user: ${username}`);
 
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today);

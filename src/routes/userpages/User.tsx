@@ -23,7 +23,7 @@ export const UserPage = () => {
   const [description, setDescription] = useState("");
   const [overallRatings, setOverallRatings] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
-  const [reviewsBreakdown, setReviewsBreakdown] = useState({});
+  const [reviewsBreakdown, setReviewsBreakdown] = useState(undefined);
 
 
   const navigateToUserBookings = () : void => {
@@ -34,11 +34,14 @@ export const UserPage = () => {
     if (response.hasError == true) {
       navigate('/usernotfound')
     }
+    console.log(response.reviewsBreakdown)
     setBusinessName(response.business_name)
     setBusinessType(response.business_type)
     setDescription(response.description);
     setOverallRatings(response.overallRating);
     setReviewsBreakdown(response.reviewsBreakdown);
+
+
     setTotalReviews(response.totalReviews);
   }
 
@@ -88,13 +91,13 @@ export const UserPage = () => {
               bannerUrl={userContext.bannerPicUrl[0]} 
             />
             <div className="flex flex-col items-center w-full">
-              <div className="">
+              <div className="w-full flex flex-col items-center mt-2">
                 <div className="max-w-92 text-gray-600 font-medium ml-4 mr-4 pt-2">
                   <p className="text-[12px] text-left pl-4 pr-4 md:text-[14px] lg:text-[14px]">
                     {description}
                   </p>
                 </div>
-                <div className="p-5 text-center w-screen mt-2">
+                <div className="p-5 text-center w-screen">
                   <button 
                     className="w-2/3 md:1/3 lg:1/4 max-w-72 pl-4 pr-4 pt-2 pb-2 rounded-xl font-bold text-white h-16 drop-shadow-md
                     bg-brand-800 hover:bg-gray-400 hover:text-gray-700"
@@ -106,7 +109,7 @@ export const UserPage = () => {
               </div>
               <Gallery username={user} />
               <FAQS username={user}/>
-              <Reviews/>
+              <Reviews overallRating={overallRatings} totalReviews={totalReviews} reviewBreakdown={reviewsBreakdown}/>
             </div>
           </div>
       }
@@ -159,7 +162,7 @@ const Gallery = ({username} : {username: string}) => {
   return (
     <div className="w-full flex justify-center items-center">
       {!imagesLoaded ?
-      <div className="grid grid-cols-3 mt-4 text-center align-middle justify-center m-2">
+      <div className="grid grid-cols-3 mt-2 text-center align-middle justify-center m-1">
         {Array.from({length: 8}).map((_, index) => {
           return (
             <div key={index} className="w-24 h-24 bg-gray-200 rounded-md m-1">
@@ -172,7 +175,7 @@ const Gallery = ({username} : {username: string}) => {
         </div>
       </div>
       :
-      <div className="grid grid-cols-3 mt-4 text-center align-middle justify-center m-2 p-8">
+      <div className="grid grid-cols-3 mt-2 text-center align-middle justify-center m-2 p-8">
         {imageUrls.map((url, index) => {
           return (
             <div key={index} className="w-24 h-24 bg-gray-200 rounded-md m-1"  onClick={handleGallery}>
@@ -193,62 +196,6 @@ const Gallery = ({username} : {username: string}) => {
 const SkeletonPage = () => {
   return (
     <div className="h-screen flex flex-col min-h-screen bg-slate-50">
-      <div className="h-1/6 text-center relative">
-        <div className="relative p-2 bg-sky-300 text-white h-2/3">
-          <button>
-            <div className="absolute p-1 fill-white bg-sky-800 rounded-full top-4 right-4">
-              <ArrowUpOnSquareIcon className="stroke-white w-4 h-4"/>
-            </div>
-          </button>
-        </div>
-        <div className="text-left font-light text-gray-700">
-          <div className="w-24 h-24 bg-gray-400 rounded-full absolute top-[40%] left-[4%] md:left-[8%] lg:left-[16%]"></div>
-          <div className="absolute left-[32%] text-xs">
-            <h1 className="font-bold text-sm text-gray-600 mt-1">Spectrum Entertainment</h1>
-            <p>DJ & MC Service</p>
-            <div className="flex flex-row text-center items-center">
-              {/* TODO: Create Mapping for Reviews to amount */}
-              <div className="flex flex-row mr-2">
-                <StarIcon className="fill-[#FFD700] w-2 h-2"/>
-                <StarIcon className="fill-[#FFD700] w-2 h-2"/>
-                <StarIcon className="fill-[#FFD700] w-2 h-2"/>
-                <StarIcon className="fill-[#FFD700] w-2 h-2"/>
-                <StarIcon className="fill-gray-200 w-2 h-2"/>
-              </div>
-              <div>
-                <span className="text-xs">
-                  4.0/5.0
-                </span>
-                <span className="text-xs">
-                  324 verified reviews
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col items-center h-3/4">
-        <div className="xs:w-2/3 sm:w-2/3 md:w-1/3 lg:w-1/3 text-gray-900 font-medium ml-4 mr-4 mt-6">
-          <p className="text-[10px] text-left pl-4 pr-4">
-            Bringing energy, style, and professionalism to every event, 
-            we create unforgettable memories tailored to your unique needs.
-          </p>
-        </div>
-        <div className="grid grid-cols-3 mt-8 text-center align-middle justify-center">
-          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-          <div className="w-24 h-24 bg-gray-200 rounded-md m-1"></div>
-        </div>
-      </div>
-      <div className="p-5 text-center bottom-0 relative">
-        <button className="pl-4 pr-4 sticky pt-2 pb-2 rounded-xl font-bold text-white bg-gray-700">Book Now!</button>
-      </div>
     </div>
   )
 }

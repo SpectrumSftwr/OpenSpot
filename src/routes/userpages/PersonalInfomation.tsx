@@ -62,9 +62,12 @@ export const PersonalInformation = () => {
       <div className="flex flex-col h-full items-center w-full">
         <form onSubmit={handleSubmit} className="pl-8 pr-8 max-w-96">
           <div className="mb-4 mt-4">
-            <label htmlFor="firstName" className="block text-gray-700 font-medium mb-2">
-              First Name
-            </label>
+            <div className="flex flex-row">
+              <label htmlFor="firstName" className="block text-gray-700 font-medium mb-2">
+                First Name
+              </label>
+              <span className="ml-1 text-red-400">*</span>
+            </div>
             <input
               type="text"
               id="firstName"
@@ -79,9 +82,12 @@ ${errors.firstName ? "border-red-600 " : ""}`}
           </div>
 
           <div className="mb-4">
-            <label htmlFor="lastName" className="block text-gray-700 font-medium mb-2">
-              Last Name
-            </label>
+            <div className="flex flex-row">
+              <label htmlFor="lastName" className="block text-gray-700 font-medium mb-2">
+                Last Name
+              </label>
+              <span className="ml-1 text-red-400">*</span>
+            </div>
             <input
               type="text"
               id="lastName"
@@ -96,9 +102,12 @@ ${errors.firstName ? "border-red-600 " : ""}`}
           </div>
 
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
-              Email Address
-            </label>
+            <div className="flex flex-row">
+              <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
+                Email Address
+              </label>
+              <span className="ml-1 text-red-400">*</span>
+            </div>
             <input
               type="email"
               id="email"
@@ -113,9 +122,12 @@ ${errors.firstName ? "border-red-600 " : ""}`}
           </div>
 
           <div className="mb-4">
-            <label htmlFor="phone" className="block text-gray-700 font-medium mb-2">
-              Phone Number
-            </label>
+            <div className="flex flex-row">
+              <label htmlFor="phone" className="block text-gray-700 font-medium mb-2">
+                Phone Number
+              </label>
+              <span className="ml-1 text-red-400">*</span>
+            </div>
             <input
               type="tel"
               id="phone"

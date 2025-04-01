@@ -3,7 +3,6 @@ import { StepContext } from "../../layouts/signupflowlayout"
 import { ArrowRightIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import { useNavigate } from "react-router-dom"
 import Dialog from '@mui/material/Dialog'
-import DialogTitle from '@mui/material/DialogTitle';
 
 interface Package {
   title: string;
@@ -15,46 +14,7 @@ interface Package {
 export const PackagesSetup = () => {
   const {activeStep, setActiveStep} = useContext(StepContext)
   const navigate = useNavigate();
-
-  const testPackages: Package[] = [
-    {
-      title: "Bronze",
-      icon: '🤯',
-      description: [
-        "Up to 4 Hours of Dj Service",
-        "Basic Lighting And Sound",
-        "Setup and Tear down before and after event",
-        "PreEvent Alignment Meeting",
-        "All The Music You would ever want",
-      ],
-      price: 899
-    },
-    {
-      title: "Silver",
-      icon: '🤫',
-      description: [
-        "Up to 5 Hours of Dj Service",
-        "Uplighting and Event Lighting",
-        "Setup and Tear down before and after event",
-        "PreEvent Alignment Meeting",
-        "All The Music You would ever want",
-      ],
-      price: 1699.02
-    },
-    {
-      title: "Gold",
-      icon: '🤑',
-      description: [
-        "Up to 6 Hours of Dj Service",
-        "State of the Art Sound System",
-        "Lighting, Uplighting, and Event Party Lighting included",
-        "PreEvent Alignment Meetinhg",
-        "All The Music You would ever want",
-      ],
-      price: 2399.00
-    }
-  ]
-  const [packages, setPackages] = useState<Package[]>(testPackages);
+  const [packages, setPackages] = useState<Package[]| null>(null);
   const [open, setOpen] = useState<boolean>(false)
 
 
@@ -63,7 +23,7 @@ export const PackagesSetup = () => {
 
   useEffect(() => {
     setActiveStep(3)
-    setPackages(testPackages)
+    setPackages(null)
   },[])
 
   const handleNavigateToNext = () => {
