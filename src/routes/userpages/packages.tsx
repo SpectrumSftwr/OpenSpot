@@ -1,17 +1,25 @@
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import React, { useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import httpService from "../../services/http.service";
+import { RootState } from "../../store";
+import { updateField } from "./formSlice";
 import { BookingContext } from "./layouts/bookingslayout";
 
 export const Packages = () => {
   const {user} = useParams();
   const navigate = useNavigate();
 
+  const formData = useSelector((state: RootState) => state.form)
+  const dispatch = useDispatch();
+
   const [userPackages,setUserPackages] = useState<packageDto[]>([]);
   const bookingContext = useContext(BookingContext);
+
   const [packageChoiceId, setPackageChoiceId] = bookingContext.packageChoiceId;
   const [expandedId, setExpandedId] = useState(packageChoiceId);
+
   const [error, setError] = useState(false);
 
   const fetchUserPackage = async () => {
@@ -49,7 +57,10 @@ export const Packages = () => {
         {userPackages.map((currentPackage, index) => {
           return (
             <PackageComponent key={index} packageInfo={currentPackage} currentSelectedPackageId={expandedId} onClick={(id: number) => {
-              setPackageChoiceId(id); 
+              dispatch(updateField({
+                key: 'packageChoiceId',
+                value: id
+              }))
               setExpandedId(id);
             }} />
           )

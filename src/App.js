@@ -32,6 +32,7 @@ import { UserNotFound } from "./routes/userpages/UserNotFound";
 import { UserContextPage } from "./routes/userpages/layouts/UserContext";
 import { UserGallery } from "./routes/userpages/UserGallery";
 import { UserReviews } from "./routes/userpages/UserReviews";
+import OpenSpotApplicationRoot from "./openSpotApplicationRoot";
 
 
 export const SessionContext = createContext();
@@ -42,103 +43,109 @@ export const App = () => {
   // Create the browser router.
   const router = createBrowserRouter(
     [
-      // External Paths
       {
         path: "/",
-        element: <RootLayout />,
-        children: [
-          { path: '/', element: <IndexPage /> },
-          { path: '/usernotfound', element: <UserNotFound /> },
-          { path: '/sign-in/*', element: <SignInPage /> },
-          { path: '/sign-up/*', element: <SignUpPage /> },
-          {path: '/confirmation/:confNum', element: <ConfirmationPage />},
-          {path: '/terms-and-conditions', element: <TermsAndConditions />},
-          {path: '/privacy-policy', element: <PrivacyPolicy />},
-        ],
-      },
-      // Logged In Paths
-      {
-        path: '/app/',
-        element: <InternalLayout />,
-        children: [
-          // Creative Studio
-          { path: '/app/studio', element: <CreativeStudio />},
-          { path: '/app/offerings', element: <Offerings />},
-          { path: '/app/automations', element: <Automations />},
-          { path: '/app/Analytics', element: <Analytics />},
-        ]
-      },
-      // Internal Paths that are not part of main app
-      {
-
-        path: '/signup/',
-        element: <SignUpFlowLayout />,
-        children: [
-          // Theme Color Chooser
-          {path: '/signup/profile', element: <Profile />},
-          // Theme Color Chooser
-          {path: '/signup/theme', element: <Theme />},
-          // Links Setup
-          {path: '/signup/links', element: <Links />}, // Setup Stripe
-          {path: '/signup/stripe', element: <StripeSetup />},
-          // Setup Services
-          {path: '/signup/services', element: <PackagesSetup />},
-        ]
-
-      },
-      // External Client Use In Paths
-      { path: '/myspot/:user', 
-        element: <UserContextPage />,
+        element: <OpenSpotApplicationRoot />,
         children: [
           {
-            path: '/myspot/:user',
-            element: <UserPage />,
+            path: "/",
+            element: <RootLayout />,
+            children: [
+              { path: '/', element: <IndexPage /> },
+              { path: '/usernotfound', element: <UserNotFound /> },
+              { path: '/sign-in/*', element: <SignInPage /> },
+              { path: '/sign-up/*', element: <SignUpPage /> },
+              {path: '/confirmation/:confNum', element: <ConfirmationPage />},
+              {path: '/terms-and-conditions', element: <TermsAndConditions />},
+              {path: '/privacy-policy', element: <PrivacyPolicy />},
+            ],
           },
+          // Logged In Paths
           {
-            path: '/myspot/:user/gallery',
-            element: <UserGallery />,
-          },
-          {
-            path: '/myspot/:user/reviews',
-            element: <UserReviews />,
-          },
-          {
-            path: '/myspot/:user/bookings/',
-            element : <BookingsLayout />,
-            children : [
-              {
-                path: '/myspot/:user/bookings/',
-                element : <UserBookings />,
-              },
-              {
-                path: '/myspot/:user/bookings/packages',
-                element : <Packages />,
-              },
-              {
-                path: '/myspot/:user/bookings/personalinfo',
-                element : <PersonalInformation />,
-              },
-              {
-                path: '/myspot/:user/bookings/review',
-                element : <ReviewBooking />,
-              }
+            path: '/app/',
+            element: <InternalLayout />,
+            children: [
+              // Creative Studio
+              { path: '/app/studio', element: <CreativeStudio />},
+              { path: '/app/offerings', element: <Offerings />},
+              { path: '/app/automations', element: <Automations />},
+              { path: '/app/Analytics', element: <Analytics />},
             ]
           },
-        ],
-      },
-      {
-        path: '/confirmation/:confNum',
-        element: <ConfirmationPage />
+          // Internal Paths that are not part of main app
+          {
+
+            path: '/signup/',
+            element: <SignUpFlowLayout />,
+            children: [
+              // Theme Color Chooser
+              {path: '/signup/profile', element: <Profile />},
+              // Theme Color Chooser
+              {path: '/signup/theme', element: <Theme />},
+              // Links Setup
+              {path: '/signup/links', element: <Links />}, // Setup Stripe
+              {path: '/signup/stripe', element: <StripeSetup />},
+              // Setup Services
+              {path: '/signup/services', element: <PackagesSetup />},
+            ]
+
+          },
+          // External Client Use In Paths
+          { path: '/myspot/:user', 
+            element: <UserContextPage />,
+            children: [
+              {
+                path: '/myspot/:user',
+                element: <UserPage />,
+              },
+              {
+                path: '/myspot/:user/gallery',
+                element: <UserGallery />,
+              },
+              {
+                path: '/myspot/:user/reviews',
+                element: <UserReviews />,
+              },
+              {
+                path: '/myspot/:user/bookings/',
+                element : <BookingsLayout />,
+                children : [
+                  {
+                    path: '/myspot/:user/bookings/',
+                    element : <UserBookings />,
+                  },
+                  {
+                    path: '/myspot/:user/bookings/packages',
+                    element : <Packages />,
+                  },
+                  {
+                    path: '/myspot/:user/bookings/personalinfo',
+                    element : <PersonalInformation />,
+                  },
+                  {
+                    path: '/myspot/:user/bookings/review',
+                    element : <ReviewBooking />,
+                  }
+                ]
+              },
+            ],
+          },
+          {
+            path: '/confirmation/:confNum',
+            element: <ConfirmationPage />
+          }
+        ]
       }
+      // External Paths
       // Internal Client Use In Paths
     ]
   );
 
 
   return (
-      <SessionContext.Provider value={{session, setSession}}>
-        <RouterProvider router={router} />
-      </SessionContext.Provider> 
+    <SessionContext.Provider value={{session, setSession}}>
+      <RouterProvider router={router} />
+    </SessionContext.Provider> 
   )
 
 }

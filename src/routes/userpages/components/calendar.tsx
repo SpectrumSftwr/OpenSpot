@@ -5,12 +5,13 @@ export const CalendarComponent = ({dateCallback, isMissingInput, contextSelected
 {
   dateCallback: (date: Date) => void, 
   isMissingInput: Date | null
-  contextSelectedDate: Date | null
+  contextSelectedDate: string | null
 }) => {
 
+  console.log(contextSelectedDate);
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today);
-  const [selectedDate, setSelectedDate] = useState(contextSelectedDate);
+  const [selectedDate, setSelectedDate] = useState(new Date(contextSelectedDate));
 
   const startOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
   const endOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
@@ -35,6 +36,7 @@ export const CalendarComponent = ({dateCallback, isMissingInput, contextSelected
   };
 
   const renderDays = () => {
+    console.log(selectedDate);
     const days = [];
 
     // Add days from previous month
@@ -88,6 +90,16 @@ isSelected
 
     return days;
   };
+
+  console.log(selectedDate);
+
+  if (selectedDate == null) {
+    return (
+      <div>
+        ...Loading Calendar
+      </div>
+    )
+  }
 
   return (
     <div 
