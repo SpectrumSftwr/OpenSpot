@@ -29,8 +29,6 @@ export const Reviews = ({
       oneStarPercentage: calculatePercantage(reviewBreakdown.oneStarReviews)
   };
 
-  console.log(overrallReviewScores)
-
   const handleNavigateToReviews = () => {
     navigate(`/myspot/${user}/reviews`);
   }

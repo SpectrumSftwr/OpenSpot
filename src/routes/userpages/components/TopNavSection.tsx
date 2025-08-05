@@ -58,59 +58,60 @@ const UserTopNavHomePage = ({providerName, providerType, providerOverallRating, 
 
 
   return(
-    <div className="text-center relative h-52">
-      <div className="bg-slate-800 text-white h-2/3 flex justify-center items-center overflow-hidden">
-        {bannerUrl 
-          && 
-          <img src={bannerUrl} className="object-cover h-full w-full"/>
-        }
-        {/**
+    <div>
+      <div className="text-center relative h-52">
+        <div className="bg-slate-800 text-white h-2/3 flex justify-center items-center overflow-hidden">
+          {bannerUrl 
+            && 
+            <img src={bannerUrl} className="object-cover h-full w-full"/>
+          }
+          {/**
           <button>
             <div className="absolute p-1 fill-white bg-sky-800 rounded-full top-4 right-4 hover:bg-gray-200">
               <ArrowUpOnSquareIcon className="stroke-white w-4 h-4 hover:stroke-black"/>
             </div>
           </button>
           */}
-      </div>
-      <div className="text-left font-light text-gray-500">
-        <div className="w-24 h-24 bg-slate-200 rounded-full flex justify-center
-          absolute top-[40%] left-[4%] md:left-[8%] lg:left-[16%] drop-shadow-md items-center">
-          <span className="relative">
-            {
-              profilePicUrl ? 
-                <img src={profilePicUrl} className="rounded-full"/>
-                : <UserIcon className="w-16 h-16 stroke-slate-500 mt-2 stroke-1"/>
-            }
-          </span>
         </div>
-        <div className="absolute left-[32%]">
-          <h1 className="font-bold text-gray-600 mt-1">{providerName}</h1>
-          <p className="text-sm">{providerType}</p>
-          { (providerOverallRating && providerTotalRatings) && 
-            <div className="flex flex-row text-center items-center text-sm">
-              {/* TODO: Create Mapping for Reviews Score. */}
-              <div className="flex flex-row mr-2">
-                {Array.from({length: Math.round(providerOverallRating)}).map((_, index) => {
-                  return (
-                    <StarIcon key={index} className="fill-[#FFD700] w-2 h-2"/>
-                  )
-                })}
-                {Array.from({length: 5 - Math.round(providerOverallRating)}).map((_, index) => {
-                  return (
-                    <StarIcon key={index} className="fill-gray-200 w-2 h-2"/>
-                  )
-                })}
+        <div className="text-left font-light text-gray-500">
+          <div className="w-24 h-24 bg-slate-200 rounded-full flex justify-center
+            absolute top-[40%] left-[8%] md:left-[12%] lg:left-[21%] drop-shadow-md items-center">
+            <span className="relative">
+              {
+                profilePicUrl ? 
+                  <img src={profilePicUrl} className="rounded-full"/>
+                  : <UserIcon className="w-16 h-16 stroke-slate-500 mt-2 stroke-1"/>
+              }
+            </span>
+          </div>
+          <div className="absolute left-[32%]">
+            <h1 className="font-bold text-gray-600 mt-1">{providerName}</h1>
+            <p className="text-sm">{providerType}</p>
+            { (providerOverallRating && providerTotalRatings) && 
+              <div className="flex flex-row text-center items-center text-sm italic">
+                <div className="flex flex-row mr-2">
+                  {Array.from({length: Math.round(providerOverallRating)}).map((_, index) => {
+                    return (
+                      <StarIcon key={index} className="fill-[#FFD700] w-2 h-2"/>
+                    )
+                  })}
+                  {Array.from({length: 5 - Math.round(providerOverallRating)}).map((_, index) => {
+                    return (
+                      <StarIcon key={index} className="fill-gray-200 w-2 h-2"/>
+                    )
+                  })}
+                </div>
+                <div>
+                  <span className="text-xs">
+                    {providerOverallRating.toPrecision(2)}/5.0
+                  </span>
+                  <span className="text-xs ml-2">
+                    {providerTotalRatings} verified reviews
+                  </span>
+                </div>
               </div>
-              <div>
-                <span className="text-xs">
-                  {providerOverallRating.toPrecision(2)}/5.0
-                </span>
-                <span className="text-xs ml-2">
-                  {providerTotalRatings} verified reviews
-                </span>
-              </div>
-            </div>
-          }
+            }
+          </div>
         </div>
       </div>
     </div>

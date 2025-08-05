@@ -2,11 +2,11 @@ import React from "react";
 import { useState } from "react";
 
 export const CalendarComponent = ({dateCallback, isMissingInput, contextSelectedDate}: 
-{
-  dateCallback: (date: Date) => void, 
-  isMissingInput: Date | null
-  contextSelectedDate: Date | null
-}) => {
+  {
+    dateCallback: (date: Date) => void, 
+    isMissingInput: Date | null
+    contextSelectedDate: Date | null
+  }) => {
 
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today);
@@ -22,14 +22,27 @@ export const CalendarComponent = ({dateCallback, isMissingInput, contextSelected
   const daysInPrevMonth = new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 0).getDate();
 
   const handlePrevMonth = () => {
+    const prev = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1);
+    if (prev < new Date(today.getFullYear(), today.getMonth(), 1)) return;
+
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
   };
 
+  /**
+   * Handles clicking next month
+   */
   const handleNextMonth = () => {
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
   };
 
+  /**
+   * Handles the Current Date selection.
+   */
   const handleDateSelect = (day) => {
+    const selected = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+    const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    if (selected < todayMidnight) return;
+
     setSelectedDate(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day));
     dateCallback(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day));
   };
@@ -92,7 +105,7 @@ isSelected
   return (
     <div 
       className={`w-fit mx-auto bg-white shadow-lg rounded-lg p-4 
-                  ${isMissingInput ? "border-red-600 border-2" : ""}`}>
+${isMissingInput ? "border-red-600 border-2" : ""}`}>
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={handlePrevMonth}

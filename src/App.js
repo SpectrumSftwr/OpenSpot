@@ -103,23 +103,23 @@ export const App = () => {
             element: <UserReviews />,
           },
           {
-            path: '/myspot/:user/bookings/',
+            path: '/myspot/:user/bookings',
             element : <BookingsLayout />,
             children : [
               {
-                path: '/myspot/:user/bookings/',
+                index: true,
                 element : <UserBookings />,
               },
               {
-                path: '/myspot/:user/bookings/packages',
+                path: 'packages',
                 element : <Packages />,
               },
               {
-                path: '/myspot/:user/bookings/personalinfo',
+                path: 'personalinfo',
                 element : <PersonalInformation />,
               },
               {
-                path: '/myspot/:user/bookings/review',
+                path: 'review',
                 element : <ReviewBooking />,
               }
             ]

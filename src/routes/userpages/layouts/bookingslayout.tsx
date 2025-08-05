@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState }  from "react";
+import React, { createContext, useContext, useMemo, useState }  from "react";
 import { Outlet } from "react-router-dom";
 import { UserTopNavSection } from "../components/TopNavSection";
 import { PersonalDetailsContextDto } from "../dtos/personalDetailsContext.dto";
@@ -15,6 +15,7 @@ export const BookingsLayout = () => {
   const businessType = userContext.businessType[0];
 
   const [eventDate, setEventDate] = useState("");
+  const [currentStep, setCurrentStep] = useState(1);
   const [location, setLocation] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
@@ -40,11 +41,24 @@ export const BookingsLayout = () => {
       guestCount: [guestCount, setGuestCount],
       packageChoiceId: [packageChoiceId, setPackageChoiceId],
       personalDetails: [personalDetails, setPersonalDetails],
+      currentStep: [currentStep, setCurrentStep]
     }
   }
 
+  const bookingContext = useMemo(() => createInitialBookingContext(), [
+    eventDate,
+    location,
+    startTime,
+    endTime,
+    eventType,
+    guestCount,
+    packageChoiceId,
+    personalDetails,
+    currentStep,
+  ])
+
   return (
-    <BookingContext.Provider value={createInitialBookingContext()}>
+    <BookingContext.Provider value={bookingContext}>
       <div className="w-screen h-[calc(75vh)]">
         <UserTopNavSection 
           isHome={false} 

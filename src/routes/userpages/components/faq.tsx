@@ -25,13 +25,13 @@ export const FAQS = ({username} : {username: string}) => {
   },[])
 
   return (
-    <div className="flex flex-col items-center w-3/4 mt-12 text-sm text-gray-700 lg:text-[16px]">
+    <div className="flex flex-col items-center w-3/5 mt-12 text-sm text-gray-700 lg:text-[16px] bg-gray-100 pt-8 pb-8 pr-4 pl-4 rounded-xl drop-shadow-md">
       <span className="font-semibold text-md lg:text-lg">
         Frequently Asked Questions
       </span>
       {questions.map((question, index) => {
           return (
-          <div className="w-full h-full flex flex-col justify-center items-center mt-4" key={index}>
+          <div className="w-full h-full flex flex-col justify-center items-center mt-4 mb-4" key={index}>
             <FAQ index={index} faQuestion={question} />
           </div>
           )
@@ -46,17 +46,17 @@ const FAQ = ({index, faQuestion}: {index: number, faQuestion: Questions}) => {
 
 
   return (
-    <div className="flex flex-col text-left h-fit w-full md:2/3 lg:w-2/3 m-2 hover:cursor-pointer" key={faQuestion.id} 
+    <div className="flex flex-col text-left h-fit w-full md:2/3 lg:w-2/3 m-2 hover:cursor-pointer bg-gray-50 drop-shadow-lg rounded-lg" key={faQuestion.id} 
       onClick={() => setIsOpen(!isOpen)}
     >
-      <div className="flex flex-row font-medium justify-start border-b-gray-300 border-b-2">
+      <div className={`flex flex-row font-medium justify-start border-b-gray-300 pb-2 bg-gray-50 p-2 ${isOpen ? "rounded-t-lg" : "rounded-lg"}`}>
         <button onClick={() => setIsOpen(!isOpen)} className="mr-4">
           <ChevronDownIcon className="h-3 w-3" />
         </button>
         {index + 1}. {faQuestion.question}
       </div>
       {isOpen && 
-        <div className="p-4 text-xs bg-white">
+        <div className="pt-2 pb-4 pl-8 pr-4 text-xs text-gray-600">
           {faQuestion.answer}
         </div>
       }

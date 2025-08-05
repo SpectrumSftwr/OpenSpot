@@ -91,16 +91,16 @@ export const UserPage = () => {
               bannerUrl={userContext.bannerPicUrl[0]} 
             />
             <div className="flex flex-col items-center w-full">
-              <div className="w-full flex flex-col items-center mt-2">
-                <div className="max-w-92 text-gray-600 font-medium ml-4 mr-4 pt-2">
+              <div className="w-full flex flex-col items-center mt-4">
+                <div className="max-w-2xl text-gray-600 font-medium ml-4 mr-4 pt-2 mt-2 pb-2 drop-shadow-md border-b border-t">
                   <p className="text-[12px] text-left pl-4 pr-4 md:text-[14px] lg:text-[14px]">
                     {description}
                   </p>
                 </div>
                 <div className="p-5 text-center w-screen">
                   <button 
-                    className="w-2/3 md:1/3 lg:1/4 max-w-72 pl-4 pr-4 pt-2 pb-2 rounded-xl font-bold text-white h-16 drop-shadow-md
-                    bg-brand-800 hover:bg-gray-400 hover:text-gray-700"
+                    className="w-2/3 md:1/3 lg:1/4 max-w-72 pl-4 pr-4 pt-2 pb-2 rounded-xl font-bold text-white h-16 drop-shadow-lg
+                    bg-brand-800 hover:bg-gray-400 hover:text-gray-700 border-b"
                     onClick={() => navigateToUserBookings()}
                   >
                     Request Your Event Today!
@@ -131,7 +131,7 @@ const Gallery = ({username} : {username: string}) => {
       try {
         const url = `/userpage/gallery-preview/${username}`
         let {data} = await httpService.get(url);
-        const urls = data.map(image => image.imageUrl)
+        const urls = data.map(image => image.presignedUrl)
         setImageUrls(urls)
         setTotalImages(data.length);
       } finally {

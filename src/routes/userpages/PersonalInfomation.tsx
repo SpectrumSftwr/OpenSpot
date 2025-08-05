@@ -1,13 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PersonalDetailsContextDto } from "./dtos/personalDetailsContext.dto";
+import { useEnsureBookingContext } from "./hooks/useEnsureBookingContext";
 import { BookingContext } from "./layouts/bookingslayout";
 
 export const PersonalInformation = () => {
+
+
   const navigate = useNavigate();
-  const {user} = useParams()
   const bookingContext = useContext(BookingContext);
   const [personalInformation, setPersonalInformation] = bookingContext.personalDetails;
+
+  const [, _setCurrentStep] = bookingContext.currentStep;
+  useEnsureBookingContext(3);
+
 
   const [errors, setErrors] = useState({
     firstName: false,
@@ -51,7 +57,8 @@ export const PersonalInformation = () => {
     }
 
     setPersonalInformation(formData);
-    navigate(`/myspot/${user}/bookings/review`)
+    _setCurrentStep(4)
+    navigate('../review')
   }
 
   return (
@@ -192,7 +199,10 @@ ${errors.firstName ? "border-red-600 " : ""}`}
           <button
             type="button"
             className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              _setCurrentStep(2)
+              navigate(-1)
+            }}
           >
             Cancel
           </button>

@@ -2,12 +2,16 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import httpService from "../../services/http.service";
 import { PackageDetailsDto } from "./dtos/PackageDetails.dto";
+import { useEnsureBookingContext } from "./hooks/useEnsureBookingContext";
 import { BookingContext } from "./layouts/bookingslayout";
 
 export const ReviewBooking = () => {
   const navigate = useNavigate();
   const {user} = useParams();
   const bookingContext = useContext(BookingContext);
+
+  useEnsureBookingContext(4); 
+  const [, setCurrentStep] = bookingContext.currentStep;
 
   const eventDate = bookingContext.eventDate[0];
   const location = bookingContext.location[0];
@@ -130,7 +134,10 @@ export const ReviewBooking = () => {
           <button
             type="button"
             className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 hover:text-white"
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              setCurrentStep(3)
+              navigate(-1)
+            }}
           >
             Cancel
           </button>

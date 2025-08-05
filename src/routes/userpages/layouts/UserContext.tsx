@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useMemo, useState } from "react";
 import { Outlet } from "react-router-dom";
 
 export const UserContext = createContext<any>({})
@@ -20,8 +20,15 @@ export const UserContextPage = () => {
     
   }
 
+  const createdUserContext = useMemo(() => createInitialUserContext(), [
+    profilePictureUrl, 
+    bannerPicUrl, 
+    businessName,
+    businessType
+  ])
+
   return (
-    <UserContext.Provider value={createInitialUserContext()} >
+    <UserContext.Provider value={createdUserContext} >
       <Outlet/>
     </UserContext.Provider>
   )

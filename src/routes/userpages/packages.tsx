@@ -2,6 +2,7 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import httpService from "../../services/http.service";
+import { useEnsureBookingContext } from "./hooks/useEnsureBookingContext";
 import { BookingContext } from "./layouts/bookingslayout";
 
 export const Packages = () => {
@@ -13,6 +14,10 @@ export const Packages = () => {
   const [packageChoiceId, setPackageChoiceId] = bookingContext.packageChoiceId;
   const [expandedId, setExpandedId] = useState(packageChoiceId);
   const [error, setError] = useState(false);
+
+  const [, _setCurrentStep] = bookingContext.currentStep;
+
+  useEnsureBookingContext(2);
 
   const fetchUserPackage = async () => {
     try {
@@ -32,7 +37,8 @@ export const Packages = () => {
       return;
     }
 
-    navigate(`/myspot/${user}/bookings/personalinfo`)
+    _setCurrentStep(3)
+    navigate('../personalinfo')
   }
 
   useEffect(() => {
@@ -61,7 +67,10 @@ export const Packages = () => {
           <button
             type="button"
             className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              _setCurrentStep(1)
+              navigate(-1)
+            }}
           >
             Cancel
           </button>

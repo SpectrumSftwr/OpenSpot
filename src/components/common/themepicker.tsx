@@ -55,11 +55,6 @@ export const ThemePicker = () => {
 
   const handleNavigateToNext = async (event:any) => {
     event.preventDefault();
-
-    console.log("Saving your choice of")
-    console.log(selectedPreset);
-
-    navigate("/signup/links")
   }
 
   useEffect(()=> {

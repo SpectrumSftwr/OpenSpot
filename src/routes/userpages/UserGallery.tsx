@@ -18,7 +18,7 @@ export const UserGallery = () => {
       try {
         const url = `/userpage/gallery/${user}`
         const {data} = await httpService.get(url);
-        const urls = data.map(image => image.imageUrl)
+        const urls = data.map(image => image.presignedUrl)
         setImageUrls(urls)
         setTotalImages(data.length);
       }finally {
@@ -43,6 +43,7 @@ export const UserGallery = () => {
   const handleGallery = (index: number) => {
     console.log("Image Click" + index);
   }
+
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 h-full w-full">
       <UserTopNavSection 

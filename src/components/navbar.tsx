@@ -50,7 +50,7 @@ export default function Navbar() {
           rel="noopener noreferrer" 
           className={`ml-4 w-fit bg-brand-700 text-white font-bold p-2 rounded-xl self-center text-center whitespace-nowrap`}
         >
-          Join Waiting List
+          Join Waitlist 
         </a>
             //<div>
             //  {/* What to show when signed out*/}

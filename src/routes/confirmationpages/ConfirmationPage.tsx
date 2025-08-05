@@ -51,10 +51,7 @@ export const ConfirmationPage = () => {
         data = providerRes.data;
         setProviderEmail(data.email)
         setProviderPhoneNumber(data.phone)
-
-
       } catch {
-        console.log("Something went wrong");
       }
 
       setIsLoading(false)
