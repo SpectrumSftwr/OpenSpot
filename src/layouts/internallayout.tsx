@@ -17,15 +17,15 @@ export default function InternalLayout(){
 
   if (session) {
     return (
-      <>
-        <Navbar />
-        <SideNavContext.Provider value={{isOpen, setIsOpen}}>
-        <div className="flex flex-row">
-            <SideNav />
-          <Outlet />
+        <div className="h-full w-full">
+          <Navbar />
+          <SideNavContext.Provider value={{isOpen, setIsOpen}}>
+            <div className="flex flex-row h-full">
+              <SideNav />
+              <Outlet />
+            </div>
+          </SideNavContext.Provider>
         </div>
-        </SideNavContext.Provider>
-      </>
     )
   }
 

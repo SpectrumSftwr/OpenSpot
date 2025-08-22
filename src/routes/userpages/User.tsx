@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import {  useNavigate, useParams } from "react-router-dom";
 import httpService from "../../services/http.service";
-import { StarIcon } from "@heroicons/react/24/solid";
-import { ArrowUpOnSquareIcon, EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { FAQS } from "./components/faq";
 import { Reviews } from "./components/reviews";
 import { UserTopNavSection } from "./components/TopNavSection";
-import { BookingContext } from "./layouts/bookingslayout";
 import { UserContext } from "./layouts/UserContext";
 
 export const UserPage = () => {
@@ -34,7 +32,6 @@ export const UserPage = () => {
     if (response.hasError == true) {
       navigate('/usernotfound')
     }
-    console.log(response.reviewsBreakdown)
     setBusinessName(response.business_name)
     setBusinessType(response.business_type)
     setDescription(response.description);
@@ -73,7 +70,7 @@ export const UserPage = () => {
     }
 
     fetchUserData()
-  },[])
+  },[user])
 
   return (
     <div className="w-full h-full ">
@@ -91,9 +88,9 @@ export const UserPage = () => {
               bannerUrl={userContext.bannerPicUrl[0]} 
             />
             <div className="flex flex-col items-center w-full">
-              <div className="w-full flex flex-col items-center mt-4">
-                <div className="max-w-2xl text-gray-600 font-medium ml-4 mr-4 pt-2 mt-2 pb-2 drop-shadow-md border-b border-t">
-                  <p className="text-[12px] text-left pl-4 pr-4 md:text-[14px] lg:text-[14px]">
+              <div className="w-full flex flex-col items-center">
+                <div className="max-w-2xl text-gray-600 font-semibold ml-4 mr-4 pb-2 border-t-gray-100 border-t-2 border-b-gray-100 border-b-2 rounded-lg">
+                  <p className="text-xs text-left pl-4 pr-4 md:text-[14px] lg:text-[14px] mt-2">
                     {description}
                   </p>
                 </div>
@@ -131,18 +128,23 @@ const Gallery = ({username} : {username: string}) => {
       try {
         const url = `/userpage/gallery-preview/${username}`
         let {data} = await httpService.get(url);
-        const urls = data.map(image => image.presignedUrl)
-        setImageUrls(urls)
-        setTotalImages(data.length);
+        if (data && !data['hasError']) {
+          const urls = data.map(image => image.presignedUrl)
+          setImageUrls(urls)
+          setTotalImages(data.length);
+        } else {
+          setImageUrls([])
+          setTotalImages(0);
+        }
       } finally {
       }
     }
 
     fetchUserGallery();
-  },[])
+  },[username])
 
   useEffect(() => {
-    if (imageLoadedCount == totalImages) {
+    if (imageLoadedCount === totalImages) {
       setImagesLoaded(true);
     }
 
@@ -179,7 +181,7 @@ const Gallery = ({username} : {username: string}) => {
         {imageUrls.map((url, index) => {
           return (
             <div key={index} className="w-24 h-24 bg-gray-200 rounded-md m-1"  onClick={handleGallery}>
-              <img src={url} onLoad={handleImageLoad} className="rounded-md"/>
+              <img src={url} onLoad={handleImageLoad} className="rounded-md" alt="gallery grid item"/>
             </div>
           )
         })}

@@ -62,8 +62,6 @@ export const Links = () => {
   }
 
   const navigateToNext = () => {
-    console.log('todo; save user links')
-    console.log(links)
     navigate("/signup/services")
   }
 

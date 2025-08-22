@@ -3,8 +3,8 @@ import React from "react";
 // Footer Component
 export const Footer = () => {
   return (
-    <div className="sticky bottom-0 w-full flex flex-col items-center justify-center p-5 bg-brand-800 
-      text-white text-center mt-12 rounded-t-xl">
+    <div className="bottom-0 w-full flex flex-col items-center justify-center p-5 bg-brand-800 
+      text-white text-center rounded-t-xl">
       <div className="mb-2">
         <a href="https://instagram.com/openspotapp" target="_blank" rel="noopener noreferrer" className="hover:underline mx-2">Instagram</a>
         <a href="https://twitter.com/openspotapp" target="_blank" rel="noopener noreferrer" className="hover:underline mx-2">Twitter</a>

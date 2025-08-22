@@ -22,7 +22,7 @@ export const ReviewBooking = () => {
   const packageId = bookingContext.packageChoiceId[0];
   const personalDetails = bookingContext.personalDetails[0];
 
-  const [error,setError] = useState(false);
+  const [,setError] = useState(false);
 
   const handleConfirm = () => {
     const submitUserEvent = async (requestObj: any) => {
@@ -161,7 +161,6 @@ const PackageDetails = ({packageId} : {packageId: number}) => {
 
   useEffect(() => {
     const fetchPackageDetails = async (packageId: number) => {
-      console.log("fetching package" + packageId)
       try {
         const url = `/userpage/package_details/${packageId}`
         const {data} = await httpService.get(url);
@@ -174,7 +173,7 @@ const PackageDetails = ({packageId} : {packageId: number}) => {
     }
 
     fetchPackageDetails(packageId);
-  },[])
+  },[packageId])
 
   return isLoading
     ? 

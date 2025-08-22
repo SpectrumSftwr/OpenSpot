@@ -8,11 +8,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 
 const steps = [
-  "Setup your Profile",
-  "Choose Your Theme",
-  "Setup Your Links",
-  "Setup Your Packages",
-  "Get Paid Today"
+  "Setup your Business Profile",
 ]
 
 interface TStepContext {
@@ -76,33 +72,8 @@ export default function SignUpFlowLayout(){
   if (session) {
     return (
       <StepContext.Provider value={{activeStep: activeStep, setActiveStep: setActiveStep}}>
-        <div className="w-screen h-screen bg-[#FAFAFA]" >
+        <div className="w-screen bg-[#FAFAFA] p-2">
           <Navbar />
-          <div className="flex flex-row justify-center mt-8">
-            <div className="w-4/5">
-              <Stepper activeStep={activeStep}>
-                {steps.map((label, index) => {
-                  const stepProps: { completed?: boolean } = {};
-                  const labelProps: {
-                    optional?: React.ReactNode;
-                  } = {};
-                  if (isOptional(index)) {
-                    labelProps.optional = (
-                      <Typography variant="caption">Optional</Typography>
-                    );
-                  }
-                  if (isStepSkipped(index)) {
-                    stepProps.completed = false;
-                  }
-                  return (
-                    <Step key={label} {...stepProps}>
-                      <StepLabel {...labelProps}>{label}</StepLabel>
-                    </Step>
-                  );
-                })}
-              </Stepper>
-            </div>
-          </div>
           <Outlet />
         </div>
       </StepContext.Provider>

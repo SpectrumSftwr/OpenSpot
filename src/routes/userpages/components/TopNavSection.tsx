@@ -1,9 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { UserIcon } from "@heroicons/react/24/solid";
-import { useParams } from "react-router-dom";
-import httpService from "../../../services/http.service";
-import { UserContext } from "../layouts/UserContext";
+import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 
 export const UserTopNavSection = (
   {
@@ -55,37 +53,33 @@ const UserTopNavHomePage = ({providerName, providerType, providerOverallRating, 
     profilePicUrl: string | null,
     bannerUrl: string | null,
 }) => {
-
-
   return(
-    <div>
-      <div className="text-center relative h-52">
-        <div className="bg-slate-800 text-white h-2/3 flex justify-center items-center overflow-hidden">
+    <div className="flex flex-row justify-center">
+      <div className="relative text-center h-[320px] max-w-[1080px]">
+        <div className="text-white h-2/3 flex justify-center items-center overflow-hidden max-w-[1080px]">
           {bannerUrl 
             && 
-            <img src={bannerUrl} className="object-cover h-full w-full"/>
+            <img src={bannerUrl} alt="banner" className="object-fit"/>
           }
-          {/**
           <button>
             <div className="absolute p-1 fill-white bg-sky-800 rounded-full top-4 right-4 hover:bg-gray-200">
-              <ArrowUpOnSquareIcon className="stroke-white w-4 h-4 hover:stroke-black"/>
+                <ArrowUpOnSquareIcon className="stroke-white w-4 h-4 hover:stroke-black pb-0.5"/>
             </div>
           </button>
-          */}
         </div>
         <div className="text-left font-light text-gray-500">
-          <div className="w-24 h-24 bg-slate-200 rounded-full flex justify-center
-            absolute top-[40%] left-[8%] md:left-[12%] lg:left-[21%] drop-shadow-md items-center">
-            <span className="relative">
+          <div className="w-24 h-24 bg-slate-200 rounded-full flex justify-center p-1 
+            absolute drop-shadow-lg items-center top-[160px] left-[2%]" id="top-[40%] left-[8%] md:left-[12%] lg:left-[21%]">
+            <span>
               {
                 profilePicUrl ? 
-                  <img src={profilePicUrl} className="rounded-full"/>
+                  <img src={profilePicUrl} alt="profile" className="rounded-full w-24 h-24"/>
                   : <UserIcon className="w-16 h-16 stroke-slate-500 mt-2 stroke-1"/>
               }
             </span>
           </div>
-          <div className="absolute left-[32%]">
-            <h1 className="font-bold text-gray-600 mt-1">{providerName}</h1>
+          <div className="absolute left-[30%] md:left-[38%] lg:left-[40%]">
+            <h1 className="font-bold text-gray-600 mt-1 h-fit">{providerName}</h1>
             <p className="text-sm">{providerType}</p>
             { (providerOverallRating && providerTotalRatings) && 
               <div className="flex flex-row text-center items-center text-sm italic">
@@ -128,15 +122,15 @@ const UserTopNavBookingPages = ({providerName, providerType, profilePicUrl, bann
   return(
     <div className="text-center relative left-0 top-0 h-1/6">
       <div className="relative bg-brand-800 text-white h-full overflow-hidden flex items-center justify-center">
-        {bannerUrl && <img src={bannerUrl} className="object-cover w-full h-full opacity-20" />}
+        {bannerUrl && <img src={bannerUrl} alt="banner" className="object-cover w-full h-full opacity-20" />}
       </div>
       <div className="text-left font-light text-gray-100">
-        <div className="w-20 h-20 bg-slate-200 rounded-full absolute top-[8%] left-[8%] md:left-[16%] lg:left-[32%] drop-shadow-md
+        <div className="w-20 h-20 bg-slate-200 rounded-full absolute top-[20%] left-[15%] md:left-[16%] lg:left-[32%] drop-shadow-md
           flex justify-center items-center">
           <span className="relative">
             {
               profilePicUrl ? 
-                <img src={profilePicUrl} className="rounded-full"/>
+                <img src={profilePicUrl} className="rounded-full w-20 h-" alt="profile"/>
                 : <UserIcon className="w-16 h-16 fill-slate-300 stroke-1 rounded-full"/>
             }
           </span>

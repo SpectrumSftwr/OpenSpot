@@ -18,13 +18,17 @@ export const UserReviews = () => {
       try {
         const url = `/userpage/reviews/${user}`
         const {data} = await httpService.get(url);
-        setReviews(data)
+        if (data && !data['hasError']) {
+          setReviews(data)
+        } else {
+          setReviews([])
+        }
       } catch {
       }
     }
 
     fetchUserReviews();
-  },[])
+  },[user])
 
 
   return (

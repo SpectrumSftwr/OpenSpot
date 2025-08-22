@@ -18,41 +18,47 @@ export default function SignIn() {
 
     // Create the user
     const user = { 
-      username: username, 
+      email: username, 
       password: password,
     }
 
     // Store the jwt in session 
-    await httpService.post('/auth/login', user)
-    .then((response) => {
-      localStorage.setItem("authorizationToken", response.data.jwtToken);
-      setSession(() => true)
-      navigate('/app/studio')
-    }).catch((e) => {
+    try {
+      const {data} = await httpService.post('/auth/login', user)
+      if (data && !data['hasError']) {
+        localStorage.setItem("authorizationToken", data.jwtToken);
+        setSession(() => true)
+        if (!data['hasBusiness'] || data['hasBusiness'] == null) {
+          navigate('/signup')
+          return;
+        }
+        navigate('/app')
+      }
+    } catch(e) {
       if (e.response && e.response.status == 401) {
         setUnauthorized(true);
         setError(false)
       } else {
         setUnauthorized(false);
         setError(true)
-      }
-    });
+      } 
+    }
   }
 
   return (
     <div className='flex flex-col justify-center items-center h-screen w-full pb-16 text-center bg-[#F5F5F5] '>
-      <div className='w-1/2 border-solid border-gray-300 border-2 drop-shadow-lg rounded-2xl p-4 bg-white'>
+      <div className='w-[97%] md:w-1/2 lg:w-1/2 max-w-[1028px] border-solid border-gray-300 border-2 drop-shadow-lg rounded-2xl p-4 bg-white'>
         <div className='mt-2'>
           <div className='flex justify-center h-16'>
             <img src='/OpenSpot.png' alt='Open Spot Logo'/>
           </div>
           <div className='text-gray-500 mt-2'>
-            Login to your OpenSpot
+            Login to your OpenSpot Portal 
           </div>
           {
             unauthorized && 
               <div className='text-red-600 mt-2'>
-                Username or Password is Incorrect...
+                Email or Password is Incorrect...
               </div>
           }
           {
@@ -63,9 +69,9 @@ export default function SignIn() {
           }
         </div>
         <div className='flex justify-center items-center'>
-          <form className='flex flex-col w-2/4' onSubmit={(event) => event?.preventDefault()}>
+          <form className='flex flex-col w-full md:lg:w-2/4' onSubmit={(event) => event?.preventDefault()}>
             <div className='flex flex-col mb-6 mt-4'>
-              <label className='text-gray-600 self-start mb-2' >Username</label>
+              <label className='text-gray-600 self-start mb-2' >Email</label>
               <input onChange={e => setUsername(e.target.value)} value={username}
                 className='rounded-xl h-10 border-solid border-gray-300 border-2 drop-shadow-md pl-4' type="text"/>
             </div>
@@ -76,7 +82,7 @@ export default function SignIn() {
             </div>
             <button className='font-bold bg-brand-green mt-4 p-2 text-white self-center rounded-xl drop-shadow-lg mb-4'
               onClick={() => SignIn()}>
-              <span className='pl-4 pr-4'>Login To OpenSpot</span>
+              <span className='pl-4 pr-4'>Login</span>
             </button>
           </form>
         </div>

@@ -4,6 +4,7 @@ import httpService from '../services/http.service';
 import { SessionContext } from '../App';
 import { isValidEmail, isValidPassword, isValidUsername } from '../services/uservalidation.service';
 import { Link } from 'react-router-dom';
+import {Tooltip} from '../components/common/tooltip';
 
 export default function SignUpPage() {
   const urlSearchString = window.location.search;
@@ -15,7 +16,6 @@ export default function SignUpPage() {
 
   // Form item state
   const usernameParam = params.get('username') != undefined ? params.get('username') : "";
-  const [username, setUsername] = useState(usernameParam);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -23,7 +23,6 @@ export default function SignUpPage() {
   const [lastName, setLastName] = useState("");
 
   // Error UI dipslays
-  const [showUsernameError, setShowUsernameError] = useState<boolean>(false);
   const [showPasswordError, setShowPasswordError] = useState<boolean>(false);
   const [showEmailError, setShowEmailError] = useState<boolean>(false);
 
@@ -34,7 +33,6 @@ export default function SignUpPage() {
     * If any parts are invalid the section will be flagged.
     */  
   const validateFormState = async () : Promise<boolean> =>  {
-    const usernameValid = await isValidUsername(username);
 
     const passwordDetails = isValidPassword(password, confirmPassword);
     const passwordValid = passwordDetails.valid;
@@ -44,15 +42,13 @@ export default function SignUpPage() {
     // If any of these are false we will see the ui update as weel as the post request to create a new accoutn will be blocked.
     setShowEmailError(() => !emailValid);
     setShowPasswordError(() => !passwordValid);
-    setShowUsernameError(() => !usernameValid)
 
-    return !!usernameValid && !!passwordValid && !!emailValid && !!namesValid;
+    return !!passwordValid && !!emailValid && !!namesValid;
   }
 
   const SignUp = async () => {
     // Reset all errors 
     setError(() => false)
-    setShowUsernameError(() => false)
     setShowEmailError(() => false)
     setShowPasswordError(() => false)
     
@@ -65,9 +61,8 @@ export default function SignUpPage() {
 
     // Create the user
     const newUser = { 
-      username: username, 
-      password: password,
       email: email,
+      password: password,
       firstName: firstName,
       lastName: lastName, 
       payed: false 
@@ -79,105 +74,98 @@ export default function SignUpPage() {
         if (response.status == 201) {
           localStorage.setItem("authorizationToken", response.data.jwtToken);
           setSession(() => true)
-          navigate('/signup/profile')
+          navigate('/signup')
         }
       }).catch(() => setError(true));
   }
 
-
   return (
-    <div className='flex flex-col justify-center items-center h-[calc(100vh-10px)] w-full text-center bg-[#F5F5F5]'>
-      <div className='w-[40%] border-solid border-gray-300 border-2 drop-shadow-lg rounded-2xl p-2 h-fit bg-white'>
-        <div>
-          <div className='flex justify-center mt-2 h-16'>
-            <img src='/OpenSpot.png' alt='Open Spot Logo' className='h-14'/>
+      <div className='flex flex-col justify-center items-center w-full text-center bg-[#F5F5F5] h-screen'>
+        <div className='w-[90%] md:w-[50%] lg:w-[40%] border-solid border-gray-300 border-2 drop-shadow-lg rounded-2xl p-2 bg-white'>
+          <div>
+            <div className='flex justify-center mt-2 h-16'>
+              <img src='/OpenSpot.png' alt='Open Spot Logo' className='h-14'/>
+            </div>
+            <div className='text-gray-500 mt-1'>
+              Create Your OpenSpot Account Today!
+            </div>
+            <div className='text-gray-500 text-sm mb-2'>
+              <a 
+                className='text-blue-600 underline'
+                href='https://calendly.com/jmejiaa1999/30min' 
+                target="_blank"
+                rel='noopener noreferrer'
+              >
+                Or Schedule a quick 15 minute call for help.
+              </a>
+            </div>
+            <div className='mt-2'>
+              {
+                error && 
+                  <div className='text-red-600 font-extrabold'>
+                    Check details and try again later...
+                  </div>
+              }
+              {
+                showPasswordError && 
+                  <div className='text-red-600 font-extrabold'>
+                    Password invalid... 
+                  </div>
+              }
+              {
+                showEmailError && 
+                  <div className='text-red-600 font-extrabold'>
+                    Email invalid...
+                  </div>
+              }
+            </div>
           </div>
-          <div className='text-gray-500 mt-1'>
-            Create your OpenSpot Account Today!
-          </div>
-          <div className='text-gray-500 text-sm mb-2'>
-            Or <Link to={'/schedulecalltoday'} className='text-blue-600 underline'>schedule</Link> a quick 15 minute call for help.
-          </div>
-          <div className='mt-2'>
-            {
-              error && 
-                <div className='text-red-600 font-extrabold'>
-                  Check details and try again later...
-                </div>
-            }
-            {
-              showUsernameError && 
-                <div className='text-red-600 font-extrabold'>
-                  Username taken or Invalid
-                </div>
-            }
-            {
-              showPasswordError && 
-                <div className='text-red-600 font-extrabold'>
-                  Password invalid... 
-                </div>
-            }
-            {
-              showEmailError && 
-                <div className='text-red-600 font-extrabold'>
-                  Email invalid...
-                </div>
-            }
-          </div>
-        </div>
-        <div className='flex justify-center items-center'>
-          <form className='flex flex-col w-3/4 p-1 text-sm h-full' onSubmit={(event) => event?.preventDefault()}>
-            <div className='flex flex-col mb-5 mt-4 h-1/6'>
-              <label className='text-gray-500 self-start mb-1 font-semibold'>
-                Username
-              </label>
-              <input onChange={(e) => setUsername(e.target.value)} value={username}
-                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' type="text"/>
-            </div>
-            <div className='flex flex-col mb-4'>
-              <label className='text-gray-500 self-start mb-2 font-semibold'>
-                Email
-              </label>
-              <input onChange={(e) => setEmail(e.target.value)} value={email}
-                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' type="text"/>
-            </div>
-            <div className='flex flex-col mb-4'>
-              <label className='text-gray-500 self-start mb-1 font-semibold'>
-                Password
-              </label>
-              <input  onChange={(e) => setPassword(e.target.value)} value={password}
-                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' type="password" autoComplete='new-password'/>
-            </div>
-            <div className='flex flex-col mb-4'>
-              <label className='text-gray-500 self-start mb-1 font-semibold'>
-                Confirm Password
-              </label>
-              <input  onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword}
-                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' type="password" autoComplete='new-password'/>
-            </div>
-            <div className='flex flex-col mb-4'>
-              <label className='text-gray-500 self-start mb-1 font-semibold'>
-                First Name
-              </label>
-              <input  onChange={(e) => setFirstName(e.target.value)} value={firstName}
-                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' type="text"/>
-            </div>
-            <div className='flex flex-col mb-2 h-1/8'>
-              <label className='text-gray-500 self-start mb-1 font-semibold'>
-                Last Name
-              </label>
-              <input  onChange={(e) => setLastName(e.target.value)} value={lastName}
-                className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' 
-                type="text"/>
-            </div>
+          <div className='flex justify-center items-center'>
+            <form className='flex flex-col w-3/4 p-1 text-sm' onSubmit={(event) => event?.preventDefault()}>
+              <div className='flex flex-col mb-4'>
+                <label className='text-gray-500 self-start mb-2 font-semibold'>
+                  Email
+                </label>
+                <input onChange={(e) => setEmail(e.target.value)} value={email}
+                  className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' type="text"/>
+              </div>
+              <div className='flex flex-col mb-4'>
+                <label className='text-gray-500 self-start mb-1 font-semibold'>
+                  Password
+                </label>
+                <input  onChange={(e) => setPassword(e.target.value)} value={password}
+                  className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' type="password" autoComplete='new-password'/>
+              </div>
+              <div className='flex flex-col mb-4'>
+                <label className='text-gray-500 self-start mb-1 font-semibold'>
+                  Confirm Password
+                </label>
+                <input  onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword}
+                  className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' type="password" autoComplete='new-password'/>
+              </div>
+              <div className='flex flex-col mb-4'>
+                <label className='text-gray-500 self-start mb-1 font-semibold'>
+                  First Name
+                </label>
+                <input  onChange={(e) => setFirstName(e.target.value)} value={firstName}
+                  className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' type="text"/>
+              </div>
+              <div className='flex flex-col mb-2 h-1/8'>
+                <label className='text-gray-500 self-start mb-1 font-semibold'>
+                  Last Name
+                </label>
+                <input  onChange={(e) => setLastName(e.target.value)} value={lastName}
+                  className='rounded-xl border-solid border-gray-300 border-2 drop-shadow-md pl-4 h-8' 
+                  type="text"/>
+              </div>
 
-            <button className='font-bold bg-brand-green mt-6 pt-3 pb-3 pl-2 pr-2 text-white self-center rounded-2xl drop-shadow-lg mb-4'
-              onClick={() => SignUp()}>
-              <span className='pl-4 pr-4'>Create your OpenSpot</span>
-            </button>
-          </form>
+              <button className='font-bold bg-brand-green mt-6 pt-3 pb-3 pl-2 pr-2 text-white self-center rounded-2xl drop-shadow-lg mb-4'
+                onClick={() => SignUp()}>
+                <span className='pl-4 pr-4'>Create Your OpenSpot</span>
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
   )
 }

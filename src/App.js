@@ -1,6 +1,7 @@
 import React, {useState, createContext} from "react";
 import { isActiveSession } from "./services/session.service";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import './App.css'
 
 import IndexPage from './routes';
 import SignInPage from './routes/sign-in';
@@ -47,63 +48,109 @@ export const App = () => {
         path: "/",
         element: <RootLayout />,
         children: [
-          { path: '/', element: <IndexPage /> },
-          { path: '/usernotfound', element: <UserNotFound /> },
-          { path: '/sign-in/*', element: <SignInPage /> },
-          { path: '/sign-up/*', element: <SignUpPage /> },
-          {path: '/confirmation/:confNum', element: <ConfirmationPage />},
-          {path: '/terms-and-conditions', element: <TermsAndConditions />},
-          {path: '/privacy-policy', element: <PrivacyPolicy />},
+          { 
+            index: true,
+            element: <IndexPage /> 
+          },
+          { 
+            path: 
+            '/usernotfound', 
+            element: <UserNotFound /> 
+          },
+          { 
+            path: '/sign-in/*', 
+            element: <SignInPage /> 
+          },
+          { 
+            path: '/sign-up/*', 
+            element: <SignUpPage /> 
+          },
+          {
+            path: '/terms-and-conditions', 
+            element: <TermsAndConditions />
+          },
+          {
+            path: '/privacy-policy', 
+            element: <PrivacyPolicy />
+          },
         ],
       },
       // Logged In Paths
       {
-        path: '/app/',
+        path: '/app',
         element: <InternalLayout />,
         children: [
           // Creative Studio
-          { path: '/app/studio', element: <CreativeStudio />},
-          { path: '/app/offerings', element: <Offerings />},
-          { path: '/app/automations', element: <Automations />},
-          { path: '/app/Analytics', element: <Analytics />},
+          { 
+            index: true,
+            element: <CreativeStudio />
+          },
+          { 
+            path: 'offerings', 
+            element: <Offerings />
+          },
+          { 
+            path: 'automations', 
+            element: <Automations />
+          },
+          { 
+            path: 'Analytics', 
+            element: <Analytics />
+          },
         ]
       },
       // Internal Paths that are not part of main app
       {
 
-        path: '/signup/',
+        path: '/signup',
         element: <SignUpFlowLayout />,
         children: [
           // Theme Color Chooser
-          {path: '/signup/profile', element: <Profile />},
+          {
+            index:true,
+            element: <Profile />
+          },
           // Theme Color Chooser
-          {path: '/signup/theme', element: <Theme />},
+          {
+            path: 'theme', 
+            element: <Theme />
+          },
           // Links Setup
-          {path: '/signup/links', element: <Links />}, // Setup Stripe
-          {path: '/signup/stripe', element: <StripeSetup />},
+          {
+            path: 'links', 
+            element: <Links />
+          }, // Setup Stripe
+          {
+            path: 'stripe',
+            element: <StripeSetup />
+          },
           // Setup Services
-          {path: '/signup/services', element: <PackagesSetup />},
+          {
+            path: 'services', 
+            element: <PackagesSetup />
+          },
         ]
 
       },
       // External Client Use In Paths
-      { path: '/myspot/:user', 
+      { 
+        path: '/myspot/:user', 
         element: <UserContextPage />,
         children: [
           {
-            path: '/myspot/:user',
+            index: true,
             element: <UserPage />,
           },
           {
-            path: '/myspot/:user/gallery',
+            path: 'gallery',
             element: <UserGallery />,
           },
           {
-            path: '/myspot/:user/reviews',
+            path: 'reviews',
             element: <UserReviews />,
           },
           {
-            path: '/myspot/:user/bookings',
+            path: 'bookings',
             element : <BookingsLayout />,
             children : [
               {
@@ -130,7 +177,6 @@ export const App = () => {
         path: '/confirmation/:confNum',
         element: <ConfirmationPage />
       }
-      // Internal Client Use In Paths
     ]
   );
 

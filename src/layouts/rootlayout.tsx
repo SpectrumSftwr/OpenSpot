@@ -1,3 +1,4 @@
+import { ClassNames } from '@emotion/react';
 import React from 'react';
 
 import { 
@@ -10,16 +11,10 @@ import Navbar from '../components/navbar';
 
 export default function RootLayout() {
   return (
-    <>
-      <header>
-        <Navbar />
-      </header>
-      <main>
-        <Outlet />
-      </main>
-      <footer>
-        <Footer />
-      </footer>
-    </>
+    <div className='h-full'>
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </div>
   );
 }

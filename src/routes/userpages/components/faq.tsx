@@ -5,37 +5,39 @@ import { Questions } from "../dtos/questions.dto";
 
 export const FAQS = ({username} : {username: string}) => {
 
-  const [isLoading, setIsLoading] = useState(true);
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
     const fetchUserFaqs = async () => {
-      console.log("fetching faqs" + username);
       try {
-        setIsLoading(true);
         const url = `/userpage/faq/${username}`
         let {data} = await httpService.get(url);
-        setQuestions(data);
+        if (data) {
+          setQuestions(data);
+        } else {
+          setQuestions([])
+        }
       } finally {
-        setIsLoading(false);
       }
     }
 
     fetchUserFaqs();
-  },[])
+  },[username])
 
   return (
-    <div className="flex flex-col items-center w-3/5 mt-12 text-sm text-gray-700 lg:text-[16px] bg-gray-100 pt-8 pb-8 pr-4 pl-4 rounded-xl drop-shadow-md">
+    <div className="flex flex-col items-center w-[95%] md:lg:max-w-1/2 mt-12 text-sm text-gray-700 lg:text-[16px] bg-gray-100 pt-8 pb-8 pr-4 pl-4 rounded-xl drop-shadow-md">
       <span className="font-semibold text-md lg:text-lg">
         Frequently Asked Questions
       </span>
-      {questions.map((question, index) => {
+      {questions.length > 0 ? 
+      questions.map((question, index) => {
           return (
           <div className="w-full h-full flex flex-col justify-center items-center mt-4 mb-4" key={index}>
             <FAQ index={index} faQuestion={question} />
           </div>
           )
         })
+        : null
       }
     </div>
   )

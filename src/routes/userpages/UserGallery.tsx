@@ -18,19 +18,24 @@ export const UserGallery = () => {
       try {
         const url = `/userpage/gallery/${user}`
         const {data} = await httpService.get(url);
-        const urls = data.map(image => image.presignedUrl)
-        setImageUrls(urls)
-        setTotalImages(data.length);
+        if (data && !data.hasError) {
+          const urls = data.map(image => image.presignedUrl)
+          setImageUrls(urls)
+          setTotalImages(data.length);
+        } else {
+          setImageUrls([])
+          setTotalImages(0);
+        }
       }finally {
 
       }
     }
 
     fetchUserGallery();
-  },[])
+  },[user])
 
   useEffect(() => {
-    if (imageLoadedCount == totalImages) {
+    if (imageLoadedCount === totalImages) {
       setImagesLoaded(true);
     }
 
@@ -41,7 +46,7 @@ export const UserGallery = () => {
   }
 
   const handleGallery = (index: number) => {
-    console.log("Image Click" + index);
+    console.warn("Image Click" + index);
   }
 
   return (
@@ -72,7 +77,7 @@ export const UserGallery = () => {
                 <div key={index} className="w-24 h-36 md:w-36 md:h-44 lg:w-36 lg:h-44 bg-gray-200 rounded-md m-1 
                   overflow-hidden flex justify-center items-center"  
                   onClick={() =>handleGallery(index)}>
-                  <img src={url} onLoad={() => handleImageLoad} className="rounded-md object-cover h-full"/>
+                  <img src={url} alt="gallery item" onLoad={() => handleImageLoad} className="rounded-md object-cover h-full"/>
                 </div>
               )
             })}
