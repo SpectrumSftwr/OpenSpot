@@ -29,6 +29,7 @@ export const BookingsLayout = () => {
     phone: "",
     preferredContact: "email",
     comments: "",
+    address: "",
   })
 
   const createInitialBookingContext = () => {

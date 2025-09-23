@@ -20,6 +20,8 @@ module.exports = {
           950: "#04110B"
         },
         "brand-green" : "#047460",
+        "brand-red" : "#740418",
+        "brand-yellow" : "#FFDD00",
       },
     },
   },

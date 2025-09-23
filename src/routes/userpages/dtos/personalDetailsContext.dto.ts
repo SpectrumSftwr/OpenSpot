@@ -5,4 +5,5 @@ export class PersonalDetailsContextDto {
   email: string;
   preferredContact: string;
   comments: string | null;
+  address: string | null;
 }

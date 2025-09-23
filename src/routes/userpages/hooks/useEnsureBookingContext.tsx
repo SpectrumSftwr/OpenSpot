@@ -11,7 +11,7 @@ export const useEnsureBookingContext = (stepNumber: number) => {
 
   useEffect(() => {
     if (currentStep !== stepNumber) {
-      navigate(`/myspot/${user}`, { replace: true });
+      navigate(`/${user}`, { replace: true });
     }
   });
 };

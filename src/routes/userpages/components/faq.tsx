@@ -25,7 +25,7 @@ export const FAQS = ({username} : {username: string}) => {
   },[username])
 
   return (
-    <div className="flex flex-col items-center w-[95%] md:lg:max-w-1/2 mt-12 text-sm text-gray-700 lg:text-[16px] bg-gray-100 pt-8 pb-8 pr-4 pl-4 rounded-xl drop-shadow-md">
+      <div className="flex flex-col items-center w-[90%] md:max-w-[50%] lg:max-w-[50%] mt-12 text-sm text-gray-700 lg:text-[16px] bg-gray-100 pt-8 pb-8 pr-4 pl-4 rounded-xl drop-shadow-md">
       <span className="font-semibold text-md lg:text-lg">
         Frequently Asked Questions
       </span>

@@ -1,10 +1,11 @@
 import { duration } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import httpService from "../../services/http.service";
 import { PersonalDetailsContextDto } from "../userpages/dtos/personalDetailsContext.dto";
 
 export const ConfirmationPage = () => {
+  const navigate = useNavigate();
 
   const {confNum} = useParams();
   const [isLoading, setIsLoading] = useState(true);
@@ -22,7 +23,8 @@ export const ConfirmationPage = () => {
     phone: "",
     email:"",
     preferredContact:"",
-    comments: ""
+    comments: "",
+    address: "" 
   })
 
   // Provider Details
@@ -63,9 +65,9 @@ export const ConfirmationPage = () => {
 
 
   return (
-    <div className="m-2 w-full h-full min-h-[calc(100vh-48px)] flex flex-col items-center">
+    <div className="m-2 w-full h-screen flex flex-col items-center">
       {/* Headers. */}
-      <div className="font-bold text-4xl w-full h-full flex flex-col text-gray-700 mt-8 items-center">
+      <div className="font-bold text-4xl w-full flex flex-col text-gray-700 mt-8 items-center">
         Event Confirmation
         <span className="font-light text-sm">#{confNum}</span>
       </div>
@@ -166,6 +168,13 @@ export const ConfirmationPage = () => {
           Phone: {providerPhoneNumber} 
           <br/>
         </div>
+      </div>
+      <div className="flex flex-row justify-center items-center h-[25%]">
+        <button 
+          className="font-bold bg-brand-green mt-4 pt-2 pb-2 pl-4 pr-4 text-white self-center rounded-sm drop-shadow-lg mb-4" 
+          onClick={() => navigate(-1)}>
+          Go Back Home
+        </button>
       </div>
     </div>
   )

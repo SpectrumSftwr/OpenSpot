@@ -1,6 +1,6 @@
 import React, {useState, createContext} from "react";
 import { isActiveSession } from "./services/session.service";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Link, Navigate, RouterProvider } from "react-router-dom";
 import './App.css'
 
 import IndexPage from './routes';
@@ -11,6 +11,7 @@ import SignUpPage from './routes/sign-up';
 import RootLayout from './layouts/rootlayout';
 import InternalLayout from './layouts/internallayout';
 import {CreativeStudio} from "./routes/internalroutes/CreativeStudio";
+import {FeedbackForm} from "./routes/internalroutes/FeedbackForm";
 import Offerings from "./routes/internalroutes/Offerings";
 import Automations from "./routes/internalroutes/Automations";
 import Analytics from "./routes/internalroutes/Analytics";
@@ -97,6 +98,10 @@ export const App = () => {
             path: 'Analytics', 
             element: <Analytics />
           },
+          { 
+            path: 'feedback', 
+            element: <FeedbackForm />
+          },
         ]
       },
       // Internal Paths that are not part of main app
@@ -133,8 +138,13 @@ export const App = () => {
 
       },
       // External Client Use In Paths
+      {
+        path: '/confirmation/:confNum',
+        element: <ConfirmationPage />
+      },
+      // MUST BE THE LAST INDEX OF THE ROUTES.
       { 
-        path: '/myspot/:user', 
+        path: '/:user', 
         element: <UserContextPage />,
         children: [
           {
@@ -173,10 +183,6 @@ export const App = () => {
           },
         ],
       },
-      {
-        path: '/confirmation/:confNum',
-        element: <ConfirmationPage />
-      }
     ]
   );
 

@@ -25,7 +25,7 @@ export const UserPage = () => {
 
 
   const navigateToUserBookings = () : void => {
-    Navigate(`/myspot/${user}/bookings`);
+    Navigate(`/${user}/bookings`);
   }
 
   const parseData = (response: any) : void => {
@@ -158,7 +158,7 @@ const Gallery = ({username} : {username: string}) => {
    * Take user to a larger Gallery view.
    */
   const handleGallery = () => {
-    navigate(`/myspot/${username}/gallery`);
+    navigate(`/${username}/gallery`);
   }
 
   return (

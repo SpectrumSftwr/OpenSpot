@@ -16,6 +16,9 @@ export const Reviews = ({
   const {user} = useParams();
 
   const calculatePercantage = (amountOfReviews: number) => {
+    if (amountOfReviews == 0 && totalReviews == 0) {
+      return 0
+    }
     return Math.floor((amountOfReviews / totalReviews) * 100)
   }
 
@@ -30,7 +33,7 @@ export const Reviews = ({
   };
 
   const handleNavigateToReviews = () => {
-    navigate(`/myspot/${user}/reviews`);
+    navigate(`/${user}/reviews`);
   }
 
   return (

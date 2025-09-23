@@ -3,6 +3,7 @@ import Navbar from "../components/navbar";
 import { SideNav } from "../components/sidenav";
 import React, { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 interface TSideNavContext {
   isOpen: boolean|null;
@@ -19,6 +20,7 @@ export default function InternalLayout(){
     return (
         <div className="h-full w-full">
           <Navbar />
+          <Toaster/>
           <SideNavContext.Provider value={{isOpen, setIsOpen}}>
             <div className="flex flex-row h-full">
               <SideNav />

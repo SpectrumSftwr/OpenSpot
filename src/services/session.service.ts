@@ -6,8 +6,18 @@ export const isActiveSession = () => {
 }
 
 export const getSession = (): string | null => {
-  return localStorage.getItem(AUTHORIZATION_TOKEN_KEY);
+  const token = localStorage.getItem(AUTHORIZATION_TOKEN_KEY);
+  if (expiredJWTToken(token)) {
+    return null;
+  }
 
+  return token;
+
+}
+
+const expiredJWTToken = (jwtToken: string) : boolean => {
+  const isExpired = false;
+  return isExpired && jwtToken;
 }
 
 export const closeAuthorizationSession = () => {

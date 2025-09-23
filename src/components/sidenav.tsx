@@ -1,86 +1,91 @@
 import React , { useEffect, useRef, useState, useContext } from "react";
-import { Link  } from "react-router-dom";
+import { Link, useParams  } from "react-router-dom";
 import httpService from '../services/http.service'
-import {  ChartBarIcon, ChevronLeftIcon, ChevronRightIcon, CommandLineIcon, PhotoIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import {  ChartBarIcon, ChartBarSquareIcon, ChevronLeftIcon, ChevronRightIcon, CommandLineIcon, FaceSmileIcon, PhotoIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import { SideNavContext } from "../layouts/internallayout";
+import { SessionContext } from "../App";
+import { toast } from "react-hot-toast";
+import { GlobeAltIcon } from "@heroicons/react/24/solid";
 
 
 export const SideNav = () => {
-  const {isOpen, setIsOpen} = useContext(SideNavContext);
-  const [user, setUser] = useState<any>();
   const [username, setUsername] = useState("");
   const [showConnectStripe,setShowConnectStripe] = useState(false);
   let showConnectStripeUrl = "true";
+  const [liveSiteUri, setLiveSiteUri] = useState("");
+
+  const getUserDetails = async () => {
+    try {
+      const {data} = await httpService.get('/auth/status');
+      const usernameDisplay  = data.firstName[0] + data.lastName[0];
+      setUsername(usernameDisplay.toUpperCase())
+      setLiveSiteUri(data.business.business_UID)
+
+    } catch (err) {
+      toast.error("Something went wrong");
+      
+    }
+  }
 
   useEffect(() => {
+
     httpService.get('/auth/status')
       .then((res) =>  {
         let isStripeUrlPresent = res.data.stripeId;
         let name = `${res.data.firstName} ${res.data.lastName}`;
-        setShowConnectStripe(!isStripeUrlPresent);
-        setUsername(() => name)
-        
-        // TODO GET BUSINESS USER IS PART OF.
-        setUser(res.data) 
       })
       .catch(() => {
       })
+
+    getUserDetails();
   },[]) 
 
   return (
-      <div className={`flex flex-col p-2 justify-between items-center ${!isOpen ? "w-1/12" : "w-2/12"}`}>
-        <div className="divide-y-4 divide-gray-600 ">
+      <div className={`flex flex-col p-4 justify-between items-center max-w-[6%]`}>
+        <div className="divide-gray-600">
           {/* Profile Section */}
           <div className="flex flex-row justify-around w-full items-center mb-8 mt-8">
             <div className="bg-brand-700 rounded-full h-10 w-10 content-center text-center text-gray-100 drop-shadow-lg hover:cursor-pointer">
               <span>
-              todo
+                {username}
               </span>
             </div>
-          { isOpen &&
-            <div className="font-bold text-sm text-gray-700">
-              {username}
-            </div>
-          }
-            {isOpen ?
-              <ChevronRightIcon className="h-7 w-7 text-gray-600 border-gray-400 p-1 rounded-full border-2 relative" 
-                onClick={() => setIsOpen((prev) => !prev)}/>
-              :
-              <ChevronLeftIcon className="h-7 w-7 text-gray-600 border-gray-400 p-1 rounded-full border-2 relative" 
-                onClick={() => setIsOpen((prev) => !prev)}/>
-            }
           </div>
-
-          <SideBarNavigation/>
+          <SideBarNavigation liveSiteUri={liveSiteUri}/>
         </div>
         {/* Dividor 
         <UserModals showConnectStripe={showConnectStripe} 
           showConnectStripeUrl={showConnectStripeUrl} />
         */}
         {/* Dividor */}
-        <div>
-          <UserCalendar upcomingEvents={8} eventDates={[1,5,9,11,14,15,19]}/>
-        </div>
       </div>
   )
 }
 
 
-export function SideBarNavigation () {
+export function SideBarNavigation ( {liveSiteUri} :{liveSiteUri: string}) {
 
   const {isOpen, setIsOpen} = useContext(SideNavContext);
   const [activePage, setActivePage] = useState('Dashboard')
 
   return (
     <>
-      <SideBarItem icon={<PhotoIcon className="h-7 w-7"/>} text={"Dashboard"} uri={'/app'}  
+      <SideBarItem icon={<ChartBarSquareIcon className="h-7 w-7"/>} text={"Dashboard"} uri={'/app'}  
         active={{activePage, setActivePage}} />
+      <SideBarItem icon={<GlobeAltIcon className="h-7 w-7"/>} text={"View Live Site"} uri={`/${liveSiteUri}`}  
+        active={{activePage, setActivePage}} />
+      <SideBarItem icon={<FaceSmileIcon className="h-7 w-7"/>} text={"Feedback Form"} uri={'/app/feedback'}  
+        active={{activePage, setActivePage}} />
+
+      {/**
       <SideBarItem icon={<UserCircleIcon className="h-7 w-7"/>} text={"Your Offerings"} uri={'/app/offerings'} 
         active={{activePage, setActivePage}} />
       <SideBarItem icon={<CommandLineIcon className="h-7 w-7" />} text={"Automations"} uri={'/app/automations'} 
         active={{activePage, setActivePage}} />
       <SideBarItem icon={<ChartBarIcon className="h-7 w-7" />} text={"Analytics"} uri={'/app/analytics'} 
         active={{activePage,setActivePage}} />
+
+      */}
     </>
   )
 }
@@ -88,7 +93,6 @@ export function SideBarNavigation () {
 export function SideBarItem({icon, text, uri, active}
   : {icon: any, text: string, uri: string, active?:any}){
 
-  const {isOpen, setIsOpen} = useContext(SideNavContext);
   const {activePage, setActivePage} = active;
 
   const handleNewActive = () => {
@@ -96,19 +100,21 @@ export function SideBarItem({icon, text, uri, active}
   }
 
   return (
-    <Link to={uri} className="mt-4 mb-8" onClick={() => handleNewActive()}>
-      <div className={`flex flex-row font-sm text-sm pl-2 pt-2 pb-2 pr-2 text-nowrap w-fit text-center items-center mt-2 mb-2
+    <div className="relative group z-10">
+      <Link to={uri} className="" onClick={() => handleNewActive()}>
+        <div className={`flex flex-row font-sm text-sm pl-2 pt-2 pb-2 pr-2 text-nowrap w-fit text-center items-center mt-2 mb-2
                         ${activePage == text  ?  
-                        "text-gray-900 bg-[#ECECEC] rounded-xl outline outline-[#D7D7D7] outline-1 drop-shadow-md"
+                        "text-gray-900 bg-[#ECECEC] rounded-xl drop-shadow-md"
                         : 'text-gray-400 hover:text-[#D9D9D9]' }`}>
-        <div>
-          {icon}
-        </div> 
-        {isOpen ? 
-          <span className="ml-2">  {text} </span> : null
-        }
+          <div>
+            {icon}
+          </div> 
+        </div>
+      </Link>
+      <div className="absolute bottom-[42%] left-[16%] transform translate-x-1/2 p-2 bg-gray-800 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+        {text}
       </div>
-    </Link>
+    </div>
   )
 }
 
@@ -138,17 +144,4 @@ export function UserModals({showConnectStripe, showConnectStripeUrl}
 
 }
 
-export function UserCalendar({upcomingEvents}
-  :{upcomingEvents: string | number, eventDates: string[] | number[]}) {
-  const {isOpen, setIsOpen} = useContext(SideNavContext);
-  return (
-    <div>
-    {isOpen &&
-      <div>
-        You have {upcomingEvents} Upcoming Events this month.
-      </div>
-      }
-    </div>
-  )
-}
 

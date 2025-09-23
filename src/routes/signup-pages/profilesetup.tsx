@@ -7,6 +7,7 @@ import httpService from "../../services/http.service"
 import { HttpStatusCode } from "axios"
 import { isValidEmail } from "../../services/uservalidation.service"
 import { Tooltip } from "@mui/material"
+import { Input } from "@headlessui/react"
 
 export const Profile = () => {
   const {activeStep, setActiveStep} = useContext(StepContext)
@@ -203,7 +204,7 @@ export const Profile = () => {
                     }
                   </span>
                 </div>
-                <input 
+                <Input 
                   type='file' 
                   id="profile-input"
                   accept='image/png, image/jpeg'  
@@ -226,7 +227,7 @@ export const Profile = () => {
                     <label className="text-gray-500 p-1">
                       Business Name
                     </label>
-                    <input type='text' placeholder="Enter Email..." className="drop-shadow-lg p-2 rounded-xl"
+                    <Input type='text' placeholder="Enter Email..." className="drop-shadow-lg p-2 rounded-xl"
                       onChange={({target})=> setBusinessName(target.value)}
                     />
                   </div>
@@ -239,7 +240,7 @@ export const Profile = () => {
                         <QuestionMarkCircleIcon className="w-3 ml-1 stroke-white invert"/>
                       </Tooltip>
                     </div>
-                    <input type='text' placeholder="Business Type" className="drop-shadow-lg p-2 rounded-xl"
+                    <Input type='text' placeholder="Business Type" className="drop-shadow-lg p-2 rounded-xl"
                       onChange={({target})=> setBusinessType(target.value)}
                     />
                   </div>
@@ -248,7 +249,7 @@ export const Profile = () => {
                   <div className="flex flex-row items-center text-center justify-center mb-2">
                     <label className="text-gray-500 text-start">Business Username 
                     </label>
-                    <Tooltip title="This is also going to be used to look you up '.../myspot/@username">
+                    <Tooltip title="This is also going to be used to look you up '.../@username">
                       <QuestionMarkCircleIcon className="w-3 ml-1 stroke-white invert"/>
                     </Tooltip>
                   </div>
@@ -340,7 +341,7 @@ export const Profile = () => {
                   }
                 </span>
               </div>
-              <input 
+              <Input
                 type='file' 
                 accept='image/png, image/jpeg'  
                 className="hidden" 

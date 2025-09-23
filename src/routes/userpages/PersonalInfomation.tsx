@@ -20,6 +20,7 @@ export const PersonalInformation = () => {
     lastName: false,
     email: false,
     phone: false,
+    address: false,
     comments: false,
   })
 
@@ -43,6 +44,7 @@ export const PersonalInformation = () => {
       email: false,
       phone: false,
       comments: false,
+      address: false,
     }
 
     // Check if form is valid
@@ -50,6 +52,7 @@ export const PersonalInformation = () => {
     if (!formData.lastName) newErrors.lastName = true;
     if (!formData.email) newErrors.email = true;
     if (!formData.phone) newErrors.phone = true;
+    if (!formData.address) newErrors.address = true;
 
     if (Object.keys(newErrors).map((key) => newErrors[key]).filter((val) => val).length > 0) {
       setErrors(newErrors); 
@@ -147,7 +150,25 @@ ${errors.firstName ? "border-red-600 " : ""}`}
               required
             />
           </div>
-
+          <div className="mb-4">
+            <div className="flex flex-row">
+              <label className="block text-gray-700 font-medium mb-2">
+                Address
+              </label>
+              <span className="ml-1 text-red-400">*</span>
+            </div>
+            <input
+              type="text"
+              id="address"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              className={`w-80 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 
+                        focus:ring-blue-500 focus:border-blue-500
+                        ${errors.phone ? "border-red-600 " : ""}`}
+              required
+            />
+          </div>
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-2">
               Preferred Method of Contact

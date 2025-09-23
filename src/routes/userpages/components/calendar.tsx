@@ -105,7 +105,7 @@ isSelected
   return (
     <div 
       className={`w-fit mx-auto bg-white shadow-lg rounded-lg p-4 
-${isMissingInput ? "border-red-600 border-2" : ""}`}>
+      ${isMissingInput ? "border-red-600 border-2" : ""}`}>
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={handlePrevMonth}
