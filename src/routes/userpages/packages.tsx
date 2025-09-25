@@ -48,8 +48,10 @@ export const Packages = () => {
 
   return (
     <div className="h-full w-screen flex flex-col items-center">
-      <div className={`mt-4 font-semibold text-gray-700 ${error ? "text-red-500 font-bold" : ""}`}>
-        Select an Event Package
+      <div className={`mt-4 flex flex-col font-semibold text-gray-700 text-center ${error ? "text-red-500 font-bold" : ""}`}>
+        <span>Select an Event Package </span>
+        <span className="italic text-xs">or</span> 
+        <span>Build A Package</span>
       </div>
       <div className="flex flex-wrap w-full md:w-3/4 lg:w-4/5 flex-row justify-center">
         {userPackages.map((currentPackage, index) => {

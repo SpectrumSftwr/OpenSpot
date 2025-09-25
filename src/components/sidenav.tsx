@@ -17,11 +17,15 @@ export const SideNav = () => {
   const getUserDetails = async () => {
     try {
       const {data} = await httpService.get('/auth/status');
-      const usernameDisplay  = data.firstName[0] + data.lastName[0];
+      console.log(data);
+
+      const usernameDisplay  = data.user.firstName[0] + data.user.lastName[0];
       setUsername(usernameDisplay.toUpperCase())
+
       setLiveSiteUri(data.business.business_UID)
 
     } catch (err) {
+      console.error(err);
       toast.error("Something went wrong");
       
     }

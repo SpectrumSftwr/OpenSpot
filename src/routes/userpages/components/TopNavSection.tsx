@@ -55,11 +55,11 @@ const UserTopNavHomePage = ({providerName, providerType, providerOverallRating, 
 }) => {
   return(
     <div className="flex flex-row justify-center">
-      <div className="relative text-center h-[320px] max-w-[1080px]">
-        <div className="text-white h-2/3 flex justify-center items-center overflow-hidden max-w-[1080px]">
+      <div className="relative text-center h-[320px] w-full max-w-[1080px]">
+        <div className="text-white w-full h-2/3 flex justify-center items-center overflow-hidden max-w-[1080px] bg-slate-500">
           {bannerUrl 
-            && 
-            <img src={bannerUrl} alt="banner" className="object-fit"/>
+            ? <img src={bannerUrl} alt="banner" className="object-fit"/> 
+            : <span className="object-fit w-full h-full"></span>
           }
           <button>
             <div className="absolute p-1 fill-white bg-sky-800 rounded-full top-4 right-4 hover:bg-gray-200">
@@ -73,12 +73,12 @@ const UserTopNavHomePage = ({providerName, providerType, providerOverallRating, 
             <span>
               {
                 profilePicUrl ? 
-                  <img src={profilePicUrl} alt="profile" className="rounded-full w-24 h-24"/>
+                  <img src={profilePicUrl} alt="profile" className="rounded-full w-24 h-24 object-fit"/>
                   : <UserIcon className="w-16 h-16 stroke-slate-500 mt-2 stroke-1"/>
               }
             </span>
           </div>
-          <div className="absolute left-[30%] md:left-[38%] lg:left-[40%]">
+          <div className="absolute left-[30%] md:left-[38%] lg:left-[20%]">
             <h1 className="font-bold text-gray-600 mt-1 h-fit">{providerName}</h1>
             <p className="text-sm">{providerType}</p>
             { (providerOverallRating && providerTotalRatings) && 

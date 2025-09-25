@@ -43,15 +43,12 @@ export default function Navbar() {
         <div>
           {/* What to show when signed out*/}
           <div className='p-2 divide-x-2 border-1 rounded-lg border-brand-400 divide-gray-300 text-gray-500'>
-            {/**
             <Link to={"/sign-up"} className='p-2 pl-2 pr-2 mr-1 hover:text-black'> 
               Sign Up
             </Link>
             <Link to={"/sign-in"} className='p-2 pl-2 pr-2 hover:text-black'> 
               Login
             </Link>
-            */}
-            Coming Soon
           </div>
         </div>
         }

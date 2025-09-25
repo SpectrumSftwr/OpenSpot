@@ -103,7 +103,7 @@ export const Profile = () => {
     }
     
     // Navigate to /app if success else show something went wrong message.
-    //navigate('/app')
+    navigate('/app')
   }
 
   const handleDropOnProfile = (event) => {

@@ -14,6 +14,7 @@ export const ReviewBooking = () => {
   const [, setCurrentStep] = bookingContext.currentStep;
 
   const eventDate = bookingContext.eventDate[0];
+  const setEventDate = bookingContext.eventDate[1];
   const location = bookingContext.location[0];
   const startTime = bookingContext.startTime[0];
   const endTime = bookingContext.endTime[0];
@@ -26,6 +27,7 @@ export const ReviewBooking = () => {
 
   const handleConfirm = () => {
     const submitUserEvent = async (requestObj: any) => {
+      console.log(requestObj)
       try {
         const url = '/events/create';
         const {data} = await httpService.post(url, requestObj);
@@ -35,10 +37,35 @@ export const ReviewBooking = () => {
       }
     }
 
+    const parseTimeString = (timeString: string) => {
+      const match = timeString.match(/(\d{1,2}):(\d{2})(AM|PM)/i);
+      if (!match) throw new Error("Invalid time format");
+
+      let hour = parseInt(match[1], 10);
+      const minutes = parseInt(match[2], 10);
+      const period = match[3].toUpperCase();
+
+      // Convert to 24-hour format
+      if (period === "PM" && hour !== 12) {
+        hour += 12;
+      }
+      if (period === "AM" && hour === 12) {
+        hour = 0;
+      }
+
+      return { hour, minutes };
+    }
+
+    const {hour, minutes} = parseTimeString(startTime);
+
+    const eventTime = eventDate;
+    eventTime.setHours(hour)
+    eventTime.setMinutes(minutes)
+
 
     const requestObj = {
       business_uid: user,
-      eventDate: eventDate,
+      eventDate: eventTime,
       location: location,
       startTime: startTime,
       endTime: endTime,

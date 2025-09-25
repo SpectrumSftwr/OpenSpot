@@ -163,7 +163,7 @@ const Gallery = ({username} : {username: string}) => {
 
   return (
     <div className="w-full flex justify-center items-center">
-      {!imagesLoaded ?
+      {!imagesLoaded || !(imageUrls.length > 0) ?
       <div className="grid grid-cols-3 mt-2 text-center align-middle justify-center m-1">
         {Array.from({length: 8}).map((_, index) => {
           return (
