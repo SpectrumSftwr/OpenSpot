@@ -73,21 +73,23 @@ export const UserPage = () => {
   },[user])
 
   return (
-    <div className="w-full h-full ">
+    <div className="w-full h-full">
       { 
         isLoading
           ? <SkeletonPage /> :
           <div className="flex flex-col min-h-screen h-screen w-full">
-            <UserTopNavSection 
-              isHome={true} 
-              providerName={businessName} 
-              providerType={businessType}
-              providerOverallRating={overallRatings}
-              providerTotalRatings={totalReviews} 
-              profilePicUrl={userContext.profilePictureUrl[0]}
-              bannerUrl={userContext.bannerPicUrl[0]} 
-            />
-            <div className="flex flex-col items-center w-full">
+            <div className="flex justify-center">
+              <UserTopNavSection 
+                isHome={true} 
+                providerName={businessName} 
+                providerType={businessType}
+                providerOverallRating={overallRatings}
+                providerTotalRatings={totalReviews} 
+                profilePicUrl={userContext.profilePictureUrl[0]}
+                bannerUrl={userContext.bannerPicUrl[0]} 
+              />
+            </div>
+            <div className="flex flex-col items-center w-full mt-12 md:mt-16 lg:mt-24">
               <div className="w-full flex flex-col items-center">
                 <div className="max-w-2xl text-gray-600 font-semibold ml-4 mr-4 pb-2 border-t-gray-100 border-t-2 border-b-gray-100 border-b-2 rounded-lg">
                   <p className="text-xs text-left pl-4 pr-4 md:text-[14px] lg:text-[14px] mt-2">

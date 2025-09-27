@@ -60,7 +60,7 @@ export const BookingsLayout = () => {
 
   return (
     <BookingContext.Provider value={bookingContext}>
-      <div className="w-screen h-[calc(75vh)]">
+      <div className="w-screen">
         <UserTopNavSection 
           isHome={false} 
           providerName={businessName} 
