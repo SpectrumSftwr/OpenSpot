@@ -182,8 +182,8 @@ const Gallery = ({username} : {username: string}) => {
       <div className="grid grid-cols-3 mt-2 text-center align-middle justify-center m-2 p-8">
         {imageUrls.map((url, index) => {
           return (
-            <div key={index} className="w-24 h-24 bg-gray-200 rounded-md m-1"  onClick={handleGallery}>
-              <img src={url} onLoad={handleImageLoad} className="rounded-md" alt="gallery grid item"/>
+            <div key={index} className="w-24 h-24 bg-gray-200 rounded-md m-1 overflow-hidden"  onClick={handleGallery}>
+              <img src={url} onLoad={handleImageLoad} className="rounded-md h-full w-full object-cover object-center" alt="gallery grid item"/>
             </div>
           )
         })}

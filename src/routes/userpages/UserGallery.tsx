@@ -50,17 +50,19 @@ export const UserGallery = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50 h-full w-full">
-      <UserTopNavSection 
-        isHome={true} 
-        providerName={profileContext.businessName} 
-        providerType={profileContext.businessType}
-        providerOverallRating={null}
-        providerTotalRatings={null} 
-        profilePicUrl={profileContext.profilePictureUrl[0]}
-        bannerUrl={profileContext.bannerPicUrl[0]} 
-      />
-      <div className="flex flex-col items-center w-full h-full">
+    <div className="flex flex-col h-fit min-h-screen bg-slate-50 w-full">
+      <div className="flex justify-center">
+        <UserTopNavSection 
+          isHome={true} 
+          providerName={profileContext.businessName} 
+          providerType={profileContext.businessType}
+          providerOverallRating={null}
+          providerTotalRatings={null} 
+          profilePicUrl={profileContext.profilePictureUrl[0]}
+          bannerUrl={profileContext.bannerPicUrl[0]} 
+        />
+      </div>
+      <div className="flex flex-col items-center w-full h-full mt-8 md:mt-16">
       {!imagesLoaded ?
           <div className="grid grid-cols-3 mt-4 text-center align-middle justify-center">
             {Array.from({length: 8}).map((_, index) => {

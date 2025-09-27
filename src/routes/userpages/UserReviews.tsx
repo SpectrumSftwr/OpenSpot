@@ -34,16 +34,18 @@ export const UserReviews = () => {
   return (
     <div>
       <div className="flex flex-col min-h-screen bg-gray-100 h-full w-full">
-        <UserTopNavSection 
-          isHome={true} 
-          providerName={profileContext.businessName} 
-          providerType={profileContext.businessType}
-          providerOverallRating={null}
-          providerTotalRatings={null} 
-          profilePicUrl={profileContext.profilePictureUrl[0]}
-          bannerUrl={profileContext.bannerPicUrl[0]} 
-        />
-        <div className="flex flex-col items-center justify-center bg-gray-100 p-6">
+      <div className="flex justify-center">
+          <UserTopNavSection 
+            isHome={true} 
+            providerName={profileContext.businessName} 
+            providerType={profileContext.businessType}
+            providerOverallRating={null}
+            providerTotalRatings={null} 
+            profilePicUrl={profileContext.profilePictureUrl[0]}
+            bannerUrl={profileContext.bannerPicUrl[0]} 
+          />
+      </div>
+        <div className="flex flex-col items-center justify-center bg-gray-100 p-6 mt-8 md:mt-16">
           { reviews &&
             reviews.map((review, index) => {
               return (
