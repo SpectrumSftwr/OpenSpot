@@ -61,6 +61,7 @@ export const BookingsLayout = () => {
   return (
     <BookingContext.Provider value={bookingContext}>
       <div className="w-screen">
+        <div className="flex justify-center mb-4">
         <UserTopNavSection 
           isHome={false} 
           providerName={businessName} 
@@ -70,6 +71,7 @@ export const BookingsLayout = () => {
           profilePicUrl={profilePicUrl}
           bannerUrl={bannerPicUrl}
         />
+        </div>
         <Outlet />
       </div>
     </BookingContext.Provider>
