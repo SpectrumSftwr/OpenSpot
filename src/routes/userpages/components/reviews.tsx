@@ -19,6 +19,7 @@ export const Reviews = ({
     if (amountOfReviews == 0 && totalReviews == 0) {
       return 0
     }
+
     return Math.floor((amountOfReviews / totalReviews) * 100)
   }
 
@@ -58,7 +59,8 @@ export const Reviews = ({
         </div>
         <div>
           <span className="text-sm mr-4 text-gray-600">
-            {overrallReviewScores.overallRating}/5.0
+            {Math.round(overrallReviewScores.overallRating * 10) / 10}
+            /5.0
           </span>
         </div>
       </div>
@@ -66,7 +68,6 @@ export const Reviews = ({
       <div className="text-xs text-gray-500 mt-1">
         {overrallReviewScores.totalReviews} Verified Reviews
       </div>
-      {/* 5 Star Reviews */}
       <div className="mr-2 ml-2 w-2/3 max-w-72 mt-4">
         <RatingRow category={5} percentage={overrallReviewScores.fiveStarPercentage} totalReviews={reviewBreakdown.fiveStarReviews}/>
         <RatingRow category={4} percentage={overrallReviewScores.fourStarPercentage} totalReviews={reviewBreakdown.fourStarReviews} />

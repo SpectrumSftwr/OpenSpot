@@ -34,6 +34,8 @@ import { UserNotFound } from "./routes/userpages/UserNotFound";
 import { UserContextPage } from "./routes/userpages/layouts/UserContext";
 import { UserGallery } from "./routes/userpages/UserGallery";
 import { UserReviews } from "./routes/userpages/UserReviews";
+import { FAQS } from "./routes/userpages/components/faq";
+import { FAQsPage } from "./routes/userpages/FAQsPage";
 
 
 export const SessionContext = createContext();
@@ -158,6 +160,10 @@ export const App = () => {
           {
             path: 'reviews',
             element: <UserReviews />,
+          },
+          {
+            path: 'faqs',
+            element: <FAQsPage />,
           },
           {
             path: 'bookings',

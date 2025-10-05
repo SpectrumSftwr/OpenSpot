@@ -53,14 +53,6 @@ const UserTopNavHomePageV2 = ({providerName, providerType, providerOverallRating
     bannerUrl: string | null,
 }) => {
 
-  console.log(providerName)
-  console.log(providerType)
-  console.log(providerOverallRating)
-  console.log(providerTotalRatings)
-  console.log(profilePicUrl)
-  console.log(profilePicUrl)
-  console.log(bannerUrl)
-
   const renderStars = () => {
     const stars = [];
     for (let i= 1; i <= 5; i++) {
@@ -72,12 +64,12 @@ const UserTopNavHomePageV2 = ({providerName, providerType, providerOverallRating
   }
 
   return(
-    <div className="relative max-w-[1080px] h-64 md:h-80">
+    <div className="relative max-w-[1080px] h-64 w-full md:h-80 md:w-1/2">
       {/* Banner Image with overlay */}
       <img
         src={bannerUrl}
         alt="Banner"
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover object-center"
       />
       <div className="absolute inset-0 bg-black bg-opacity-80"></div>
 

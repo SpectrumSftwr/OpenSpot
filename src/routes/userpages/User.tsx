@@ -89,14 +89,14 @@ export const UserPage = () => {
                 bannerUrl={userContext.bannerPicUrl[0]} 
               />
             </div>
-            <div className="flex flex-col items-center w-full mt-12 md:mt-16 lg:mt-24">
+            <div className="flex flex-col items-center w-full mt-16 md:mt-16 lg:mt-24">
               <div className="w-full flex flex-col items-center">
                 <div className="max-w-2xl text-gray-600 font-semibold ml-4 mr-4 pb-2 border-t-gray-100 border-t-2 border-b-gray-100 border-b-2 rounded-lg">
                   <p className="text-xs text-left pl-4 pr-4 md:text-[14px] lg:text-[14px] mt-2">
                     {description}
                   </p>
                 </div>
-                <div className="p-5 text-center w-screen">
+                <div className="p-5 text-center w-screen mt-4">
                   <button 
                     className="w-2/3 md:1/3 lg:1/4 max-w-72 pl-4 pr-4 pt-2 pb-2 rounded-xl font-bold text-white h-16 drop-shadow-lg
                     bg-brand-800 hover:bg-gray-400 hover:text-gray-700 border-b"
