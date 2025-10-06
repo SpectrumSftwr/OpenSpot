@@ -117,16 +117,16 @@ const PackageComponent = ({packageInfo, currentSelectedPackageId, onClick}:
   },[])
 
   return (
-    <div className="w-96 px-8 pt-4 items-center">
+    <div className="w-96 md:w-1/3 px-4 pt-4 items-center">
       <div
-        className={`rounded-lg p-4 max-w-sm cursor-pointer transition-shadow ${
+        className={`rounded-sm p-4 max-w-sm cursor-pointer transition-shadow h-full ${
                   currentSelectedPackageId === packageInfo.id
                   ? "shadow-md border-blue-600 border-2"
                   : "shadow-md border-gray-100 border-2"
                   }`}
         onClick={handleExpandClick}
       >
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center flex-col">
           <div className="flex items-center">
             {/* Render the emoji icon */}
             <span className="text-2xl mr-4">{packageInfo.icon}</span>
@@ -137,7 +137,7 @@ const PackageComponent = ({packageInfo, currentSelectedPackageId, onClick}:
           </div>
 
           <div className="flex items-center">
-            <div className="text-lg font-bold mr-2">${packageInfo.price.toFixed(2)}</div>
+            <div className="text-sm mr-2">Starting at ${packageInfo.price.toFixed(2)}</div>
 
             {/* Chevron icon (unicode character) */}
             <span
@@ -149,18 +149,17 @@ const PackageComponent = ({packageInfo, currentSelectedPackageId, onClick}:
             </span>
           </div>
         </div>
-
         {/* Expandable details */}
         {(currentSelectedPackageId === packageInfo.id || showOpenForScreenSize)  && (
           <div className="mt-4 text-sm text-gray-700">
             <span className="font-normal">
               {packageInfo.description}
             </span>
-            <div className="flex font-normal text-gray-900 drop-shadow-sm border-t justify-center mt-2">
-              <ul className="flex flex-wrap mt-2">
+            <div className="flex font-normal text-gray-900 drop-shadow-sm border-t justify-center mt-4">
+              <ul className="flex flex-col mt-4">
                 {packageInfo.includes.map((includedItem, index) => {
                   return (
-                      <li key={index} className="text-xs w-1/2 p-2 flex flex-row ">
+                      <li key={index} className="text-sm p-2 flex flex-row ">
                         <span className="mr-1">-</span>
                         <span>
                           {includedItem}
