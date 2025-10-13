@@ -7,6 +7,7 @@ import { PackageDetailsDto } from "../userpages/dtos/PackageDetails.dto";
 import { CircularProgress, Pagination } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { Navigate, useNavigate } from "react-router-dom";
+import DatePicker from 'react-datepicker'
 
 const APPROVED_BUTTON_ID = "APPROVED";
 const PENDING_BUTTON_ID = "PENDING";
@@ -107,6 +108,7 @@ const EventsTableBody = ({updateStatsCallback} : {updateStatsCallback: any}) => 
   const [packageDetails, setPackageDetails] = useState<PackageDetailsDto | null>(null)
   const [selectedRow, setSelectedRow] = useState(null);
   const [isUpdateableStatus, setIsUpdatableStatus] = useState(false);
+  const [isApprovalOpen, setIsApprovalOpen] = useState(false);
   const [isRejectionOpen, setIsRejectionOpen] = useState(false);
   const [notes, setNotes] = useState<string>();
 
@@ -115,6 +117,11 @@ const EventsTableBody = ({updateStatsCallback} : {updateStatsCallback: any}) => 
    */
   const setCloseAllRejectionTabs = () => {
     setIsRejectionOpen(false);
+    setSelectedRow(null);
+  }
+
+  const setCloseAllApprovedTabs = () => {
+    setIsApprovalOpen(false);
     setSelectedRow(null);
   }
 
@@ -234,28 +241,6 @@ const EventsTableBody = ({updateStatsCallback} : {updateStatsCallback: any}) => 
   const handlePageChange = (event, value) => {
     console.debug(event)
     setPageNumber(value)
-  }
-
-
-  const handleApprovedClick = async () => {
-    const selectedEvent = events[selectedRow]
-    if (selectedEvent) {
-      const requestObject = {
-        confirmationID: selectedEvent.confirmationId,
-        status: APPROVED_BUTTON_ID,
-        notes: notes,
-      }
-
-      try {
-        const {data} = await httpService.post('/events', requestObject);
-        console.log(data);
-        toast.success("🎉 Approved The Event! 🎉")
-      } catch (err) {
-        toast.error("Unable to Approve The Event \n please try again later");
-      }
-    }
-
-    setSelectedRow(null)
   }
 
   const handleNotesSave = async () => {
@@ -678,7 +663,7 @@ p-2 rounded-md`}
                     <button className="font-bold bg-gray-500 mt-4 pt-2 pb-2 pl-4 pr-4 text-white self-center rounded-sm drop-shadow-lg mb-4" onClick={() => setSelectedRow(null)}>Close</button>
                     <button className="font-bold bg-brand-red mt-4 pt-2 pb-2 pl-4 pr-4 text-white self-center rounded-sm drop-shadow-lg mb-4" onClick={()=> setIsRejectionOpen(true)}>Reject</button>
                     <button className="font-bold bg-brand-green mt-4 pt-2 pb-2 pl-4 pr-4 text-white self-center rounded-sm drop-shadow-lg mb-4" 
-                      onClick={handleApprovedClick}>Approve</button>
+                      onClick={() => setIsApprovalOpen(true)}>Approve</button>
                   </div>
                   : 
                   <div className="flex gap-4 self-end text-sm">
@@ -689,6 +674,7 @@ p-2 rounded-md`}
             </div>
           </Dialog>
           <RejectionModal event={events[selectedRow]} isOpen={isRejectionOpen} setIsOpen={setCloseAllRejectionTabs} notes={notes}/>
+          <ApprovalModal event={events[selectedRow]} isOpen={isApprovalOpen} setIsOpen={setCloseAllApprovedTabs} notes={notes}/>
         </div>
       }
     </div>
@@ -814,4 +800,92 @@ const RejectionModal = ({event, isOpen, setIsOpen, notes}:{event: any, isOpen: b
       </div>
     </Dialog>
   )
+}
+
+/**
+ * A Modal that comes over everything when a event will be Approved.
+ */
+const  ApprovalModal = ({event, isOpen, setIsOpen, notes}:{event: any, isOpen: boolean, setIsOpen: any, notes: string}) => {
+  const [approvalPrice, setApprovalPricing] = useState("");
+  const [dueBy, setDueBy] = useState<string>("");
+  const [showError, setShowError] = useState<boolean>(false);
+
+  const handleRejectedClick = async () => {
+    setShowError(false);
+
+    if (!approvalPrice || !dueBy) {
+      setShowError(true);
+      return
+    }
+
+    if (event && approvalPrice && dueBy) {
+      const requestObject = {
+        confirmationID: event.confirmationId,
+        status: APPROVED_BUTTON_ID,
+        totalPrice: approvalPrice,
+        dueBy: dueBy,
+        notes: notes,
+      }
+
+      try {
+        const {data} = await httpService.post('/events', requestObject);
+        toast.success("Event was Approved.")
+      } catch (err) {
+        toast.error("Unable to Approve Event at this time \n Please try again at a later time.")
+      }
+    }
+    setIsOpen(false);
+  }
+
+  return (
+    <Dialog 
+      open={isOpen} 
+      onClose={() => setIsOpen(false)} 
+      className="relative z-50 w-full h-full">
+      <DialogBackdrop className="fixed inset-0 bg-black/80" />
+      <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+        <DialogPanel className="w-[50%] h-[90%] max-w-[1080px] max-h-fit border bg-white p-12 flex flex-col justify-between text-gray-700 rounded-lg">
+          <div className="flex flex-row">
+            <div className={`resize-none w-1/2 flex flex-col items-start justify-center ${showError ? "border-brand-red border-2": "bg-white"}`}>
+              <label className={`mt-2 font-light text-sm mb-2 ${showError ? "text-brand-red": ""}`}>
+                Event Total Price Proposed: 
+              </label>
+              <div className="flex flex-row">
+                <span className="pr-2">$</span>
+                <input
+                  className={`pl-4 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 w-[95%]
+                  focus:ring-blue-500 focus:border-blue-500
+                  ${ showError ? "border-red-600 " : ""}`}
+                  type="number"
+                  name="approvalPrice"
+                  value={approvalPrice}
+                  onChange={(e) => setApprovalPricing(e.target.value)}
+                  placeholder="Enter Total Price Of Event."
+                />
+              </div>
+            </div>
+            <div className={`resize-none w-1/2 flex flex-col items-start justify-center ${showError ? "border-brand-red border-2": "bg-white"}`}>
+              <label className={`mt-2 font-light text-sm mb-2 ${showError ? "text-brand-red": ""}`}>
+                Proposed Event Payment Due Date: 
+              </label>
+              <input
+                className={`pl-4 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 w-[95%]
+focus:ring-blue-500 focus:border-blue-500
+${ showError ? "border-red-600 " : ""}`}
+                type="date"
+                name="dueBy"
+                value={dueBy}
+                onChange={(e) => setDueBy(e.target.value)}
+                placeholder="Enter Total Price Of Event."
+              />
+            </div>
+          </div>
+          <button className="font-bold bg-brand-600 mt-4 pt-2 pb-2 pl-4 pr-4 text-white self-center rounded-sm drop-shadow-lg mb-4" onClick={handleRejectedClick}>
+            Approve Event
+          </button>
+          <button onClick={() => setIsOpen(false)}>Cancel</button>
+        </DialogPanel>
+      </div>
+    </Dialog>
+ )
 }
