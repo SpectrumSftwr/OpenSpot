@@ -317,7 +317,7 @@ const EventsTableBody = ({updateStatsCallback} : {updateStatsCallback: any}) => 
                   <th className="text-center pl-2 text-nowrap w-fit" id="id" onClick={handleUpdateSort}>
                     <div className="flex flex-row items-center text-center pl-4">
                       <span>
-                        Created On
+                        Event Submitted On
                       </span>
                       {sortColumn != "id" 
                         ? <ArrowsUpDownIcon className="w-3 h-3 ml-2"/>
@@ -326,12 +326,6 @@ const EventsTableBody = ({updateStatsCallback} : {updateStatsCallback: any}) => 
                         : <ArrowUpIcon className="w-3 h-3 ml-2"/>
                       }
                     </div>
-                  </th>
-                  <th className=" text-start pt-2 pb-2">
-                    Client Name
-                  </th>
-                  <th className=" text-start pt-2 pb-2">
-                    Event Type
                   </th>
                   <th className="text-start pl-2 pt-2 pb-2 text-nowrap" id="event_date" onClick={handleUpdateSort}>
                     <div className="flex flex-row items-center">
@@ -345,6 +339,12 @@ const EventsTableBody = ({updateStatsCallback} : {updateStatsCallback: any}) => 
                         : <ArrowUpIcon className="w-3 h-3 ml-2"/>
                       }
                     </div>
+                  </th>
+                  <th className=" text-start pt-2 pb-2">
+                    Event Type
+                  </th>
+                  <th className=" text-start pt-2 pb-2">
+                    Client Name
                   </th>
                   <th className=" text-start pt-2 pb-2" id="guest_count">
                     Guest Count
@@ -372,12 +372,6 @@ const EventsTableBody = ({updateStatsCallback} : {updateStatsCallback: any}) => 
                           })}
                         </td>
                         </td>
-                        <td className="text-start pt-1 pb-1">
-                          {`${event.personal_details.firstName} ${event.personal_details.lastName}`}
-                        </td>
-                        <td className="pt-1 pb-1">
-                          {event.event_type}
-                        </td>
                         <td className="text-start pl-2 pt-1 pb-1">
                           {new Date(event.event_date).toLocaleString("en-US", {
                             weekday: "short",
@@ -385,6 +379,12 @@ const EventsTableBody = ({updateStatsCallback} : {updateStatsCallback: any}) => 
                             month: "short",
                             day: "numeric"
                           })}
+                        </td>
+                        <td className="pt-1 pb-1">
+                          {event.event_type}
+                        </td>
+                        <td className="text-start pt-1 pb-1">
+                          {`${event.personal_details.firstName} ${event.personal_details.lastName}`}
                         </td>
                         <td className="pt-1 pb-1">
                           {event.guest_count}
