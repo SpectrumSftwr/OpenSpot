@@ -1,3 +1,4 @@
+import { add } from "date-fns";
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import httpService from "../../services/http.service";
@@ -10,7 +11,7 @@ export const ReviewBooking = () => {
   const {user} = useParams();
   const bookingContext = useContext(BookingContext);
 
-  useEnsureBookingContext(4); 
+  useEnsureBookingContext(5); 
   const [, setCurrentStep] = bookingContext.currentStep;
 
   const eventDate = bookingContext.eventDate[0];
@@ -21,6 +22,7 @@ export const ReviewBooking = () => {
   const eventType = bookingContext.eventType[0];
   const guestCount = bookingContext.guestCount[0];
   const packageId = bookingContext.packageChoiceId[0];
+  const selectedAddOns = bookingContext.selectedAddOns[0];
   const personalDetails = bookingContext.personalDetails[0];
 
   const [,setError] = useState(false);
@@ -72,7 +74,8 @@ export const ReviewBooking = () => {
       eventType: eventType,
       guestCount: parseInt(guestCount),
       packageId: packageId,
-      personalDetails: personalDetails
+      personalDetails: personalDetails,
+      addOns: selectedAddOns 
     }
 
     submitUserEvent(requestObj);
@@ -86,35 +89,47 @@ export const ReviewBooking = () => {
         </h1>
         {/* Event Details */}
         <div className="flex flex-col items-start pl-4 pr-4 w-full mt-8">
-          <h2 className="font-bold text-lg pl-1 border-b border-gray-500 w-full">Event Details</h2>
-          <div className="w-full p-2">
-            <div className="flex flex-row justify-between w-full">
-              <p>Event Date:</p>
-              <span className="font-semibold">{eventDate ? eventDate.toLocaleDateString() : "testing"}</span>
-            </div>
-            <div className="flex flex-row justify-between w-full">
-              <p>Location:</p>
-              <span className="font-semibold">{location}</span>
-            </div>
-            <div className="flex flex-row justify-between w-full">
-              <p>Start Time:</p>
-              <span className="font-semibold">{startTime}</span>
-            </div>
-            <div className="flex flex-row justify-between w-full">
-              <p>End Time:</p>
-              <span className="font-semibold">{endTime}</span>
-            </div>
-            <div className="flex flex-row justify-between w-full">
-              <p>Event Type:</p>
-              <span className="font-semibold">{eventType}</span>
-            </div>
-            <div className="flex flex-row justify-between w-full">
-              <p>Guest Count:</p>
-              <span className="font-semibold">{guestCount}</span>
-            </div>
-            <div className="flex flex-row justify-between w-full">
-              <p>Package:</p>
-              <PackageDetails packageId={packageId} />
+            <div className="bg-gray-50 p-8 my-4 rounded-sm drop-shadow-md">
+            <h2 className="font-bold text-lg pl-1 border-b border-gray-500 w-full">Event Details</h2>
+            <div className="w-full p-2">
+              <div className="flex flex-row justify-between w-full">
+                <p>Event Date:</p>
+                <span className="font-semibold">{eventDate ? eventDate.toLocaleDateString() : "testing"}</span>
+              </div>
+              <div className="flex flex-row justify-between w-full">
+                <p>Location:</p>
+                <span className="font-semibold">{location}</span>
+              </div>
+              <div className="flex flex-row justify-between w-full">
+                <p>Start Time:</p>
+                <span className="font-semibold">{startTime}</span>
+              </div>
+              <div className="flex flex-row justify-between w-full">
+                <p>End Time:</p>
+                <span className="font-semibold">{endTime}</span>
+              </div>
+              <div className="flex flex-row justify-between w-full">
+                <p>Event Type:</p>
+                <span className="font-semibold">{eventType}</span>
+              </div>
+              <div className="flex flex-row justify-between w-full">
+                <p>Guest Count:</p>
+                <span className="font-semibold">{guestCount}</span>
+              </div>
+          </div>
+            <div className="bg-gray-50 p-8 my-4 rounded-sm drop-shadow-md">
+              <div className="flex flex-col w-full">
+                <p className="font-bold text-lg pl-1 border-b border-gray-500 w-full">Requested Package Details:</p>
+                <span className="py-4 px-2">
+                  <PackageDetails packageId={packageId} />
+                </span>
+              </div>
+              <div className="flex flex-col w-full mt-2">
+                <p className="font-bold text-lg pl-1 border-b border-gray-500 w-full">Requested Add Ons:</p>
+                <span className="p-2 ml-2">
+                  <AddOns addOns={selectedAddOns} />
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -162,7 +177,7 @@ export const ReviewBooking = () => {
             type="button"
             className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 hover:text-white"
             onClick={() => {
-              setCurrentStep(3)
+              setCurrentStep(4)
               navigate(-1)
             }}
           >
@@ -208,7 +223,68 @@ const PackageDetails = ({packageId} : {packageId: number}) => {
         Loading...
       </div>
     : 
-      <div className="font-bold">
-        {packageDetails.title}
+    <div>
+    <div className="italic text-sm font-bold items-center mb-1 flex flex-row justify-between">
+        <span>
+          {packageDetails.title}
+        </span>
+        <span className=" text-xs">
+          Starting at ${packageDetails.price.toFixed(2)}
+        </span>
       </div>
+        <div className="flex flex-col m-2 text-sm">
+          {packageDetails.includes.map((inclusion, index) => {
+            return (
+              <div key={index} className="italic mt-1">
+                - {inclusion}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+}
+
+const AddOns = ({addOns}: {addOns : number[]}) => {
+
+  const [addOnDetails, setAddOnDetails] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchPackageDetails = async (addOns: number[]) => {
+      try {
+        const url = `/userpage/addons`
+        const requestObj = {
+          addOnIds: [...addOns]
+        }
+        const {data} = await httpService.post(url, requestObj);
+        console.log(data);
+        setAddOnDetails(data);
+      } catch {
+        setAddOnDetails(null)
+      }
+    }
+
+    fetchPackageDetails(addOns);
+  },[addOns])
+
+  return (
+    <div>
+      {addOns.length > 0 ? 
+        addOnDetails && addOnDetails.map((addOn, index) => {
+          return (
+          <div key={index} className="italic text-sm mb-1 flex flex-row justify-between">
+              <span>
+                - {addOn.name}
+              </span>
+              <span className="text-xs">
+                ${addOn.price.toFixed(2)}
+              </span>
+          </div>
+          )
+        })
+        : <div>
+          No Add Ons
+        </div>
+      }
+    </div>
+  )
 }

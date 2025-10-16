@@ -38,7 +38,7 @@ export const Packages = () => {
     }
 
     _setCurrentStep(3)
-    navigate('../personalinfo')
+    navigate('../addons')
   }
 
   useEffect(() => {

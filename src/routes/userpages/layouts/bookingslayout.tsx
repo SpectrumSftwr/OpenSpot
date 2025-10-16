@@ -22,6 +22,7 @@ export const BookingsLayout = () => {
   const [eventType, setEventType] = useState("");
   const [guestCount, setGuestCount] = useState("");
   const [packageChoiceId, setPackageChoiceId] = useState<number>(-1);
+  const [selectedAddOns, setSelectedAddOns] = useState<Number[]>([]);
   const [personalDetails, setPersonalDetails] = useState<PersonalDetailsContextDto>({
     firstName: "",
     lastName: "",
@@ -42,7 +43,8 @@ export const BookingsLayout = () => {
       guestCount: [guestCount, setGuestCount],
       packageChoiceId: [packageChoiceId, setPackageChoiceId],
       personalDetails: [personalDetails, setPersonalDetails],
-      currentStep: [currentStep, setCurrentStep]
+      currentStep: [currentStep, setCurrentStep],
+      selectedAddOns: [selectedAddOns, setSelectedAddOns],
     }
   }
 
@@ -56,6 +58,7 @@ export const BookingsLayout = () => {
     packageChoiceId,
     personalDetails,
     currentStep,
+    selectedAddOns,
   ])
 
   return (

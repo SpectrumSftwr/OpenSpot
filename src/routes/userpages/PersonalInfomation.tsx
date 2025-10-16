@@ -12,7 +12,7 @@ export const PersonalInformation = () => {
   const [personalInformation, setPersonalInformation] = bookingContext.personalDetails;
 
   const [, _setCurrentStep] = bookingContext.currentStep;
-  useEnsureBookingContext(3);
+  useEnsureBookingContext(4);
 
 
   const [errors, setErrors] = useState({
@@ -60,7 +60,7 @@ export const PersonalInformation = () => {
     }
 
     setPersonalInformation(formData);
-    _setCurrentStep(4)
+    _setCurrentStep(5)
     navigate('../review')
   }
 
@@ -221,7 +221,7 @@ ${errors.firstName ? "border-red-600 " : ""}`}
             type="button"
             className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
             onClick={() => {
-              _setCurrentStep(2)
+              _setCurrentStep(3)
               navigate(-1)
             }}
           >

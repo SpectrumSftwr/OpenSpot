@@ -6,4 +6,5 @@ export class PackageDetailsDto {
     price: number;
     description: string;
     includes: string[];
+    inclusions: any[]
 }
