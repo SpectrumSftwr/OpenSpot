@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StarIcon } from "@heroicons/react/24/solid";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 export const Reviews = ({
     overallRating,
@@ -75,7 +75,7 @@ export const Reviews = ({
         <RatingRow category={2} percentage={overrallReviewScores.twoStarPercentage} totalReviews={reviewBreakdown.twoStarReviews}/>
         <RatingRow category={1} percentage={overrallReviewScores.oneStarPercentage} totalReviews={reviewBreakdown.oneStarReviews}/>
       </div>
-      <div className="mt-4">
+      <div className="mt-4 flex flex-col justify-center items-center">
         <button 
           className="w-fit  max-w-72 pl-4 pr-4 rounded-xl font-bold text-white pt-4 pb-4 mt-2 drop-shadow-md
           bg-brand-800 hover:bg-gray-400 hover:text-gray-700"
@@ -83,6 +83,12 @@ export const Reviews = ({
         >
           See All Reviews
         </button>
+        <Link to={`/${user}/reviews/create`} className="mt-4 flex flex-col justify-center items-center cursor-pointer">
+          Already did an event with us? 
+          <span className="text-blue-600">
+            Leave a review
+          </span>
+        </Link>
       </div>
     </div>
   )

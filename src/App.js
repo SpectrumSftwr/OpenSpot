@@ -37,6 +37,7 @@ import { UserReviews } from "./routes/userpages/UserReviews";
 import { FAQS } from "./routes/userpages/components/faq";
 import { FAQsPage } from "./routes/userpages/FAQsPage";
 import { BookingAddOns } from "./routes/userpages/BookingAddOns";
+import { CreateReview } from "./routes/userpages/components/CreateReview";
 
 
 export const SessionContext = createContext();
@@ -160,7 +161,16 @@ export const App = () => {
           },
           {
             path: 'reviews',
-            element: <UserReviews />,
+            children: [
+              {
+                index: true,
+                element: <UserReviews />,
+              },
+              {
+                path: 'create',
+                element: <CreateReview />
+              }
+            ]
           },
           {
             path: 'faqs',
