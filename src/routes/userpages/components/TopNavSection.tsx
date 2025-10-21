@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StarIcon } from "@heroicons/react/24/solid";
+import { useUser } from "../layouts/UserContext";
 
 export const UserTopNavSection = (
   {
@@ -21,6 +22,12 @@ export const UserTopNavSection = (
     bannerUrl: string | null,
   }) => {
   
+  const {userType, refreshUser} = useUser();
+
+  useEffect(() => {
+    refreshUser();
+  },[])
+
   return (
     <>
       {isHome ?

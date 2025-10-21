@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import httpService from "../../services/http.service";
 import { UserTopNavSection } from "./components/TopNavSection";
-import { UserContext } from "./layouts/UserContext";
+import { UserContext, useUser } from "./layouts/UserContext";
 
 export const FAQsPage = () => {
 
   const {user} = useParams();
-  const profileContext = useContext(UserContext);
+  const {userType} = useUser();
   const navigate = useNavigate();
   const [faqs, setFaqs] = useState(null)
 
@@ -38,12 +38,12 @@ export const FAQsPage = () => {
       <div className="flex justify-center">
           <UserTopNavSection 
             isHome={true} 
-            providerName={profileContext.businessName} 
-            providerType={profileContext.businessType}
+            providerName={userType.businessName} 
+            providerType={userType.businessType}
             providerOverallRating={null}
             providerTotalRatings={null} 
-            profilePicUrl={profileContext.profilePictureUrl[0]}
-            bannerUrl={profileContext.bannerPicUrl[0]} 
+            profilePicUrl={userType.profilePictureUrl}
+            bannerUrl={userType.bannerPicUrl} 
           />
       </div>
         <div className="flex flex-col items-center justify-center bg-gray-100 p-4 mt-8 md:mt-16">

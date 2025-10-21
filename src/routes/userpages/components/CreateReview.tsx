@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import httpService from "../../../services/http.service";
-import { UserContext } from "../layouts/UserContext";
+import { UserContext, useUser } from "../layouts/UserContext";
 import { UserTopNavSection } from "./TopNavSection";
 
 export const CreateReview = () => {
   const {user} = useParams();
-  const profileContext = useContext(UserContext);
+  const {userType} = useUser();
   const navigate = useNavigate();
 
   const handleSubmission = async (formData) => {
@@ -15,6 +15,7 @@ export const CreateReview = () => {
     console.log(typeof formData.eventDate);
     try {
       const results = await httpService.post('/events/create/review', formData);
+      console.log(results)
       if (!results) {
         throw new Error("Unable to submit review for event.")
       }
@@ -31,12 +32,12 @@ export const CreateReview = () => {
         <div className="flex justify-center">
           <UserTopNavSection 
             isHome={true} 
-            providerName={profileContext.businessName} 
-            providerType={profileContext.businessType}
+            providerName={userType.businessName} 
+            providerType={userType.businessType}
             providerOverallRating={null}
             providerTotalRatings={null} 
-            profilePicUrl={profileContext.profilePictureUrl[0]}
-            bannerUrl={profileContext.bannerPicUrl[0]} 
+            profilePicUrl={userType.profilePictureUrl}
+            bannerUrl={userType.bannerPicUrl} 
           />
         </div>
         <div className="w-full h-full flex flex-col items-center justify-center bg-gray-100 p-6 mt-16 md:mt-24">

@@ -5,72 +5,23 @@ import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { FAQS } from "./components/faq";
 import { Reviews } from "./components/reviews";
 import { UserTopNavSection } from "./components/TopNavSection";
-import { UserContext } from "./layouts/UserContext";
+import { UserContext, useUser } from "./layouts/UserContext";
 
 export const UserPage = () => {
 
-  const userContext = useContext(UserContext);
-
   const {user} = useParams();
+  const {userType, refreshUser} = useUser();
+
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState<boolean>(true); 
-  const Navigate = useNavigate();
-
-  const [businessName, setBusinessName] = useState("");
-  const [businessType, setBusinessType] = useState("");
-  const [description, setDescription] = useState("");
-  const [overallRatings, setOverallRatings] = useState(0);
-  const [totalReviews, setTotalReviews] = useState(0);
-  const [reviewsBreakdown, setReviewsBreakdown] = useState(undefined);
-
+  const [isLoading, setIsLoading] = useState<boolean>(false); 
 
   const navigateToUserBookings = () : void => {
-    Navigate(`/${user}/bookings`);
+    navigate(`/${user}/bookings`);
   }
-
-  const parseData = (response: any) : void => {
-    if (response.hasError == true) {
-      navigate('/usernotfound')
-    }
-    setBusinessName(response.business_name)
-    setBusinessType(response.business_type)
-    setDescription(response.description);
-    setOverallRatings(response.overallRating);
-    setReviewsBreakdown(response.reviewsBreakdown);
-
-
-    setTotalReviews(response.totalReviews);
-  }
-
-  const setProfileContext = (response : any) => {
-    const  setProfileUrl = userContext.profilePictureUrl[1];
-    const setBannerUrl = userContext.bannerPicUrl[1];
-    const setBusinessName = userContext.businessName[1];
-    const setBusinessType = userContext.businessType[1];
-
-    setProfileUrl(response.profilePicUrl)
-    setBannerUrl(response.bannerPicUrl)
-    setBusinessName(response.business_name)
-    setBusinessType(response.business_type)
-  }
-
 
   useEffect(() => {
-
-    const fetchUserData = async () => {
-      try {
-        setIsLoading(true);
-        const url = `/userpage/${user}`
-        let {data} = await httpService.get(url);
-        parseData(data);
-        setProfileContext(data);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchUserData()
-  },[user])
+    refreshUser();
+  })
 
   return (
     <div className="w-full h-full">
@@ -81,19 +32,19 @@ export const UserPage = () => {
             <div className="flex justify-center">
               <UserTopNavSection 
                 isHome={true} 
-                providerName={businessName} 
-                providerType={businessType}
-                providerOverallRating={overallRatings}
-                providerTotalRatings={totalReviews} 
-                profilePicUrl={userContext.profilePictureUrl[0]}
-                bannerUrl={userContext.bannerPicUrl[0]} 
+                providerName={userType.businessName} 
+                providerType={userType.businessType}
+                providerOverallRating={userType.overallRating}
+                providerTotalRatings={userType.totalReviews} 
+                profilePicUrl={userType.profilePictureUrl}
+                bannerUrl={userType.bannerPicUrl} 
               />
             </div>
             <div className="flex flex-col items-center w-full mt-16 md:mt-16 lg:mt-24">
               <div className="w-full flex flex-col items-center">
                 <div className="max-w-2xl text-gray-600 font-semibold ml-4 mr-4 pb-2 border-t-gray-100 border-t-2 border-b-gray-100 border-b-2 rounded-lg">
                   <p className="text-xs text-left pl-4 pr-4 md:text-[14px] lg:text-[14px] mt-2">
-                    {description}
+                    {userType.description}
                   </p>
                 </div>
                 <div className="p-5 text-center w-screen mt-4">
@@ -108,7 +59,7 @@ export const UserPage = () => {
               </div>
               <Gallery username={user} />
               <FAQS username={user}/>
-              <Reviews overallRating={overallRatings} totalReviews={totalReviews} reviewBreakdown={reviewsBreakdown}/>
+              <Reviews overallRating={userType.overallRating} totalReviews={userType.totalReviews} reviewBreakdown={userType.reviewsBreakdown}/>
             </div>
           </div>
       }

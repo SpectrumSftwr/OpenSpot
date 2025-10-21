@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import httpService from "../../services/http.service";
 import { UserTopNavSection } from "./components/TopNavSection";
-import { UserContext } from "./layouts/UserContext";
+import { UserContext, useUser } from "./layouts/UserContext";
 
 export const UserGallery = () => {
   const {user} = useParams();
-  const profileContext = useContext(UserContext);
+  const {userType} = useUser();
   const navigate = useNavigate();
   const [imageUrls, setImageUrls] = useState<any[]>([]);
   const [imagesLoaded, setImagesLoaded] = useState(false);
@@ -54,12 +54,12 @@ export const UserGallery = () => {
       <div className="flex justify-center">
         <UserTopNavSection 
           isHome={true} 
-          providerName={profileContext.businessName} 
-          providerType={profileContext.businessType}
+          providerName={userType.businessName} 
+          providerType={userType.businessType}
           providerOverallRating={null}
           providerTotalRatings={null} 
-          profilePicUrl={profileContext.profilePictureUrl[0]}
-          bannerUrl={profileContext.bannerPicUrl[0]} 
+          profilePicUrl={userType.profilePictureUrl}
+          bannerUrl={userType.bannerPicUrl} 
         />
       </div>
       <div className="flex flex-col items-center w-full h-full mt-8 md:mt-16">

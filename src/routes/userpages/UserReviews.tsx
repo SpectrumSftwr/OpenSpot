@@ -3,17 +3,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import httpService from "../../services/http.service";
 import { UserTopNavSection } from "./components/TopNavSection";
 import { ReviewDto } from "./dtos/review.dto";
-import { UserContext } from "./layouts/UserContext";
+import { UserContext, useUser } from "./layouts/UserContext";
 import { StarIcon } from "@heroicons/react/24/solid";
 
 export const UserReviews = () => {
 
   const {user} = useParams();
-  const profileContext = useContext(UserContext);
+  const {userType} = useUser();
+
   const navigate = useNavigate();
   const [reviews, setReviews] = useState<ReviewDto[] | null>(null)
 
   useEffect(() => {
+
     const fetchUserReviews = async () => {
       try {
         const url = `/userpage/reviews/${user}`
@@ -37,12 +39,12 @@ export const UserReviews = () => {
       <div className="flex justify-center">
           <UserTopNavSection 
             isHome={true} 
-            providerName={profileContext.businessName} 
-            providerType={profileContext.businessType}
-            providerOverallRating={null}
-            providerTotalRatings={null} 
-            profilePicUrl={profileContext.profilePictureUrl[0]}
-            bannerUrl={profileContext.bannerPicUrl[0]} 
+            providerName={userType.businessName} 
+            providerType={userType.businessType}
+            providerOverallRating={userType.overallRating}
+            providerTotalRatings={userType.totalReviews} 
+            profilePicUrl={userType.profilePictureUrl}
+            bannerUrl={userType.bannerPicUrl} 
           />
       </div>
         <div className="flex flex-col items-center justify-center bg-gray-100 p-6 mt-8 md:mt-16">

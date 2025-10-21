@@ -2,17 +2,17 @@ import React, { createContext, useContext, useMemo, useState }  from "react";
 import { Outlet } from "react-router-dom";
 import { UserTopNavSection } from "../components/TopNavSection";
 import { PersonalDetailsContextDto } from "../dtos/personalDetailsContext.dto";
-import { UserContext } from "./UserContext";
+import { UserContext, useUser } from "./UserContext";
 
 export const BookingContext = createContext<any>({})
 
 export const BookingsLayout = () => {
 
-  const userContext = useContext(UserContext);
-  const profilePicUrl = userContext.profilePictureUrl[0];
-  const bannerPicUrl = userContext.bannerPicUrl[0];
-  const businessName = userContext.businessName[0];
-  const businessType = userContext.businessType[0];
+  const {userType} = useUser();
+  const profilePicUrl = userType.profilePictureUrl;
+  const bannerPicUrl = userType.bannerPicUrl;
+  const businessName = userType.businessName;
+  const businessType = userType.businessType;
 
   const [eventDate, setEventDate] = useState("");
   const [currentStep, setCurrentStep] = useState(1);
